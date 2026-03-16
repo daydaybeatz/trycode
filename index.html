@@ -129,6 +129,7 @@
     .row{display:flex;gap:8px;flex-wrap:wrap;padding:0 6px 10px}
     .projName{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
     .docsView{overflow:auto}
+    .docsTopNav{position:sticky;top:0;z-index:20;padding:8px 0;background:linear-gradient(180deg,#f7e8c6 0%,rgba(247,232,198,.92) 70%,rgba(247,232,198,0) 100%)}
     .docsSection{border:4px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff7e3,#efd4a0);box-shadow:0 6px 0 #9a6a38;margin-bottom:14px;overflow:hidden}
     .docsSection h3{margin:0;padding:10px 12px;background:linear-gradient(180deg,#d74034,#a12522);color:#fff8e8;text-shadow:1px 1px 0 #5d1313}
     .docItem{padding:10px 12px;border-top:2px dashed rgba(111,61,32,.25)}
@@ -213,7 +214,7 @@
     <div class="view" id="view-sprites">
       <div class="splitView" id="spriteView">
         <div class="sidebar panelSkin">
-          <div class="pane"><h4>SPRITES</h4><div class="formRow"><button class="mbtn" id="addSpriteBtn">Add Sprite</button></div><div class="spriteList" id="spriteList"></div><div class="formRow" style="margin-top:8px"><div class="field"><label>Frames In Folder</label><input id="spriteFolderCountInput" type="number" min="1" max="26" value="1"></div></div><div class="pageRow"><button class="uiBtn" id="spriteFramePrevBtn">◀</button><div class="docDesc" id="spriteFramePageLabel">1 / 1</div><button class="uiBtn" id="spriteFrameNextBtn">▶</button></div><div class="frameGrid" id="spriteFrameList"></div></div>
+          <div class="pane"><h4>SPRITES</h4><div class="formRow"><button class="mbtn" id="addSpriteBtn">Add Sprite</button></div><div class="spriteList" id="spriteList"></div><div class="formRow" style="margin-top:8px"><div class="field"><label>Frames In Folder</label><div class="pageRow"><button class="uiBtn" id="spriteFolderMinusBtn">-</button><div class="docDesc" id="spriteFolderCountLabel">1</div><button class="uiBtn" id="spriteFolderPlusBtn">+</button></div></div></div><div class="pageRow"><button class="uiBtn" id="spriteFramePrevBtn">◀</button><div class="docDesc" id="spriteFramePageLabel">1 / 1</div><button class="uiBtn" id="spriteFrameNextBtn">▶</button></div><div class="frameGrid" id="spriteFrameList"></div></div>
           <div class="pane"><h4>SPRITE SIZE</h4><div class="formRow"><div class="field"><label>Width</label><input id="spriteWInput" type="number" min="1" value="16"></div><div class="field"><label>Height</label><input id="spriteHInput" type="number" min="1" value="16"></div></div><div class="formRow"><button class="mbtn" id="applySpriteSizeBtn">Apply Size</button></div></div>
           <div class="pane"><h4>PALETTE</h4><div class="pageRow"><button class="uiBtn" id="palettePrevBtn">◀</button><div class="docDesc" id="palettePageLabel">1 / 1</div><button class="uiBtn" id="paletteNextBtn">▶</button></div><div class="paletteGrid" id="paletteGrid"></div><input id="paletteColorInput" type="color" value="#ffffff" style="position:fixed;left:-9999px;top:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;z-index:-1"><div class="formRow" style="margin-top:8px"><button class="mbtn" id="editPaletteColorBtn">Edit Color</button><button class="mbtn" id="addPaletteColorBtn">Add Color</button><button class="mbtn" id="removePaletteColorBtn">Remove Color</button></div></div>
         </div>
@@ -242,24 +243,7 @@
       <div class="splitView" id="musicView">
         <div class="sidebar panelSkin">
           <div class="pane"><h4>MUSIC</h4><div class="formRow"><button class="mbtn" id="addMusicBtn">Add Music</button></div><div class="musicList" id="musicList"></div></div>
-          <div class="pane"><h4>MODE</h4><div class="formRow"><div class="field"><label>Source</label><select id="musicModeInput"><option value="generated">Generated</option><option value="file">Audio File</option></select></div><div class="field" id="musicFileField"><label>Audio File</label><input id="musicFileInput" type="text" placeholder="song.ogg"></div></div></div>
-          <div class="pane"><h4>GENERATED MUSIC</h4>
-            <div class="musicGrid">
-              <div class="field"><label>Key</label><select id="musicKeyInput"><option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option><option>A</option><option>A#</option><option>B</option></select></div>
-              <div class="field"><label>Scale</label><select id="musicScaleInput"><option>major</option><option>minor</option><option>pentatonic</option><option>dorian</option><option>custom</option></select></div>
-              <div class="field"><label>Wave</label><select id="musicWaveInput"><option>sine</option><option>square</option><option>sawtooth</option><option>triangle</option></select></div>
-              <div class="field"><label>Root Octave</label><input id="musicOctaveInput" type="number" min="1" max="7" value="4"></div>
-              <div class="field"><label>Note Count</label><input id="musicNoteCountInput" type="number" min="1" max="64" value="8"></div>
-              <div class="field"><label>Speed (notes/s)</label><input id="musicSpeedInput" type="number" step="0.1" min="0.2" value="4"></div>
-              <div class="field"><label>Time Sig</label><select id="musicTimeSigInput"><option>2/4</option><option>3/4</option><option selected>4/4</option><option>6/8</option></select></div>
-              <div class="field"><label>Arpeggio</label><select id="musicArpInput"><option>up</option><option>down</option><option>updown</option><option>random</option></select></div>
-              <div class="field"><label>Loop</label><select id="musicLoopInput"><option value="true">true</option><option value="false">false</option></select></div>
-              <div class="field"><label>Attack</label><input id="musicAttackInput" type="number" step="0.01" min="0" value="0.01"></div>
-              <div class="field"><label>Decay</label><input id="musicDecayInput" type="number" step="0.01" min="0" value="0.08"></div>
-              <div class="field"><label>Sustain</label><input id="musicSustainInput" type="number" step="0.01" min="0" max="1" value="0.6"></div>
-              <div class="field"><label>Release</label><input id="musicReleaseInput" type="number" step="0.01" min="0" value="0.12"></div>
-            </div>
-            <div class="field" id="musicCustomScaleWrap" style="display:none"><label>Custom Scale Notes</label><div class="miniKeys" id="musicCustomScaleKeys"></div></div><div class="formRow" style="margin-top:8px"><button class="mbtn" id="playMusicBtn">Play</button><button class="mbtn" id="stopMusicBtn">Stop</button></div>
+          <div class="pane"><h4>AUDIO FILE</h4><div class="formRow"><div class="field"><label>File Path / URL</label><input id="musicFileInput" type="text" placeholder="song.ogg"></div><div class="field"><label>Loop</label><select id="musicLoopInput"><option value="true">true</option><option value="false">false</option></select></div></div><div class="formRow" style="margin-top:8px"><button class="mbtn" id="playMusicBtn">Play</button><button class="mbtn" id="stopMusicBtn">Stop</button></div>
           </div>
         </div>
         
@@ -381,142 +365,7 @@ const SCALE_MAP = {
   dorian:[0,2,3,5,7,9,10]
 };
 const EXAMPLES = {
-  blank:`function _init()\nend\n\nfunction _update()\nend\n\nfunction _draw()\n  cls()\nend`,
-  demo:`function _init()
-  px=80
-  py=80
-end
-
-function solid_at_world(x,y)
-  local tx=flr(x/project.tile_w)
-  local ty=flr(y/project.tile_h)
-  return mget(tx,ty,1,0)==2
-end
-
-function _update()
-  local nx=px+joyx(0)*2
-  local ny=py+joyy(0)*2
-  if not solid_at_world(nx,py) then
-    px=nx
-  end
-  if not solid_at_world(px,ny) then
-    py=ny
-  end
-  if btnp(0) then sfx(0,false) end
-end
-
-function _draw()
-  cls(color(66,88,99))
-  camera(px-240,py-135)
-  map(0,0,0,0,project.map_w,project.map_h,0,1,0)
-  spr(0,px,py)
-  camera(0,0)
-
-  print("TRY-CODE",8,8, color(255,255,255))
-end`,
-  flappy:`function _init()
-  bird_y=120
-  bird_v=0
-  bird_x=90
-  pipe_x=420
-  gap_y=120
-  score=0
-  passed=false
-end
-
-function reset_pipe()
-  pipe_x=520
-  gap_y=60+flr(time()*37)%120
-  passed=false
-end
-
-function _update()
-  bird_v=bird_v+0.35
-  if btnp(3) or btnp(1) then bird_v=-4.8 end
-  bird_y=bird_y+bird_v
-  pipe_x=pipe_x-2
-
-  if pipe_x<-32 then
-    reset_pipe()
-  end
-
-  if not passed and pipe_x+32<bird_x then
-    score=score+1
-    passed=true
-  end
-
-  if bird_y<0 or bird_y>260 then
-    bird_y=120
-    bird_v=0
-    score=0
-    reset_pipe()
-  end
-
-  if bird_x+12>pipe_x and bird_x<pipe_x+32 then
-    if bird_y<gap_y-28 or bird_y+12>gap_y+28 then
-      bird_y=120
-      bird_v=0
-      score=0
-      reset_pipe()
-    end
-  end
-end
-
-function _draw()
-  cls(color(115,208,255))
-  color(52,160,60)
-  rectfill(0,240,480,30)
-  spr(0,bird_x,bird_y)
-  spr(2,pipe_x,gap_y-96)
-  spr(2,pipe_x,gap_y+64)
-  print("SCORE "..score,8,8,color(255,255,255))
-end`,
-  mario:`function _init()
-  px=40
-  py=180
-  vx=0
-  vy=0
-  win=false
-end
-
-function solid_at(x,y)
-  local tx=flr(x/project.tile_w)
-  local ty=flr(y/project.tile_h)
-  local t=mget(tx,ty,1,0)
-  return t==2 or t==3
-end
-
-function _update()
-  if win then return end
-  vx=joyx(0)*2
-  if (btnp(3) or btnp(1)) and solid_at(px,py+17) then
-    vy=-5
-  end
-  vy=vy+0.25
-  local nx=px+vx
-  local ny=py+vy
-  if not solid_at(nx,py) then px=nx end
-  if not solid_at(px,ny) then py=ny else vy=0 end
-  if px>420 then win=true end
-end
-
-function _draw()
-  cls(color(90,180,255))
-  color(255,255,255)
-  rectfill(0,220,480,50)
-  spr(0,px,py)
-  spr(2,0,224)
-  spr(2,16,224)
-  spr(2,32,224)
-  spr(3,160,176)
-  spr(3,176,176)
-  spr(3,192,176)
-  if win then
-    print("YOU WIN!",180,80,color(255,255,255))
-  else
-    print("REACH THE RIGHT SIDE",8,8,color(255,255,255))
-  end
-end`
+  blank:`function _init()\nend\n\nfunction _update()\nend\n\nfunction _draw()\n  cls()\nend`
 };
 const state = {activeView:"code",lastEdited:"code",blocklyDirty:false,projectMode:"code",modeChooserCallback:null,currentProjectName:"",hasSaved:false,currentMapIndex:0,currentLayerIndex:0,currentSpriteIndex:0,currentSpriteFrame:0,currentSoundIndex:0,currentMusicIndex:0,selectedTileId:1,selectedPaletteIndex:0,palettePage:0,spriteFramePage:0,spriteTool:"draw",spriteZoom:20,spriteOffsetX:40,spriteOffsetY:40,mapZoom:1,mapOffsetX:0,mapOffsetY:0,mapTool:"paint",currentCodeFile:0,spriteAnimPlaying:true,spriteAnimSpeed:6,syncLock:false,suppressBlocklySync:false,codeDebounce:0,toastTimer:0,lastToolboxSelection:null,appProject:null};
 let workspace, runtime;
@@ -528,7 +377,7 @@ function makeSprite(w=16,h=16){ const pixels=[]; for(let y=0;y<h;y++){ const row
 function cloneSprite(s){ return JSON.parse(JSON.stringify(s)); }
 function makeEmptyMap(name, mapW, mapH){ const mkLayer=(n)=>{const data=[]; for(let y=0;y<mapH;y++){const row=[]; for(let x=0;x<mapW;x++) row.push(0); data.push(row);} return {name:n,visible:true,data};}; return {name,layers:[mkLayer("Ground"),mkLayer("Walls")]}; }
 function makeSound(){ return {wave:"square",length:0.3,volume:0.6,pitch:440,attack:0.01,decay:0.08,sustain:0.6,release:0.1,wavetable:Array.from({length:64},()=>0)}; }
-function makeMusic(){ return {mode:"generated",file:"",key:"C",scale:"major",customNotes:[0,4,7],wave:"square",octave:4,noteCount:8,speed:4,timeSig:"4/4",arp:"up",loop:true,attack:0.01,decay:0.08,sustain:0.6,release:0.12}; }
+function makeMusic(){ return {file:"",loop:true}; }
 function seedSpriteDemo(sp){ for(let i=3;i<13;i++){ sp.pixels[3][i]=1; sp.pixels[12][i]=1; } for(let i=4;i<12;i++){ sp.pixels[i][3]=1; sp.pixels[i][12]=1; } sp.pixels[6][6]=6; sp.pixels[6][9]=6; sp.pixels[9][7]=8; sp.pixels[9][8]=8; return sp; }
 function defaultProject(){ return {project:{tile_w:16,tile_h:16,map_w:32,map_h:32},palette:["#1f3061","#8f2d6b","#0b8f55","#6f665e","#b7b9c3","#eaded6","#c33c54","#ff8a00","#f3c24f","#75d0ff","#4aa84a","#a68cc6","#ff77a8","#5b3a29","#7a7a7a","#ffffff"],spriteFolders:[{frames:[seedSpriteDemo(makeSprite(16,16))]}],sounds:[makeSound()],music:[makeMusic()],codeFiles:[{name:"main.lua",content:EXAMPLES.blank}],tileDefs:{1:{source:"🌿",flags:{0:false},bg:"#2f855a"},2:{source:"🧱",flags:{0:true},bg:"#4a5568"},3:{source:"🚪",flags:{0:false},bg:"#8b5cf6"}},maps:[makeEmptyMap("Map 1",32,32)]}; }
 function currentMap(){ return state.appProject.maps[state.currentMapIndex]; }
@@ -560,7 +409,7 @@ function ensureProjectData(){
   p.codeFiles=p.codeFiles.map((f,i)=>({name:(f&&f.name)||`file${i+1}.lua`,content:(f&&f.content)||""}));
   p.spriteFolders.forEach(folder=>{ if(!folder.frames?.length) folder.frames=[makeSprite(16,16)]; folder.frames=folder.frames.slice(0,26); folder.frames.forEach(s=>{ s.w=Math.max(1,s.w|0); s.h=Math.max(1,s.h|0); if(!Array.isArray(s.pixels)) s.pixels=[]; s.pixels.length=s.h; for(let y=0;y<s.h;y++){ if(!Array.isArray(s.pixels[y])) s.pixels[y]=[]; s.pixels[y].length=s.w; for(let x=0;x<s.w;x++) if(s.pixels[y][x]==null) s.pixels[y][x]=-1; } }); });
   p.sounds.forEach(s=>{ if(!Array.isArray(s.wavetable)) s.wavetable=Array.from({length:64},()=>0); while(s.wavetable.length<64) s.wavetable.push(0); s.wavetable=s.wavetable.slice(0,64); });
-  p.music.forEach(m=>{ if(m.loop==null) m.loop=true; if(!Array.isArray(m.customNotes)) m.customNotes=[0,4,7]; if(!m.timeSig) m.timeSig='4/4'; });
+  p.music.forEach(m=>{ if(m.loop==null) m.loop=true; if(!m.file) m.file=""; });
   Object.values(p.tileDefs).forEach(d=>{ if(!d.flags) d.flags={}; if(!d.bg) d.bg="#444444"; if(d.source==null) d.source=""; });
   p.maps.forEach((mapObj,mi)=>{ if(!mapObj.name) mapObj.name=`Map ${mi+1}`; if(!mapObj.layers?.length) mapObj.layers=makeEmptyMap(mapObj.name,p.project.map_w,p.project.map_h).layers; mapObj.layers.forEach(layer=>{ if(!Array.isArray(layer.data)) layer.data=[]; layer.data.length=p.project.map_h; for(let y=0;y<p.project.map_h;y++){ if(!Array.isArray(layer.data[y])) layer.data[y]=[]; layer.data[y].length=p.project.map_w; for(let x=0;x<p.project.map_w;x++) if(layer.data[y][x]==null) layer.data[y][x]=0; }}); });
   state.currentMapIndex=clamp(state.currentMapIndex,0,p.maps.length-1); state.currentLayerIndex=clamp(state.currentLayerIndex,0,currentLayers().length-1); state.currentSpriteIndex=clamp(state.currentSpriteIndex,0,p.spriteFolders.length-1); state.currentSpriteFrame=clamp(state.currentSpriteFrame,0,currentSpriteFolder().frames.length-1); state.currentSoundIndex=clamp(state.currentSoundIndex,0,p.sounds.length-1); state.currentMusicIndex=clamp(state.currentMusicIndex,0,p.music.length-1); state.selectedPaletteIndex=clamp(state.selectedPaletteIndex,0,p.palette.length-1);
@@ -609,7 +458,7 @@ const CODE_API_DOCS = [
   ["animate(ref,x,y,speed)", "Draws and auto-advances frames in a sprite folder such as 0a, 0b, 0c."],
   ["camera(x,y)", "Offsets subsequent drawing by camera position."],
   ["clip(x,y,w,h)", "Sets a screen-space clipping rectangle. Call clip() to clear it."],
-  ["cls()", "Clears the screen and resets camera."],
+  ["cls()", "Clears the screen to black and resets camera."],
   ["color(r,g,b)", "Sets the current draw color using 0-255 RGB."],
   ["fget(tile,flag)", "Reads a tile flag such as solid flag 0."],
   ["flr(n)", "Floors a number down."],
@@ -694,14 +543,14 @@ function exportHTML(){
     "function parseSpriteRef(ref){const s=String(ref||'').trim();let m=s.match(/^(\\d+)([a-z])$/i);if(m)return{folder:parseInt(m[1],10),frame:Math.max(0,m[2].toLowerCase().charCodeAt(0)-97)};if(/^\\d+$/.test(s))return{folder:parseInt(s,10),frame:0};return null;}"+
     "function isEmojiLike(s){const t=String(s||'').trim();if(!t)return false;if(/\\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i.test(t))return false;if(parseSpriteRef(t))return false;return [...t].length<=3}"+
     "function sx(x){return Math.round((((Number(x)||0)-camx-(c.width/2))*viewZoom)+(c.width/2)+zoomOffX)} function sy(y){return Math.round((((Number(y)||0)-camy-(c.height/2))*viewZoom)+(c.height/2)+zoomOffY)}"+
-    "function cls(){camx=0;camy=0;ctx.fillStyle=sty();ctx.fillRect(0,0,c.width,c.height)}"+
+    "function cls(){camx=0;camy=0;ctx.fillStyle='rgb(0,0,0)';ctx.fillRect(0,0,c.width,c.height)}"+
     "function camera(x,y){if(x==null&&y==null){camx=0;camy=0;return 0} camx=Number(x)||0; camy=Number(y)||0; return 0} function zoom(z,ox,oy){if(z!=null)viewZoom=Math.max(0.125,Number(z)||1); if(ox!=null) zoomOffX=Number(ox)||0; if(oy!=null) zoomOffY=Number(oy)||0; return viewZoom}"+
     "function color(r,g,b){col={r:r|0,g:g|0,b:b|0}} function sty(){return 'rgb('+col.r+','+col.g+','+col.b+')'}"+
     "function rectfill(x,y,w,h){ctx.fillStyle=sty();ctx.fillRect(sx(x),sy(y),Math.ceil((w||0)*viewZoom),Math.ceil((h||0)*viewZoom))}"+
     "function print(t,x,y,r,g,b){const old=ctx.fillStyle;if(r!=null&&g!=null&&b!=null){ctx.fillStyle='rgb('+((r|0))+','+((g|0))+','+((b|0))+')';}else{ctx.fillStyle=sty();}ctx.font=(Math.max(1,Math.round(12*viewZoom)))+'px monospace';ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(String(t),Math.round(sx(x)),Math.round(sy(y)));ctx.fillStyle=old}const print_=print"+
     "function drawInternalSpriteRuntime(ref,x,y,scaleX,scaleY){scaleX=scaleX||1;scaleY=scaleY||1;const r=(typeof ref==='object')?ref:parseSpriteRef(ref);if(!r)return false;const folder=projectRef.spriteFolders[r.folder],s=folder&&folder.frames[r.frame];if(!s)return false;for(let yy=0;yy<s.h;yy++)for(let xx=0;xx<s.w;xx++){const p=s.pixels[yy][xx];if(p>=0&&projectRef.palette[p]){ctx.fillStyle=projectRef.palette[p];ctx.fillRect(Math.round(sx(x)+xx*(scaleX*viewZoom)),Math.round(sy(y)+yy*(scaleY*viewZoom)),Math.ceil(scaleX*viewZoom),Math.ceil(scaleY*viewZoom))}}return true}"+
     "function spr(v,x,y){const _cp=clipPush();if(typeof v==='number')v=String(v);const r=parseSpriteRef(v);if(r){drawInternalSpriteRuntime(r,x,y,1,1);clipPop(_cp);return;}if(isImageLike(v)){clipPop(_cp);return;}if(isEmojiLike(v)){ctx.fillStyle='#fff';ctx.font='18px sans-serif';ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(v,Math.round(sx(x)),Math.round(sy(y)));}clipPop(_cp);}function animate(ref,x,y,speed){const s=String(ref||'').trim();const m=s.match(/^(\d+)/);const base=m?parseInt(m[1],10):(typeof ref==='number'?ref:NaN);if(!Number.isFinite(base)){spr(ref,x,y);return;}const folder=projectRef.spriteFolders[base];if(!folder||!folder.frames||!folder.frames.length){spr(ref,x,y);return;}const spd=Math.max(0.01,Number(speed)||6);const idx=Math.floor((performance.now()/1000)*spd)%folder.frames.length;drawInternalSpriteRuntime({folder:base,frame:idx},x,y,1,1);}"+
-    "function mget(x,y,l,m){x|=0;y|=0;l=l==null?0:l|0;m=m==null?0:m|0;const mapObj=projectRef.maps[m];if(!mapObj||x<0||y<0||x>=projectRef.project.map_w||y>=projectRef.project.map_h)return 0;const lay=mapObj.layers[l];return lay?lay.data[y][x]||0:0}"+
+    "function mget(x,y,l,m){x=Math.floor(Number(x)||0);y=Math.floor(Number(y)||0);l=l==null?0:l|0;m=m==null?0:m|0;const mapObj=projectRef.maps[m];if(!mapObj||x<0||y<0||x>=projectRef.project.map_w||y>=projectRef.project.map_h)return 0;const lay=mapObj.layers[l];return lay?lay.data[y][x]||0:0}"+
     "function fget(tile,flag){const d=projectRef.tileDefs[tile|0];return !!(d&&d.flags&&d.flags[flag|0])}"+
     "function map(mx,my,sx0,sy0,mw,mh,sl,el,mi){mx|=0;my|=0;sx0|=0;sy0|=0;mw|=0;mh|=0;sl=sl==null?0:sl|0;el=el==null?0:el|0;mi=mi==null?0:mi|0;const mapObj=projectRef.maps[mi];if(!mapObj)return;for(let li=sl;li<=el;li++){const layer=mapObj.layers[li];if(!layer)continue;for(let yy=0;yy<mh;yy++)for(let xx=0;xx<mw;xx++){const gx=mx+xx,gy=my+yy;if(gx<0||gy<0||gx>=projectRef.project.map_w||gy>=projectRef.project.map_h)continue;const tid=layer.data[gy][gx]||0,def=projectRef.tileDefs[tid];if(!def)continue;const px=sx0+xx*projectRef.project.tile_w-camx,py=sy0+yy*projectRef.project.tile_h-camy,constW=Math.max(1,Math.ceil(projectRef.project.tile_w*viewZoom)),constH=Math.max(1,Math.ceil(projectRef.project.tile_h*viewZoom));if(def.bgEnabled!==false){ctx.fillStyle=def.bg||'#444';ctx.fillRect(sx(px+camx),sy(py+camy),constW,constH)}const sr=parseSpriteRef(def.source||'');if(sr){const folder=projectRef.spriteFolders[sr.folder],sp=folder&&folder.frames[sr.frame];if(sp){drawInternalSpriteRuntime(sr,px+camx,py+camy,projectRef.project.tile_w/sp.w,projectRef.project.tile_h/sp.h);continue;}}if(isEmojiLike(def.source||'')){ctx.fillStyle='#fff';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(def.source,sx(px+camx+projectRef.project.tile_w/2),sy(py+camy+projectRef.project.tile_h/2));ctx.textAlign='left';ctx.textBaseline='top';}}}}"+
     "function attachJoy(root,knob,idx){const R=52,KR=21;function setKnob(nx,ny){knob.style.left='calc(50% + '+(nx*R)+'px)';knob.style.top='calc(50% + '+(ny*R)+'px)';knob.style.marginLeft='-'+KR+'px';knob.style.marginTop='-'+KR+'px';}function up(){input.joy[idx].down=false;input.joy[idx].x=0;input.joy[idx].y=0;setKnob(0,0)}root.addEventListener('pointerdown',e=>{root.setPointerCapture(e.pointerId);const rect=root.getBoundingClientRect();const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,dx=e.clientX-cx,dy=e.clientY-cy;const len=Math.hypot(dx,dy)||1,m=Math.min(R,len);input.joy[idx].x=clamp((dx/len)*(m/R),-1,1);input.joy[idx].y=clamp((dy/len)*(m/R),-1,1);setKnob(input.joy[idx].x,input.joy[idx].y);input.joy[idx].down=true;e.preventDefault()});root.addEventListener('pointermove',e=>{if(!input.joy[idx].down)return;const rect=root.getBoundingClientRect();const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,dx=e.clientX-cx,dy=e.clientY-cy;const len=Math.hypot(dx,dy)||1,m=Math.min(R,len);input.joy[idx].x=clamp((dx/len)*(m/R),-1,1);input.joy[idx].y=clamp((dy/len)*(m/R),-1,1);setKnob(input.joy[idx].x,input.joy[idx].y);e.preventDefault()});root.addEventListener('pointerup',up);root.addEventListener('pointercancel',up);setKnob(0,0)}"+
@@ -725,6 +574,10 @@ function buildDocs(){
   docsPage=Math.max(0, Math.min(docsPage, pages-1));
   const slice=CODE_API_DOCS.slice(docsPage*perPage, docsPage*perPage+perPage);
   root.innerHTML='';
+  const topNav=document.createElement('div');
+  topNav.className='docsTopNav';
+  topNav.innerHTML=`<div class="docActions"><button class="uiBtn" id="docsPrevBtn">◀</button><div class="docDesc">Page ${docsPage+1} / ${pages}</div><button class="uiBtn" id="docsNextBtn">▶</button></div>`;
+  root.appendChild(topNav);
   const sec=document.createElement('div');
   sec.className='docsSection';
   sec.innerHTML='<h3>CODE API</h3>';
@@ -734,19 +587,65 @@ function buildDocs(){
     item.innerHTML=`<div class="docName">${escapeHtml(name)}</div><div class="docDesc">${escapeHtml(desc)}</div>`;
     sec.appendChild(item);
   });
-  const nav=document.createElement('div');
-  nav.className='docItem';
-  nav.innerHTML=`<div class="docActions"><button class="uiBtn" id="docsPrevBtn">◀</button><div class="docDesc">Page ${docsPage+1} / ${pages}</div><button class="uiBtn" id="docsNextBtn">▶</button></div>`;
-  sec.appendChild(nav);
   root.appendChild(sec);
   const ex=document.createElement('div');
   ex.className='docsSection';
-  ex.innerHTML=`<h3>EXAMPLES</h3>
-    <div class="docItem"><div class="docName">Demo Game</div><div class="docCode">${escapeHtml(EXAMPLES.demo)}</div><div class="docActions"><button class="loadExampleBtn" id="loadDemoBtn">Load Demo</button></div></div>`;
+  ex.innerHTML=`<h3>EXAMPLE PROJECT</h3>
+    <div class="docItem"><div class="docName">Tiny Adventure</div><div class="docDesc">Loads a full sample project with map, sprites, sound, and music file references.</div><div class="docActions"><button class="loadExampleBtn" id="loadExampleProjectBtn">Load Example Project</button></div></div>`;
   root.appendChild(ex);
   $("docsPrevBtn").onclick=()=>{ if(docsPage>0){ docsPage--; buildDocs(); }};
   $("docsNextBtn").onclick=()=>{ if(docsPage<pages-1){ docsPage++; buildDocs(); }};
-  $("loadDemoBtn").onclick=()=>{ if(confirm("Load demo into current project?")){ setProjectCode(EXAMPLES.demo); toast("Loaded <b>demo</b>"); } };
+  $("loadExampleProjectBtn").onclick=()=>{ if(confirm("Load example project? Unsaved changes will be lost.")){ loadExampleProject(); toast("Loaded <b>Tiny Adventure</b> project"); } };
+}
+function loadExampleProject(){
+  finishNewProject("code");
+  const p=state.appProject;
+  p.tileDefs={1:{source:"🌿",flags:{0:false},bg:"#2f855a"},2:{source:"🧱",flags:{0:true},bg:"#4a5568"},3:{source:"🚪",flags:{0:false},bg:"#8b5cf6"}};
+  p.music=[{file:"song.ogg",loop:true}];
+  p.codeFiles=[{name:"main.lua",content:`function _init()
+  px=80
+  py=80
+end
+
+function solid_at_world(x,y)
+  local tx=flr(x/project.tile_w)
+  local ty=flr(y/project.tile_h)
+  return mget(tx,ty,1,0)==2
+end
+
+function blocked(nx,ny,w,h)
+  return solid_at_world(nx,ny)
+    or solid_at_world(nx+w-1,ny)
+    or solid_at_world(nx,ny+h-1)
+    or solid_at_world(nx+w-1,ny+h-1)
+end
+
+function _update()
+  local nx=px+joyx(0)*2
+  local ny=py+joyy(0)*2
+  if not blocked(nx,py,14,14) then
+    px=nx
+  end
+  if not blocked(px,ny,14,14) then
+    py=ny
+  end
+  if btnp(0) then sfx(0,false) end
+end
+
+function _draw()
+  cls()
+  camera(px-240,py-135)
+  map(0,0,0,0,project.map_w,project.map_h,0,1,0)
+  spr(0,px,py)
+  camera(0,0)
+  print("Tiny Adventure",8,8,color(255,255,255))
+end`}];
+  renderCodeTabs();
+  loadCurrentCodeFileToEditor();
+  refreshMusicUI();
+  runtime.syncProject(state.appProject);
+  runtime.setLua(getProjectLua());
+  setView('code');
 }
 function setProjectCode(code){ state.syncLock=true; try{$("codeEditor").value=code; saveEditorToCurrentCodeFile(); runtime.setLua(getProjectLua()); state.lastEdited="code";} finally{state.syncLock=false;} }
 Blockly.defineBlocksWithJsonArray([
@@ -902,7 +801,7 @@ function refreshSpriteList(){
     wrap.appendChild(row);
   });
   const folder=currentSpriteFolder();
-  if($("spriteFolderCountInput")) $("spriteFolderCountInput").value=folder.frames.length;
+  if($("spriteFolderCountLabel")) $("spriteFolderCountLabel").textContent=String(folder.frames.length);
 }
 function refreshSpriteFrames(){
   const wrap=$("spriteFrameList"); if(!wrap) return; wrap.innerHTML="";
@@ -941,13 +840,13 @@ function spriteCoordsFromEvent(e){ const canvas=$("spriteCanvas"), rect=canvas.g
 function applySpriteToolAtEvent(e){ const s=currentSprite(); const {x,y}=spriteCoordsFromEvent(e); if(x<0||y<0||x>=s.w||y>=s.h) return; if(state.spriteTool==="fill"){ pushSpriteHistory(); spriteFloodFill(x,y,s.pixels[y][x],state.selectedPaletteIndex); } else if(state.spriteTool==="erase"){ pushSpriteHistory(); s.pixels[y][x]=-1; } else if(state.spriteTool==="draw"){ pushSpriteHistory(); s.pixels[y][x]=state.selectedPaletteIndex; } drawSpriteEditor(); refreshTilePalette(); drawMapEditor(); runtime.syncProject(state.appProject); }
 function drawInternalSpriteToCtx(ctx, spriteRef, x, y, w, h){ const ref=typeof spriteRef==='object'?spriteRef:parseSpriteRef(spriteRef); if(!ref) return false; const folder=state.appProject.spriteFolders[ref.folder]; const s=folder&&folder.frames[ref.frame]; if(!s) return false; const cellW=w/s.w, cellH=h/s.h; for(let yy=0;yy<s.h;yy++) for(let xx=0;xx<s.w;xx++){ const p=s.pixels[yy][xx]; if(p>=0&&state.appProject.palette[p]){ ctx.fillStyle=state.appProject.palette[p]; ctx.fillRect(x+xx*cellW,y+yy*cellH,cellW,cellH); } } return true; }
 function getPreviewImg(file){ if(!file||isEmojiLike(file)||parseSpriteRef(file)) return null; if(!previewImages[file]){ const img=new Image(); img.src=file; previewImages[file]=img; } return previewImages[file]; }
-function drawTileThumb(ctx,def,x,y,w,h,id){ if(def.bgEnabled!==false){ ctx.fillStyle=def.bg||"#444"; ctx.fillRect(x,y,w,h); } const source=String(def.source||"").trim(); const spriteRef=parseSpriteRef(source); if(spriteRef){ if(drawInternalSpriteToCtx(ctx,spriteRef,x,y,w,h)) return; } if(source){ if(isEmojiLike(source)){ ctx.font=`${Math.floor(h*.7)}px sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(source,x+w/2,y+h/2+1); return; } const img=getPreviewImg(source); if(img&&img.complete){ ctx.drawImage(img,x,y,w,h); return; } } ctx.fillStyle='rgba(255,255,255,.45)'; ctx.font='11px monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(String(id),x+w/2,y+h/2); }
+function drawTileThumb(ctx,def,x,y,w,h,id,showId=true){ if(def.bgEnabled!==false){ ctx.fillStyle=def.bg||"#444"; ctx.fillRect(x,y,w,h); } const source=String(def.source||"").trim(); const spriteRef=parseSpriteRef(source); if(spriteRef){ if(drawInternalSpriteToCtx(ctx,spriteRef,x,y,w,h)) return; } if(source){ if(isEmojiLike(source)){ ctx.font=`${Math.floor(h*.7)}px sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(source,x+w/2,y+h/2+1); return; } const img=getPreviewImg(source); if(img&&img.complete){ ctx.drawImage(img,x,y,w,h); return; } } if(showId){ ctx.fillStyle='rgba(255,255,255,.45)'; ctx.font='11px monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(String(id),x+w/2,y+h/2); } }
 function refreshTileEditorFromSelected(){ $("tileIdInput").value=state.selectedTileId; const def=state.appProject.tileDefs[state.selectedTileId]||{source:"",flags:{0:false},bg:"#444444",bgEnabled:true}; $("tileSourceInput").value=def.source||""; $("tileBgColorInput").value=def.bg||"#444444"; $("tileBgEnabledInput").value=def.bgEnabled===false?"false":"true"; $("tileSolidInput").value=def.flags&&def.flags[0]?"true":"false"; }
 function applyTileEditorLive(){ const id=Math.max(0,parseInt($("tileIdInput").value||"0",10)); state.selectedTileId=id; state.appProject.tileDefs[id]=state.appProject.tileDefs[id]||{source:"",flags:{},bg:"#444444",bgEnabled:true}; state.appProject.tileDefs[id].source=String($("tileSourceInput").value||"").trim(); state.appProject.tileDefs[id].bg=$("tileBgColorInput").value||"#444444"; state.appProject.tileDefs[id].bgEnabled=$("tileBgEnabledInput").value==="true"; state.appProject.tileDefs[id].flags[0]=$("tileSolidInput").value==="true"; refreshTilePalette(); drawMapEditor(); runtime.syncProject(state.appProject); }
 function refreshMapList(){ const wrap=$("mapList"); wrap.innerHTML=""; state.appProject.maps.forEach((mapObj,i)=>{ const row=document.createElement('div'); row.className='itemRow'+(i===state.currentMapIndex?' active':''); row.textContent=mapObj.name||`Map ${i+1}`; row.onclick=()=>{ state.currentMapIndex=i; state.currentLayerIndex=0; refreshMapList(); refreshLayerList(); drawMapEditor(); }; wrap.appendChild(row); }); }
-function refreshTilePalette(){ const wrap=$("tilePalette"); wrap.innerHTML=""; const ids=Object.keys(state.appProject.tileDefs).map(n=>parseInt(n,10)).sort((a,b)=>a-b); for(const id of ids){ const def=state.appProject.tileDefs[id]; const btn=document.createElement('div'); btn.className='tileBtn'+(id===state.selectedTileId?' active':''); btn.onclick=()=>{ state.selectedTileId=id; refreshTilePalette(); refreshTileEditorFromSelected(); }; const thumb=document.createElement('canvas'); thumb.className='tileThumb'; thumb.width=48; thumb.height=48; drawTileThumb(thumb.getContext('2d'),def,0,0,48,48,id); const label=document.createElement('div'); label.textContent=`id ${id}`; btn.appendChild(thumb); btn.appendChild(label); wrap.appendChild(btn);} }
+function refreshTilePalette(){ const wrap=$("tilePalette"); wrap.innerHTML=""; const ids=Object.keys(state.appProject.tileDefs).map(n=>parseInt(n,10)).sort((a,b)=>a-b); for(const id of ids){ const def=state.appProject.tileDefs[id]; const btn=document.createElement('div'); btn.className='tileBtn'+(id===state.selectedTileId?' active':''); btn.onclick=()=>{ state.selectedTileId=id; refreshTilePalette(); refreshTileEditorFromSelected(); }; const thumb=document.createElement('canvas'); thumb.className='tileThumb'; thumb.width=48; thumb.height=48; drawTileThumb(thumb.getContext('2d'),def,0,0,48,48,id,true); const label=document.createElement('div'); label.textContent=`id ${id}`; btn.appendChild(thumb); btn.appendChild(label); wrap.appendChild(btn);} }
 function refreshLayerList(){ const wrap=$("layerList"); wrap.innerHTML=""; currentLayers().forEach((layer,i)=>{ const row=document.createElement('div'); row.className='itemRow'+(i===state.currentLayerIndex?' active':''); row.textContent=layer.name||`Layer ${i+1}`; row.onclick=()=>{ state.currentLayerIndex=i; refreshLayerList(); drawMapEditor(); }; wrap.appendChild(row); }); }
-function drawMapEditor(){ ensureProjectData(); const mapObj=currentMap(), canvas=$("mapCanvas"), ctx=canvas.getContext('2d'); const tw=state.appProject.project.tile_w, th=state.appProject.project.tile_h, mw=state.appProject.project.map_w, mh=state.appProject.project.map_h; canvas.width=mw*tw; canvas.height=mh*th; const z=state.mapZoom||1, ox=state.mapOffsetX||0, oy=state.mapOffsetY||0; canvas.style.transformOrigin="0 0"; canvas.style.transform=`translate(${ox}px,${oy}px) scale(${z})`; ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#fdf3dd'; ctx.fillRect(0,0,canvas.width,canvas.height); for(const layer of mapObj.layers){ if(layer.visible===false) continue; for(let y=0;y<mh;y++) for(let x=0;x<mw;x++){ const tid=layer.data[y][x]||0, def=state.appProject.tileDefs[tid]; if(tid&&def) drawTileThumb(ctx,def,x*tw,y*th,tw,th,tid); } } }
+function drawMapEditor(){ ensureProjectData(); const mapObj=currentMap(), canvas=$("mapCanvas"), ctx=canvas.getContext('2d'); const tw=state.appProject.project.tile_w, th=state.appProject.project.tile_h, mw=state.appProject.project.map_w, mh=state.appProject.project.map_h; canvas.width=mw*tw; canvas.height=mh*th; const z=state.mapZoom||1, ox=state.mapOffsetX||0, oy=state.mapOffsetY||0; canvas.style.transformOrigin="0 0"; canvas.style.transform=`translate(${ox}px,${oy}px) scale(${z})`; ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#fdf3dd'; ctx.fillRect(0,0,canvas.width,canvas.height); for(const layer of mapObj.layers){ if(layer.visible===false) continue; for(let y=0;y<mh;y++) for(let x=0;x<mw;x++){ const tid=layer.data[y][x]||0, def=state.appProject.tileDefs[tid]; if(tid&&def) drawTileThumb(ctx,def,x*tw,y*th,tw,th,tid,true); } } }
 function syncMapUIFromProject(){ $("tileWInput").value=state.appProject.project.tile_w; $("tileHInput").value=state.appProject.project.tile_h; $("mapWInput").value=state.appProject.project.map_w; $("mapHInput").value=state.appProject.project.map_h; refreshMapList(); refreshTilePalette(); refreshLayerList(); refreshTileEditorFromSelected(); drawMapEditor(); }
 let mapSyncTimer=0;
 function scheduleProjectSync(){ clearTimeout(mapSyncTimer); mapSyncTimer=setTimeout(()=>{ try{ runtime&&runtime.syncProject(state.appProject); }catch{} }, 40); }
@@ -961,7 +860,6 @@ async function previewSound(index,loop=false){ const snd=state.appProject.sounds
 function refreshMusicWaveOptions(){ const sel=$("musicWaveInput"), cur=currentMusic().wave; const builtins=["sine","square","sawtooth","triangle"]; sel.innerHTML=''; builtins.forEach(w=>{ const o=document.createElement('option'); o.value=w; o.textContent=w; sel.appendChild(o); }); state.appProject.sounds.forEach((s,i)=>{ const o=document.createElement('option'); o.value='sfx:'+i; o.textContent='sfx '+i; sel.appendChild(o); }); sel.value = [...sel.options].some(o=>o.value===cur) ? cur : 'square'; }
 function refreshCustomScaleUI(){ const wrap=$("musicCustomScaleWrap"), keys=$("musicCustomScaleKeys"), m=currentMusic(); wrap.style.display = m.scale==='custom' ? 'block' : 'none'; keys.innerHTML=''; const labels=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']; for(let i=0;i<12;i++){ const b=document.createElement('button'); b.className='miniKey'+(m.customNotes.includes(i)?' active':''); b.textContent=labels[i]; b.onclick=(e)=>{ e.preventDefault(); const arr=m.customNotes; const idx=arr.indexOf(i); if(idx>=0) arr.splice(idx,1); else arr.push(i); arr.sort((a,b)=>a-b); if(!arr.length) arr.push(0); refreshCustomScaleUI();  }; keys.appendChild(b); } }
 function stopMusicPlayback(){ if(currentMusicTimer){ clearInterval(currentMusicTimer); clearTimeout(currentMusicTimer); currentMusicTimer=null; } currentMusicNodes.forEach(n=>{ try{n.stop&&n.stop();}catch{} try{n.disconnect&&n.disconnect();}catch{} }); currentMusicNodes=[]; if(currentMusicSource){ try{currentMusicSource.pause&&currentMusicSource.pause();}catch{} try{currentMusicSource.currentTime=0;}catch{} try{currentMusicSource.stop&&currentMusicSource.stop();}catch{} currentMusicSource=null; } }
-function generatedMusicNotes(m){ const root=NOTE_MAP[m.key] + (m.octave+1)*12; const scale=(m.scale==='custom' ? (m.customNotes&&m.customNotes.length?m.customNotes:[0,4,7]) : (SCALE_MAP[m.scale]||SCALE_MAP.major)); const notes=[]; const count=Math.max(1,m.noteCount|0); for(let i=0;i<count;i++){ let idx=i%scale.length; if(m.arp==='down') idx=(scale.length-1)-(i%scale.length); if(m.arp==='updown'){ const seq=[...scale,...scale.slice(1,-1).reverse()]; idx=i%Math.max(1,seq.length); notes.push(root + seq[idx]); continue; } if(m.arp==='random'){ idx=Math.floor(Math.random()*scale.length); } notes.push(root + scale[idx]); } return notes; }
 async function playMusicEntry(src, action="play", loop=true){
   if(action==="stop"){ stopMusicPlayback(); return; }
   stopMusicPlayback();
@@ -969,62 +867,22 @@ async function playMusicEntry(src, action="play", loop=true){
   try{ await ac.resume(); }catch{}
   if(typeof src==="string" && !/^\d+$/.test(src)){ const audio=new Audio(src); audio.loop=!!loop; audio.play().catch(()=>{}); currentMusicSource=audio; return; }
   const idx = typeof src==="number" ? src : parseInt(String(src||"0"),10);
-  const m = state.appProject.music[idx]; if(!m) return;
-  if(m.mode==="file" && m.file){ const audio=new Audio(m.file); audio.loop=!!loop; audio.play().catch(()=>{}); currentMusicSource=audio; return; }
-  const notes = generatedMusicNotes(m);
-  const [num,den] = String(m.timeSig||'4/4').split('/').map(v=>parseInt(v,10)||4);
-  const stepsPerBeat = den===8 ? 2 : 4;
-  const stepsPerBar = Math.max(1, num * stepsPerBeat);
-  const stepDur = 60 / Math.max(20, (Number(m.speed)||4) * 15);
-  const totalSteps = Math.max(stepsPerBar, notes.length);
-  let stepIndex = 0;
-  const triggerStep = ()=>{
-    const note = notes[stepIndex % notes.length];
-    const st = ac.currentTime;
-    const sfxRef=(typeof m.wave==='string' && m.wave.startsWith('sfx:')) ? state.appProject.sounds[parseInt(m.wave.split(':')[1],10)] : null;
-    if(note!=null){
-      const osc=ac.createOscillator(), gain=ac.createGain();
-      osc.type=sfxRef ? (sfxRef.wave==='wavetable'?'sine':(sfxRef.wave||'square')) : (m.wave||'square');
-      const att=sfxRef ? sfxRef.attack : m.attack;
-      const dec=sfxRef ? sfxRef.decay : m.decay;
-      const sus=sfxRef ? sfxRef.sustain : m.sustain;
-      const rel=sfxRef ? sfxRef.release : m.release;
-      const vol=sfxRef ? clamp(sfxRef.volume,0,.4) : .22;
-      gain.gain.setValueAtTime(0,st);
-      gain.gain.linearRampToValueAtTime(vol,st+att);
-      gain.gain.linearRampToValueAtTime(vol*sus,st+Math.max(att+dec,stepDur*0.6));
-      gain.gain.linearRampToValueAtTime(0.0001,st+stepDur+rel);
-      if(sfxRef && Array.isArray(sfxRef.wavetable)){
-        const ws=Math.max(1,sfxRef.wavetable.length);
-        for(let wi=0; wi<ws; wi++){
-          const seq=sfxRef.wavetable[wi]||0;
-          osc.frequency.setValueAtTime(midiToHz(note)*Math.pow(2,(seq*12)/12), st + (wi/ws)*stepDur);
-        }
-      } else {
-        osc.frequency.setValueAtTime(midiToHz(note), st);
-      }
-      osc.connect(gain).connect(ac.destination);
-      osc.start(st);
-      osc.stop(st+stepDur+rel+0.02);
-      currentMusicNodes.push(osc,gain);
-    }
-    stepIndex++;
-    if(stepIndex>=totalSteps){
-      if(loop && m.loop){ stepIndex = 0; }
-      else { stopMusicPlayback(); }
-    }
-  };
-  triggerStep();
-  currentMusicTimer = setInterval(triggerStep, stepDur*1000);
+  const m = state.appProject.music[idx];
+  if(!m || !m.file) return;
+  const audio=new Audio(m.file);
+  audio.loop=loop==null ? !!m.loop : !!loop;
+  audio.play().catch(()=>{});
+  currentMusicSource=audio;
 }
 function refreshSoundList(){ const wrap=$("soundList"); wrap.innerHTML=""; state.appProject.sounds.forEach((s,i)=>{ const row=document.createElement('div'); row.className='itemRow'+(i===state.currentSoundIndex?' active':''); row.textContent=String(i); row.onclick=()=>{ state.currentSoundIndex=i; refreshSoundUI(); drawSoundWaveCanvas(); }; wrap.appendChild(row); }); }
 function refreshSoundUI(){ const s=currentSound(); refreshSoundList(); $("soundWaveInput").value=s.wave; $("soundLengthInput").value=s.length; $("soundVolumeInput").value=s.volume; $("soundPitchInput").value=s.pitch; $("soundAttackInput").value=s.attack; $("soundDecayInput").value=s.decay; $("soundSustainInput").value=s.sustain; $("soundReleaseInput").value=s.release; }
 function updateCurrentSoundFromUI(){ const s=currentSound(); s.wave=$("soundWaveInput").value; s.length=parseFloat($("soundLengthInput").value)||0.3; s.volume=parseFloat($("soundVolumeInput").value)||0.6; s.pitch=parseFloat($("soundPitchInput").value)||440; s.attack=parseFloat($("soundAttackInput").value)||0.01; s.decay=parseFloat($("soundDecayInput").value)||0.08; s.sustain=parseFloat($("soundSustainInput").value)||0.6; s.release=parseFloat($("soundReleaseInput").value)||0.1; }
 function drawSoundWaveCanvas(){ const c=$("soundWaveCanvas"), ctx=c.getContext('2d'), s=currentSound(); ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle='#fff7e8'; ctx.fillRect(0,0,c.width,c.height); ctx.strokeStyle='#6f3d20'; ctx.lineWidth=3; ctx.strokeRect(0,0,c.width,c.height); ctx.strokeStyle='rgba(111,61,32,0.35)'; ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0,c.height/2); for(let i=0;i<s.wavetable.length;i++){ const x=(i/Math.max(1,s.wavetable.length-1))*c.width; const y=(1-((s.wavetable[i]+1)/2))*c.height; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.strokeStyle='#b31f24'; ctx.lineWidth=4; ctx.stroke(); }
 function refreshMusicList(){ const wrap=$("musicList"); wrap.innerHTML=""; state.appProject.music.forEach((m,i)=>{ const row=document.createElement('div'); row.className='itemRow'+(i===state.currentMusicIndex?' active':''); row.textContent=String(i); row.onclick=()=>{ state.currentMusicIndex=i; refreshMusicUI();  }; wrap.appendChild(row); }); }
-function refreshMusicUI(){ const m=currentMusic(); refreshMusicList(); $("musicModeInput").value=m.mode; $("musicFileInput").value=m.file||""; if($("musicFileField")) $("musicFileField").style.display = m.mode==="file" ? "flex" : "none"; $("musicKeyInput").value=m.key; $("musicScaleInput").value=m.scale; refreshMusicWaveOptions(); $("musicWaveInput").value=[...$("musicWaveInput").options].some(o=>o.value===m.wave)?m.wave:"square"; $("musicOctaveInput").value=m.octave; $("musicNoteCountInput").value=m.noteCount; $("musicSpeedInput").value=m.speed; $("musicTimeSigInput").value=m.timeSig||"4/4"; $("musicArpInput").value=m.arp; $("musicLoopInput").value=String(m.loop); $("musicAttackInput").value=m.attack; $("musicDecayInput").value=m.decay; $("musicSustainInput").value=m.sustain; $("musicReleaseInput").value=m.release; refreshCustomScaleUI(); }
-function updateCurrentMusicFromUI(){ const m=currentMusic(); m.mode=$("musicModeInput").value; if($("musicFileField")) $("musicFileField").style.display = m.mode==="file" ? "flex" : "none"; m.file=$("musicFileInput").value.trim(); m.key=$("musicKeyInput").value; m.scale=$("musicScaleInput").value; m.wave=$("musicWaveInput").value; m.octave=parseInt($("musicOctaveInput").value||4,10); m.noteCount=parseInt($("musicNoteCountInput").value||8,10); m.speed=parseFloat($("musicSpeedInput").value||4); m.timeSig=$("musicTimeSigInput").value||"4/4"; m.arp=$("musicArpInput").value; m.loop=$("musicLoopInput").value==="true"; m.attack=parseFloat($("musicAttackInput").value)||0.01; m.decay=parseFloat($("musicDecayInput").value)||0.08; m.sustain=parseFloat($("musicSustainInput").value)||0.6; m.release=parseFloat($("musicReleaseInput").value)||0.12; refreshCustomScaleUI(); }
+function refreshMusicUI(){ const m=currentMusic(); refreshMusicList(); $("musicFileInput").value=m.file||""; $("musicLoopInput").value=String(m.loop); }
+function updateCurrentMusicFromUI(){ const m=currentMusic(); m.file=$("musicFileInput").value.trim(); m.loop=$("musicLoopInput").value==="true"; }
 function drawMusicPreview(){}
+
 function makeRuntime(){
   const GAME_W=480, GAME_H=270, canvas=$("screen"), stage=canvas.parentElement, ctx=canvas.getContext('2d',{alpha:false}); ctx.imageSmoothingEnabled=false; const assets={}; let projectRef=defaultProject(), L=null, lastCode="", pendingCode="", rebuildTimer=0, builtOk=false;
   const input={btn:[0,0,0,0],btnp:[0,0,0,0],btnPrev:[0,0,0,0],joy:[{x:0,y:0,down:false},{x:0,y:0,down:false}]}; canvas.width=GAME_W; canvas.height=GAME_H;
@@ -1037,7 +895,7 @@ function makeRuntime(){
   function clip(x,y,w,h){ if(arguments.length===0||x==null){ clipRect=null; return 0; } clipRect={x:Number(x)||0,y:Number(y)||0,w:Math.max(0,Number(w)||0),h:Math.max(0,Number(h)||0)}; return 0; }
   function clipPush(){ if(!clipRect) return false; ctx.save(); ctx.beginPath(); ctx.rect(Math.round(clipRect.x),Math.round(clipRect.y),Math.round(clipRect.w),Math.round(clipRect.h)); ctx.clip(); return true; }
   function clipPop(active){ if(active) ctx.restore(); }
-  function cls(){ camx=0; camy=0; ctx.fillStyle=sty(); ctx.fillRect(0,0,GAME_W,GAME_H); }
+  function cls(){ camx=0; camy=0; ctx.fillStyle='rgb(0,0,0)'; ctx.fillRect(0,0,GAME_W,GAME_H); }
   function camera(x,y){ if(x==null&&y==null){ camx=0; camy=0; return 0; } camx=(x==null?0:Number(x)||0); camy=(y==null?0:Number(y)||0); return 0; }
   function color(r,g,b){ col.r=r|0; col.g=g|0; col.b=b|0; }
   function sty(){ return `rgb(${col.r},${col.g},${col.b})`; }
@@ -1047,11 +905,11 @@ function makeRuntime(){
   function drawInternalSpriteRuntime(ref,x,y,scaleX=1,scaleY=1){ const r=(typeof ref==='object')?ref:parseSpriteRef(ref); if(!r) return false; const folder=projectRef.spriteFolders[r.folder]; const s=folder&&folder.frames[r.frame]; if(!s) return false; for(let yy=0;yy<s.h;yy++) for(let xx=0;xx<s.w;xx++){ const p=s.pixels[yy][xx]; if(p>=0&&projectRef.palette[p]){ ctx.fillStyle=projectRef.palette[p]; ctx.fillRect(Math.round(sx(x)+xx*(scaleX*viewZoom)), Math.round(sy(y)+yy*(scaleY*viewZoom)), Math.ceil(scaleX*viewZoom), Math.ceil(scaleY*viewZoom)); } } return true; }
   function spr(fileOrIndex,x,y){ const _cp=clipPush(); const s=String(fileOrIndex??'').trim(); const ref=(typeof fileOrIndex==='number'&&Number.isFinite(fileOrIndex))?{folder:fileOrIndex|0,frame:0}:parseSpriteRef(s); if(ref){ drawInternalSpriteRuntime(ref,x,y,1,1); clipPop(_cp); return; } if(isImageLike(s)){ const a=getImg(s); if(a&&a.loaded) ctx.drawImage(a.img,Math.round(sx(x)),Math.round(sy(y)), Math.max(1, Math.round(a.img.width*viewZoom)), Math.max(1, Math.round(a.img.height*viewZoom))); clipPop(_cp); return; } if(isEmojiLike(s)){ ctx.font=Math.max(1,Math.round(18*viewZoom))+'px sans-serif'; ctx.textAlign='left'; ctx.textBaseline='top'; ctx.fillStyle='#fff'; ctx.fillText(s,Math.round(sx(x)),Math.round(sy(y))); } clipPop(_cp); }
   function animate(ref,x,y,speed){ const _cp=clipPush(); const s=String(ref||'').trim(); const m=s.match(/^(\d+)/); const base=m?parseInt(m[1],10):(typeof ref==='number'?ref:NaN); if(!Number.isFinite(base)){ spr(ref,x,y); clipPop(_cp); return; } const folder=projectRef.spriteFolders[base]; if(!folder||!folder.frames||!folder.frames.length){ spr(ref,x,y); clipPop(_cp); return; } const spd=Math.max(0.01,Number(speed)||6); const idx=Math.floor((performance.now()/1000)*spd)%folder.frames.length; drawInternalSpriteRuntime({folder:base,frame:idx},x,y,1,1); clipPop(_cp); }
-  function drawTileRuntime(def,x,y,w,h,id){ const sw=Math.max(1,Math.round(w*viewZoom)), sh=Math.max(1,Math.round(h*viewZoom)); if(def.bgEnabled!==false){ ctx.fillStyle=def.bg||'#444'; ctx.fillRect(sx(x),sy(y),sw,sh); } const source=String(def.source||'').trim(); const spriteRef=parseSpriteRef(source); if(spriteRef){ const folder=projectRef.spriteFolders[spriteRef.folder]; const sp=folder&&folder.frames[spriteRef.frame]; if(sp){ drawInternalSpriteRuntime(spriteRef, x+camx, y+camy, w/sp.w, h/sp.h); return; } } if(isEmojiLike(source)){ ctx.fillStyle='#fff'; ctx.font=`${Math.max(1,Math.floor(h*.8*viewZoom))}px sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(source,sx(x+w/2),sy(y+h/2+1/viewZoom)); return; } if(isImageLike(source)){ const a=getImg(source); if(a&&a.loaded){ ctx.drawImage(a.img,sx(x),sy(y),sw,sh); return; } } ctx.fillStyle='rgba(255,255,255,.45)'; ctx.font=`${Math.max(1,Math.round(11*viewZoom))}px monospace`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(String(id),sx(x+w/2),sy(y+h/2)); }
-  function mget(x,y,layer,mapIndex){ x|=0;y|=0;layer=layer==null?0:layer|0;mapIndex=mapIndex==null?0:mapIndex|0; if(x<0||y<0||x>=projectRef.project.map_w||y>=projectRef.project.map_h) return 0; const mapObj=projectRef.maps[mapIndex]; if(!mapObj) return 0; const lay=mapObj.layers[layer]; if(!lay) return 0; return lay.data[y][x]||0; }
+  function drawTileRuntime(def,x,y,w,h,id,showId=false){ const sw=Math.max(1,Math.round(w*viewZoom)), sh=Math.max(1,Math.round(h*viewZoom)); if(def.bgEnabled!==false){ ctx.fillStyle=def.bg||'#444'; ctx.fillRect(sx(x),sy(y),sw,sh); } const source=String(def.source||'').trim(); const spriteRef=parseSpriteRef(source); if(spriteRef){ const folder=projectRef.spriteFolders[spriteRef.folder]; const sp=folder&&folder.frames[spriteRef.frame]; if(sp){ drawInternalSpriteRuntime(spriteRef, x+camx, y+camy, w/sp.w, h/sp.h); return; } } if(isEmojiLike(source)){ ctx.fillStyle='#fff'; ctx.font=`${Math.max(1,Math.floor(h*.8*viewZoom))}px sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(source,sx(x+w/2),sy(y+h/2+1/viewZoom)); return; } if(isImageLike(source)){ const a=getImg(source); if(a&&a.loaded){ ctx.drawImage(a.img,sx(x),sy(y),sw,sh); return; } } if(showId){ ctx.fillStyle='rgba(255,255,255,.45)'; ctx.font=`${Math.max(1,Math.round(11*viewZoom))}px monospace`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(String(id),sx(x+w/2),sy(y+h/2)); } }
+  function mget(x,y,layer,mapIndex){ x=Math.floor(Number(x)||0);y=Math.floor(Number(y)||0);layer=layer==null?0:layer|0;mapIndex=mapIndex==null?0:mapIndex|0; if(x<0||y<0||x>=projectRef.project.map_w||y>=projectRef.project.map_h) return 0; const mapObj=projectRef.maps[mapIndex]; if(!mapObj) return 0; const lay=mapObj.layers[layer]; if(!lay) return 0; return lay.data[y][x]||0; }
   function mset(x,y,tile,layer,mapIndex){ x|=0;y|=0;tile|=0;layer=layer==null?0:layer|0;mapIndex=mapIndex==null?0:mapIndex|0; if(x<0||y<0||x>=projectRef.project.map_w||y>=projectRef.project.map_h) return; const mapObj=projectRef.maps[mapIndex]; if(!mapObj) return; const lay=mapObj.layers[layer]; if(!lay) return; lay.data[y][x]=tile; }
   function fget(tile,flag){ tile|=0;flag|=0; const def=projectRef.tileDefs[tile]; if(!def||!def.flags) return false; return !!def.flags[flag]; }
-  function map(mx,my,sx0,sy0,mw,mh,startLayer,endLayer,mapIndex){ mx|=0;my|=0;sx0|=0;sy0|=0;mw|=0;mh|=0;startLayer=startLayer==null?0:startLayer|0;endLayer=endLayer==null?0:endLayer|0;mapIndex=mapIndex==null?0:mapIndex|0; const mapObj=projectRef.maps[mapIndex]; if(!mapObj) return; for(let li=startLayer;li<=endLayer;li++){ const layer=mapObj.layers[li]; if(!layer||layer.visible===false) continue; for(let yy=0;yy<mh;yy++) for(let xx=0;xx<mw;xx++){ const gx=mx+xx, gy=my+yy; if(gx<0||gy<0||gx>=projectRef.project.map_w||gy>=projectRef.project.map_h) continue; const tid=layer.data[gy][gx]||0, def=projectRef.tileDefs[tid]; if(!def) continue; const wx=sx0+xx*projectRef.project.tile_w, wy=sy0+yy*projectRef.project.tile_h; drawTileRuntime(def,wx,wy,projectRef.project.tile_w,projectRef.project.tile_h,tid); } } }
+  function map(mx,my,sx0,sy0,mw,mh,startLayer,endLayer,mapIndex){ mx|=0;my|=0;sx0|=0;sy0|=0;mw|=0;mh|=0;startLayer=startLayer==null?0:startLayer|0;endLayer=endLayer==null?0:endLayer|0;mapIndex=mapIndex==null?0:mapIndex|0; const mapObj=projectRef.maps[mapIndex]; if(!mapObj) return; for(let li=startLayer;li<=endLayer;li++){ const layer=mapObj.layers[li]; if(!layer||layer.visible===false) continue; for(let yy=0;yy<mh;yy++) for(let xx=0;xx<mw;xx++){ const gx=mx+xx, gy=my+yy; if(gx<0||gy<0||gx>=projectRef.project.map_w||gy>=projectRef.project.map_h) continue; const tid=layer.data[gy][gx]||0, def=projectRef.tileDefs[tid]; if(!def) continue; const wx=sx0+xx*projectRef.project.tile_w, wy=sy0+yy*projectRef.project.tile_h; drawTileRuntime(def,wx,wy,projectRef.project.tile_w,projectRef.project.tile_h,tid,false); } } }
   function sfxPlay(index, loop=false){ previewSound(index, loop); }
   function musicPlay(src, action='play', loop=true){ playMusicEntry(src, action, loop); }
   const { lua, lauxlib, lualib, to_luastring, to_jsstring } = fengari;
@@ -1124,7 +982,7 @@ function wireUI(){
   $("spriteDrawBtn").onclick=()=>setSpriteTool('draw'); $("spriteEraseBtn").onclick=()=>setSpriteTool('erase'); $("spriteFillBtn").onclick=()=>setSpriteTool('fill'); $("spritePanBtn").onclick=()=>setSpriteTool('pan');
   $("spriteUndoBtn").onclick=()=>{ if(!spriteHistory.undo.length) return; spriteHistory.redo.push(cloneSprite(currentSprite())); currentSpriteFolder().frames[state.currentSpriteFrame]=spriteHistory.undo.pop(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); };
   $("spriteRedoBtn").onclick=()=>{ if(!spriteHistory.redo.length) return; spriteHistory.undo.push(cloneSprite(currentSprite())); currentSpriteFolder().frames[state.currentSpriteFrame]=spriteHistory.redo.pop(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); };
-  $("spriteZoomInBtn").onclick=()=>{ state.spriteZoom=Math.min(64,state.spriteZoom+2); drawSpriteEditor(); }; $("spriteZoomOutBtn").onclick=()=>{ state.spriteZoom=Math.max(4,state.spriteZoom-2); drawSpriteEditor(); }; $("spriteFolderCountInput").onchange=()=>{ const folder=currentSpriteFolder(); let n=Math.max(1,Math.min(26,parseInt($("spriteFolderCountInput").value||folder.frames.length,10))); while(folder.frames.length<n) folder.frames.push(makeSprite(currentSprite().w,currentSprite().h)); while(folder.frames.length>n) folder.frames.pop(); state.currentSpriteFrame=Math.min(state.currentSpriteFrame, folder.frames.length-1); syncSpriteUI(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); };
+  $("spriteZoomInBtn").onclick=()=>{ state.spriteZoom=Math.min(64,state.spriteZoom+2); drawSpriteEditor(); }; $("spriteZoomOutBtn").onclick=()=>{ state.spriteZoom=Math.max(4,state.spriteZoom-2); drawSpriteEditor(); }; const adjustSpriteFolderFrames=(delta)=>{ const folder=currentSpriteFolder(); const n=Math.max(1,Math.min(26,folder.frames.length+delta)); if(n===folder.frames.length) return; while(folder.frames.length<n) folder.frames.push(makeSprite(currentSprite().w,currentSprite().h)); while(folder.frames.length>n) folder.frames.pop(); state.currentSpriteFrame=Math.min(state.currentSpriteFrame, folder.frames.length-1); syncSpriteUI(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); }; $("spriteFolderMinusBtn").onclick=()=>adjustSpriteFolderFrames(-1); $("spriteFolderPlusBtn").onclick=()=>adjustSpriteFolderFrames(1);
   $("addCodeTabBtn").onclick=()=>{ if(state.projectMode!=="code") return; saveEditorToCurrentCodeFile(); const name=prompt("New file name:",`file${state.appProject.codeFiles.length+1}.lua`); if(!name) return; const trimmed=name.trim(); if(!trimmed) return; if(state.appProject.codeFiles.some(f=>f.name===trimmed)){ alert("A file with that name already exists."); return; } state.appProject.codeFiles.push({name:trimmed,content:""}); state.currentCodeFile=state.appProject.codeFiles.length-1; renderCodeTabs(); loadCurrentCodeFileToEditor(); };
   $("renameCodeTabBtn").onclick=()=>{ if(state.projectMode!=="code") return; const f=getCurrentCodeFile(); const name=prompt("Rename file:",f.name); if(!name) return; const trimmed=name.trim(); if(!trimmed) return; if(state.appProject.codeFiles.some((x,i)=>i!==state.currentCodeFile&&x.name===trimmed)){ alert("A file with that name already exists."); return; } f.name=trimmed; renderCodeTabs(); };
       $("spriteFramePrevBtn").onclick=()=>{ const folder=currentSpriteFolder(); const pages=Math.max(1,Math.ceil(folder.frames.length/6)); state.spriteFramePage=(state.spriteFramePage-1+pages)%pages; refreshSpriteFrames(); };
@@ -1142,7 +1000,7 @@ $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteCo
   $("addMusicBtn").onclick=()=>{ state.appProject.music.push(makeMusic()); state.currentMusicIndex=state.appProject.music.length-1; refreshMusicUI();  };
   $("stopMusicBtn").onclick=()=>{ stopMusicPlayback(); };
 
-  ["musicModeInput","musicFileInput","musicKeyInput","musicScaleInput","musicWaveInput","musicOctaveInput","musicNoteCountInput","musicSpeedInput","musicTimeSigInput","musicArpInput","musicLoopInput","musicAttackInput","musicDecayInput","musicSustainInput","musicReleaseInput"].forEach(id=>$(id).addEventListener('input',()=>{ updateCurrentMusicFromUI();  })); $("stopMusicBtn").onclick=()=>stopMusicPlayback();
+  ["musicFileInput","musicLoopInput"].forEach(id=>$(id).addEventListener('input',()=>{ updateCurrentMusicFromUI();  })); $("stopMusicBtn").onclick=()=>stopMusicPlayback();
   workspace.addChangeListener(ev=>{ if(state.syncLock||state.suppressBlocklySync) return; if(ev&&ev.type===Blockly.Events.TOOLBOX_ITEM_SELECT){ const newItem=ev.newItem||null; if(newItem&&state.lastToolboxSelection===newItem){ try{ workspace.getToolbox().clearSelection(); }catch{} state.lastToolboxSelection=null; return; } state.lastToolboxSelection=newItem; } if(ev&&ev.type===Blockly.Events.UI) return; state.lastEdited='blockly'; state.blocklyDirty=true; if(state.activeView==='blockly') syncBlocklyToCodeAndRuntime(); });
   $("codeEditor").addEventListener('input',()=>{ state.lastEdited='code'; saveEditorToCurrentCodeFile(); updateCodeLineNumbers(); clearTimeout(state.codeDebounce); state.codeDebounce=setTimeout(()=>{ if(state.syncLock) return; runtime.setLua(getProjectLua()); },180); });
   $("codeEditor").addEventListener('scroll',()=>{ $("codeLineNumbers").scrollTop=$("codeEditor").scrollTop; });
