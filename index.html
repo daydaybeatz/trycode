@@ -129,13 +129,14 @@
     .row{display:flex;gap:8px;flex-wrap:wrap;padding:0 6px 10px}
     .projName{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
     .docsView{overflow:auto}
-    .docsTopNav{position:sticky;top:0;z-index:20;padding:8px 0;background:linear-gradient(180deg,#f7e8c6 0%,rgba(247,232,198,.92) 70%,rgba(247,232,198,0) 100%)}
     .docsSection{border:4px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff7e3,#efd4a0);box-shadow:0 6px 0 #9a6a38;margin-bottom:14px;overflow:hidden}
     .docsSection h3{margin:0;padding:10px 12px;background:linear-gradient(180deg,#d74034,#a12522);color:#fff8e8;text-shadow:1px 1px 0 #5d1313}
+    .docsHeader{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .docsHeader .docActions{margin-left:auto}
     .docItem{padding:10px 12px;border-top:2px dashed rgba(111,61,32,.25)}
     .docName{font-weight:900;color:var(--danger)}
     .docDesc{font-size:13px;line-height:1.4;margin-top:4px}
-    .docCode{margin-top:8px;padding:8px;border:3px solid var(--line);border-radius:12px;background:#231b15;color:#faefd4;white-space:pre-wrap;font-family:Consolas,monospace;font-size:12px}
+    .docCode{margin-top:8px;padding:8px;border:3px solid var(--line);border-radius:12px;background:#231b15;color:#faefd4;white-space:pre;overflow-x:auto;font-family:Consolas,monospace;font-size:12px}
     .toast{position:absolute;left:12px;top:58px;padding:10px 12px;border:4px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#fff7e3,#efd4a0);box-shadow:0 5px 0 #9a6a38;font-weight:700;display:none;z-index:70;max-width:min(560px,calc(100% - 24px))}
     .toast.show{display:block}
     .waveCanvas{width:100%;height:120px;border:4px solid var(--line);border-radius:16px;background:#fff9ed;touch-action:none}
@@ -574,13 +575,9 @@ function buildDocs(){
   docsPage=Math.max(0, Math.min(docsPage, pages-1));
   const slice=CODE_API_DOCS.slice(docsPage*perPage, docsPage*perPage+perPage);
   root.innerHTML='';
-  const topNav=document.createElement('div');
-  topNav.className='docsTopNav';
-  topNav.innerHTML=`<div class="docActions"><button class="uiBtn" id="docsPrevBtn">◀</button><div class="docDesc">Page ${docsPage+1} / ${pages}</div><button class="uiBtn" id="docsNextBtn">▶</button></div>`;
-  root.appendChild(topNav);
   const sec=document.createElement('div');
   sec.className='docsSection';
-  sec.innerHTML='<h3>CODE API</h3>';
+  sec.innerHTML=`<h3 class="docsHeader"><span>CODE API</span><span class="docActions"><button class="uiBtn" id="docsPrevBtn">◀</button><div class="docDesc">Page ${docsPage+1} / ${pages}</div><button class="uiBtn" id="docsNextBtn">▶</button></span></h3>`;
   slice.forEach(([name,desc])=>{
     const item=document.createElement('div');
     item.className='docItem';
@@ -605,6 +602,8 @@ function loadExampleProject(){
   p.codeFiles=[{name:"main.lua",content:`function _init()
   px=80
   py=80
+  pw=12
+  ph=12
 end
 
 function solid_at_world(x,y)
@@ -614,19 +613,21 @@ function solid_at_world(x,y)
 end
 
 function blocked(nx,ny,w,h)
+  local r=nx+w-0.01
+  local b=ny+h-0.01
   return solid_at_world(nx,ny)
-    or solid_at_world(nx+w-1,ny)
-    or solid_at_world(nx,ny+h-1)
-    or solid_at_world(nx+w-1,ny+h-1)
+    or solid_at_world(r,ny)
+    or solid_at_world(nx,b)
+    or solid_at_world(r,b)
 end
 
 function _update()
   local nx=px+joyx(0)*2
   local ny=py+joyy(0)*2
-  if not blocked(nx,py,14,14) then
+  if not blocked(nx,py,pw,ph) then
     px=nx
   end
-  if not blocked(px,ny,14,14) then
+  if not blocked(px,ny,pw,ph) then
     py=ny
   end
   if btnp(0) then sfx(0,false) end
@@ -638,8 +639,26 @@ function _draw()
   map(0,0,0,0,project.map_w,project.map_h,0,1,0)
   spr(0,px,py)
   camera(0,0)
-  print("Tiny Adventure",8,8,color(255,255,255))
+  print("Tiny Adventure",8,8,255,255,255)
 end`}];
+  const mapObj=p.maps[0]||makeEmptyMap("Map 1",p.project.map_w,p.project.map_h);
+  p.maps=[mapObj];
+  mapObj.layers=mapObj.layers&&mapObj.layers.length?mapObj.layers:makeEmptyMap("Map 1",p.project.map_w,p.project.map_h).layers;
+  const ground=mapObj.layers[0];
+  const walls=mapObj.layers[1]||{name:"Walls",visible:true,data:[]};
+  if(!mapObj.layers[1]) mapObj.layers[1]=walls;
+  for(let y=0;y<p.project.map_h;y++){
+    ground.data[y]=ground.data[y]||[];
+    walls.data[y]=walls.data[y]||[];
+    for(let x=0;x<p.project.map_w;x++){
+      ground.data[y][x]=1;
+      const border=x===0||y===0||x===p.project.map_w-1||y===p.project.map_h-1;
+      const colWall=(x===10||x===20)&&y>5&&y<p.project.map_h-6;
+      walls.data[y][x]=(border||colWall)?2:0;
+    }
+  }
+  walls.data[14][10]=0;
+  walls.data[18][20]=0;
   renderCodeTabs();
   loadCurrentCodeFileToEditor();
   refreshMusicUI();
@@ -851,7 +870,7 @@ function syncMapUIFromProject(){ $("tileWInput").value=state.appProject.project.
 let mapSyncTimer=0;
 function scheduleProjectSync(){ clearTimeout(mapSyncTimer); mapSyncTimer=setTimeout(()=>{ try{ runtime&&runtime.syncProject(state.appProject); }catch{} }, 40); }
 function floodFillMap(tx,ty,target,replacement){ if(target===replacement) return; const lay=currentLayers()[state.currentLayerIndex]; const mw=state.appProject.project.map_w, mh=state.appProject.project.map_h; const stack=[[tx,ty]]; while(stack.length){ const [x,y]=stack.pop(); if(x<0||y<0||x>=mw||y>=mh) continue; if(lay.data[y][x]!==target) continue; lay.data[y][x]=replacement; stack.push([x+1,y],[x-1,y],[x,y+1],[x,y-1]); } }
-function paintMapAtEvent(e){ const wrap=$("mapCanvasWrap"); const z=state.mapZoom||1, ox=state.mapOffsetX||0, oy=state.mapOffsetY||0; const tw=state.appProject.project.tile_w, th=state.appProject.project.tile_h; const rect=wrap.getBoundingClientRect(); const lx=(e.clientX-rect.left-ox)/z, ly=(e.clientY-rect.top-oy)/z; const tx=Math.floor(lx/tw), ty=Math.floor(ly/th); if(tx<0||ty<0||tx>=state.appProject.project.map_w||ty>=state.appProject.project.map_h) return; const lay=currentLayers()[state.currentLayerIndex]; if(state.mapTool==='fill'){ floodFillMap(tx,ty,lay.data[ty][tx],state.selectedTileId); } else { lay.data[ty][tx]=state.selectedTileId; } drawMapEditor(); scheduleProjectSync(); }
+function paintMapAtEvent(e){ const wrap=$("mapCanvasWrap"); const z=state.mapZoom||1, ox=state.mapOffsetX||0, oy=state.mapOffsetY||0; const tw=state.appProject.project.tile_w, th=state.appProject.project.tile_h; const rect=wrap.getBoundingClientRect(); const lx=(e.clientX-rect.left-ox)/z, ly=(e.clientY-rect.top-oy)/z; const tx=Math.floor(lx/tw), ty=Math.floor(ly/th); if(tx<0||ty<0||tx>=state.appProject.project.map_w||ty>=state.appProject.project.map_h) return; const lay=currentLayers()[state.currentLayerIndex]; let changed=false; if(state.mapTool==='fill'){ const target=lay.data[ty][tx]; if(target===state.selectedTileId) return; floodFillMap(tx,ty,target,state.selectedTileId); changed=true; } else if(lay.data[ty][tx]!==state.selectedTileId){ lay.data[ty][tx]=state.selectedTileId; changed=true; } if(!changed) return; drawMapEditor(); scheduleProjectSync(); }
 function midiToHz(n){ return 440*Math.pow(2,(n-69)/12); }
 async function previewSound(index,loop=false){ const snd=state.appProject.sounds[index]; if(!snd) return; const ac=ctxAudio(); try{ await ac.resume(); }catch{} const now=ac.currentTime; const len=Math.max(0.05,snd.length); const steps=Math.max(1,snd.wavetable.length); const stepDur=len/steps; if(snd.wave==="noise"){ const buffer=ac.createBuffer(1,Math.floor(ac.sampleRate*len),ac.sampleRate); const data=buffer.getChannelData(0); for(let i=0;i<data.length;i++){ const seq=snd.wavetable[Math.floor((i/data.length)*steps)]||0; data[i]=(Math.random()*2-1)*(0.35+Math.abs(seq)*0.65); } const src=ac.createBufferSource(); const gain=ac.createGain(); src.buffer=buffer; src.loop=!!loop; gain.gain.setValueAtTime(0,now); gain.gain.linearRampToValueAtTime(snd.volume,now+snd.attack); gain.gain.linearRampToValueAtTime(snd.volume*snd.sustain,now+snd.attack+snd.decay); gain.gain.linearRampToValueAtTime(0.0001,now+len+snd.release); src.connect(gain).connect(ac.destination); src.start(now); if(!loop) src.stop(now+len+snd.release+0.02); return; }
  const osc=ac.createOscillator(); const gain=ac.createGain(); osc.type=(snd.wave==="wavetable"?"sine":snd.wave); gain.gain.setValueAtTime(0,now); gain.gain.linearRampToValueAtTime(snd.volume,now+snd.attack); gain.gain.linearRampToValueAtTime(snd.volume*snd.sustain,now+snd.attack+snd.decay); gain.gain.linearRampToValueAtTime(0.0001,now+len+snd.release); const base=snd.pitch; for(let i=0;i<steps;i++){ const seq=snd.wavetable[i]||0; const semis=seq*12; const freq=base*Math.pow(2,semis/12); osc.frequency.setValueAtTime(freq, now+i*stepDur); }
