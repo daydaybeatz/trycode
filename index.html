@@ -621,11 +621,11 @@ function solid_at_world(x,y)
 end
 
 function blocked(nx,ny,w,h)
-  local inset=0.001
+  local inset=1
   local left=nx+inset
   local top=ny+inset
-  local right=nx+w-inset
-  local bottom=ny+h-inset
+  local right=nx+w-1-inset
+  local bottom=ny+h-1-inset
   return solid_at_world(left,top)
     or solid_at_world(right,top)
     or solid_at_world(left,bottom)
