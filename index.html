@@ -532,7 +532,7 @@ let docsPage = 0;
 function getCurrentCodeFile(){ ensureProjectData(); state.currentCodeFile=clamp(state.currentCodeFile,0,state.appProject.codeFiles.length-1); return state.appProject.codeFiles[state.currentCodeFile]; }
 function saveEditorToCurrentCodeFile(){ if(state.projectMode!=="code") return; const f=getCurrentCodeFile(); if(f) f.content=$("codeEditor").value||""; }
 function renderCodeTabs(){ const bar=$("codeTabsBar"); if(!bar) return; bar.innerHTML=""; ensureProjectData(); state.appProject.codeFiles.forEach((f,i)=>{ const b=document.createElement("button"); const theme=FILE_TAB_THEMES[(Number.isInteger(f.tabTheme)?f.tabTheme:0)%FILE_TAB_THEMES.length]; b.className="codeFileTab"+(i===state.currentCodeFile?" active":""); b.textContent=f.name; b.style.setProperty("--tab-base", theme.base); b.style.setProperty("--tab-deep", theme.deep); b.style.setProperty("--tab-border", theme.border); b.style.setProperty("--tab-text", theme.text); b.onclick=()=>{ saveEditorToCurrentCodeFile(); state.currentCodeFile=i; loadCurrentCodeFileToEditor(); renderCodeTabs(); }; bar.appendChild(b); }); }
-function loadCurrentCodeFileToEditor(){ const f=getCurrentCodeFile(); if(f) $("codeEditor").value=f.content||""; updateCodeLineNumbers(); }
+function loadCurrentCodeFileToEditor(){ const f=getCurrentCodeFile(); if(f) $("codeEditor").value=f.content||""; safeUpdateCodeLineNumbers(); }
 function updateCodeLineNumbers(){
   const ed=$("codeEditor"), gutter=$("codeLineNumbers"), shell=$("codeScrollShell");
   if(!ed||!gutter) return;
@@ -561,6 +561,19 @@ function updateCodeLineNumbers(){
   if(shell){
     shell.scrollTop=prevTop;
     shell.scrollLeft=prevLeft;
+  }
+}
+function safeUpdateCodeLineNumbers(){
+  try{
+    updateCodeLineNumbers();
+  }catch(err){
+    console.warn("Line number rendering failed; keeping code execution available.", err);
+    const gutter=$("codeLineNumbers");
+    if(gutter){
+      gutter.style.width="36px";
+      gutter.style.minHeight="";
+      gutter.textContent="1";
+    }
   }
 }
 function splitLuaLineComment(line){ let quote=null; for(let i=0;i<line.length;i++){ const ch=line[i], next=line[i+1]; if(quote){ if(ch==="\\"){ i++; continue; } if(ch===quote) quote=null; continue; } if(ch==='"'||ch==="'"){ quote=ch; continue; } if(ch==="-"&&next==="-") return {code:line.slice(0,i), comment:line.slice(i)}; } return {code:line, comment:""}; }
@@ -764,7 +777,7 @@ end`}];
   runtime.setLua(getProjectLua());
   setView('code');
 }
-function setProjectCode(code){ state.syncLock=true; try{$("codeEditor").value=code; saveEditorToCurrentCodeFile(); runtime.setLua(getProjectLua()); state.lastEdited="code";} finally{state.syncLock=false;} }
+function setProjectCode(code){ state.syncLock=true; try{$("codeEditor").value=code; saveEditorToCurrentCodeFile(); safeUpdateCodeLineNumbers(); runtime.setLua(getProjectLua()); state.lastEdited="code";} finally{state.syncLock=false;} }
 Blockly.defineBlocksWithJsonArray([
   {"type":"fc_init_block","message0":"_init %1","args0":[{"type":"input_statement","name":"BODY"}],"colour":45},
   {"type":"fc_update_block","message0":"_update %1","args0":[{"type":"input_statement","name":"BODY"}],"colour":45},
@@ -816,7 +829,7 @@ function buildRawLuaBlock(code){ state.suppressBlocklySync=true; try{ workspace.
 function buildBlocklyFromLua(code){ state.suppressBlocklySync=true; try{ const ast=parseLuaToAst(code); workspace.clear(); const topBlocks=[]; for(const node of ast){ let b=null; if(node.type==="callback"){ const map={_init:"fc_init_block",_update:"fc_update_block",_draw:"fc_draw_block"}; b=workspace.newBlock(map[node.name]); b.initSvg(); b.render(); connectStatementChain(b,"BODY",node.body); topBlocks.push(b); continue;} if(node.type==="funcdef"){ b=workspace.newBlock("fc_func_def"); b.initSvg(); b.render(); b.setFieldValue(node.name,"NAME"); b.setFieldValue(node.args||"","ARGS"); connectStatementChain(b,"BODY",node.body); topBlocks.push(b); continue;} b=workspace.newBlock("lua_fallback_stmt"); b.initSvg(); b.render(); b.setFieldValue(node.code||"-- unsupported","CODE"); topBlocks.push(b); }
  if(!topBlocks.length){ const b=workspace.newBlock("lua_raw"); b.initSvg(); b.render(); b.setFieldValue(code||"","CODE"); topBlocks.push(b);} let y=30; topBlocks.forEach(b=>{ b.moveBy(70,y); y+=145; }); setTimeout(()=>Blockly.svgResize(workspace),0);} finally{ setTimeout(()=>{state.suppressBlocklySync=false;},0);} }
 function getBlocklyLua(){ const raws=workspace.getBlocksByType("lua_raw",false); if(raws.length===1&&workspace.getAllBlocks(false).length===1) return (raws[0].getFieldValue("CODE")||"").trim()+"\n"; LuaGen.init(workspace); return (LuaGen.workspaceToCode(workspace)||"").trim()+"\n"; }
-function syncBlocklyToCodeAndRuntime(){ if(state.syncLock) return; state.syncLock=true; try{ const lua=getBlocklyLua(); $("codeEditor").value=lua; runtime.setLua(lua);} finally{state.syncLock=false;} }
+function syncBlocklyToCodeAndRuntime(){ if(state.syncLock) return; state.syncLock=true; try{ const lua=getBlocklyLua(); $("codeEditor").value=lua; safeUpdateCodeLineNumbers(); runtime.setLua(lua);} finally{state.syncLock=false;} }
 function syncCodeToBlocklyAndRuntime(){ if(state.syncLock) return; state.syncLock=true; try{ const lua=$("codeEditor").value||""; buildRawLuaBlock(lua); runtime.setLua(lua);} finally{state.syncLock=false;} }
 function setView(name){
   if(state.activeView==="blockly" && name!=="blockly" && state.blocklyDirty){
@@ -1240,7 +1253,7 @@ $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteCo
 
   ["musicFileInput","musicLoopInput"].forEach(id=>$(id).addEventListener('input',()=>{ updateCurrentMusicFromUI();  })); $("stopMusicBtn").onclick=()=>stopMusicPlayback();
   workspace.addChangeListener(ev=>{ if(state.syncLock||state.suppressBlocklySync) return; if(ev&&ev.type===Blockly.Events.TOOLBOX_ITEM_SELECT){ const newItem=ev.newItem||null; if(newItem&&state.lastToolboxSelection===newItem){ try{ workspace.getToolbox().clearSelection(); }catch{} state.lastToolboxSelection=null; return; } state.lastToolboxSelection=newItem; } if(ev&&ev.type===Blockly.Events.UI) return; state.lastEdited='blockly'; state.blocklyDirty=true; if(state.activeView==='blockly') syncBlocklyToCodeAndRuntime(); });
-  $("codeEditor").addEventListener('input',()=>{ state.lastEdited='code'; saveEditorToCurrentCodeFile(); updateCodeLineNumbers(); clearTimeout(state.codeDebounce); state.codeDebounce=setTimeout(()=>{ if(state.syncLock) return; runtime.setLua(getProjectLua()); },180); });
+  $("codeEditor").addEventListener('input',()=>{ state.lastEdited='code'; saveEditorToCurrentCodeFile(); safeUpdateCodeLineNumbers(); clearTimeout(state.codeDebounce); state.codeDebounce=setTimeout(()=>{ if(state.syncLock) return; runtime.setLua(getProjectLua()); },180); });
   $("codeEditor").addEventListener('scroll',()=>{ const shell=$("codeScrollShell"); if(shell && shell.scrollTop!==$("codeEditor").scrollTop) shell.scrollTop=$("codeEditor").scrollTop; });
   $("codeScrollShell").addEventListener('scroll',()=>{ const shell=$("codeScrollShell"), ed=$("codeEditor"); if(ed.scrollTop!==shell.scrollTop) ed.scrollTop=shell.scrollTop; });
   $("playMusicBtn").onclick=async()=>{ try{ await ctxAudio().resume(); }catch{} playMusicEntry(state.currentMusicIndex, "play", currentMusic().loop); };
@@ -1253,6 +1266,7 @@ $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteCo
   syncSidebarToggleButton("toggleSpriteSidebarBtn","spriteView");
 }
 function writeWavePoint(e){ const c=$("soundWaveCanvas"), rect=c.getBoundingClientRect(); const x=((e.clientX-rect.left)/rect.width)*c.width; const y=((e.clientY-rect.top)/rect.height)*c.height; const idx=Math.max(0,Math.min(63,Math.floor((x/c.width)*64))); currentSound().wavetable[idx]=clamp(1-(y/c.height)*2,-1,1); drawSoundWaveCanvas(); }
+window.addEventListener('resize',()=>safeUpdateCodeLineNumbers());
 buildDocs(); ensureProjectData(); runtime=makeRuntime(); wireUI(); renderCodeTabs(); finishNewProject("code"); refreshProjectList();
 })();
 </script>
