@@ -602,69 +602,40 @@ function buildDocs(){
   const ex=document.createElement('div');
   ex.className='docsSection';
   ex.innerHTML=`<h3>EXAMPLE PROJECT</h3>
-    <div class="docItem"><div class="docName">Tiny Adventure</div><div class="docDesc">Loads a full sample project with map, sprites, sound, and music file references.</div><div class="docActions"><button class="loadExampleBtn" id="loadExampleProjectBtn">Load Example Project</button></div></div>`;
+    <div class="docItem"><div class="docName">Simple Wall Collision</div><div class="docDesc">Loads a tiny sample project that shows direct tile collision with wall(x,y).</div><div class="docActions"><button class="loadExampleBtn" id="loadExampleProjectBtn">Load Example Project</button></div></div>`;
   root.appendChild(ex);
   $("docsPrevBtn").onclick=()=>{ if(docsPage>0){ docsPage--; buildDocs(); }};
   $("docsNextBtn").onclick=()=>{ if(docsPage<pages-1){ docsPage++; buildDocs(); }};
-  $("loadExampleProjectBtn").onclick=()=>{ if(confirm("Load example project? Unsaved changes will be lost.")){ loadExampleProject(); toast("Loaded <b>Tiny Adventure</b> project"); } };
+  $("loadExampleProjectBtn").onclick=()=>{ if(confirm("Load example project? Unsaved changes will be lost.")){ loadExampleProject(); toast("Loaded <b>Simple Wall Collision</b> project"); } };
 }
 function loadExampleProject(){
   finishNewProject("code");
   const p=state.appProject;
+  p.project.tile_w=8;
+  p.project.tile_h=8;
   p.tileDefs={1:{source:"",flags:{0:false},bg:"#2f855a"},2:{source:"",flags:{0:true},bg:"#4a5568"},3:{source:"",flags:{0:false},bg:"#8b5cf6"}};
   p.music=[{file:"song.ogg",loop:true}];
-  p.codeFiles=[{name:"main.lua",content:`function _init()
-  px=80
-  py=80
-  pw=16
-  ph=16
-end
-
-function blocked(nx,ny,w,h)
-  local inset=1
-  local left=nx+inset
-  local top=ny+inset
-  local right=nx+w-1-inset
-  local bottom=ny+h-1-inset
-  return wall(left,top)
-    or wall(right,top)
-    or wall(left,bottom)
-    or wall(right,bottom)
-end
-
-function move_axis(pos,delta,other,w,h,horizontal)
-  if delta==0 then return pos end
-
-  local step=delta>0 and 1 or -1
-  local remaining=math.abs(delta)
-
-  while remaining>0 do
-    local amount=remaining<1 and remaining or 1
-    local try=pos+step*amount
-    local hit=horizontal and blocked(try,other,w,h) or blocked(other,try,w,h)
-    if hit then
-      return pos
-    end
-    pos=try
-    remaining=remaining-amount
-  end
-
-  return pos
-end
+  p.codeFiles=[{name:"main.lua",content:`x=64
+y=64
 
 function _update()
-  px=move_axis(px,joyx(0)*2,py,pw,ph,true)
-  py=move_axis(py,joyy(0)*2,px,pw,ph,false)
+  if btn(0) and not wall(x-1,y) then x-=1 end
+  if btn(1) and not wall(x+1,y) then x+=1 end
+  if btn(2) and not wall(x,y-1) then y-=1 end
+  if btn(3) and not wall(x,y+1) then y+=1 end
+
   if btnp(0) then sfx(0,false) end
+end
+
+function wall(x,y)
+  return fget(mget(x/8,y/8,1),0)
 end
 
 function _draw()
   cls()
-  camera(px-240,py-135)
   map()
-  spr(0,px,py)
-  camera(0,0)
-  print("Tiny Adventure",8,8,255,255,255)
+  rectfill(x,y,x+7,y+7,8)
+  print("Simple Wall Collision",8,8,255,255,255)
 end`}];
   const mapObj=p.maps[0]||makeEmptyMap("Map 1",p.project.map_w,p.project.map_h);
   p.maps=[mapObj];
