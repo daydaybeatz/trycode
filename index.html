@@ -68,13 +68,14 @@
     .codeFileTab{--tab-base:#d0c3b0;--tab-deep:#a89278;--tab-border:#6b4f36;--tab-text:#2b1a10;border:2px solid var(--tab-border);border-radius:999px;background:linear-gradient(135deg,var(--tab-base),var(--tab-deep));color:var(--tab-text);box-shadow:0 3px 0 rgba(92,57,31,.55);cursor:pointer;padding:4px 12px;font-weight:800;font-size:11px;line-height:1.1;flex:0 0 auto;transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
     .codeFileTab:hover{transform:translateY(1px);box-shadow:0 2px 0 rgba(92,57,31,.55);filter:saturate(1.06)}
     .codeFileTab.active{border-color:#fff7ef;box-shadow:0 0 0 2px rgba(255,255,255,.55),0 4px 0 rgba(80,35,75,.55);filter:brightness(1.08)}
-    .codeScrollShell{--code-font-size:14px;--code-line-height:18.9px;flex:1 1 auto;min-height:0;overflow:auto;padding:0 2px 2px 0;overscroll-behavior:contain}
+    .codeScrollShell{--code-font-size:14px;--code-line-height:18.9px;--code-pad-y:14px;--code-pad-left:12px;--code-pad-right:14px;flex:1 1 auto;min-height:0;overflow:auto;padding:0 2px 2px 0;overscroll-behavior:contain}
     .codeEditorWrap{display:block;min-height:100%;min-width:100%}
     .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) minmax(0,1fr);align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%}
-    .codeLineNumbers{position:sticky;left:0;align-self:stretch;background:linear-gradient(180deg,#443629,#36291f);color:#bda88d;padding:14px 8px 14px 12px;text-align:right;user-select:none;white-space:pre;overflow:hidden;z-index:1;line-height:var(--code-line-height);font-family:Consolas,monospace;font-size:var(--code-font-size);border-right:1px solid rgba(255,255,255,.08)}
-    .codeLineNumbers div{height:var(--code-line-height);display:block}
-    .codeLineNumbers .commentLine{opacity:.45}
-    textarea.code{display:block;min-height:100%;height:auto;resize:none;border:none;border-radius:0;background:transparent;color:#f8eccf;padding:14px 14px 14px 12px;line-height:var(--code-line-height);box-shadow:none;font-family:Consolas,monospace;font-size:var(--code-font-size);overflow:hidden;white-space:pre;overflow-wrap:normal;word-break:normal;tab-size:2;min-width:0;width:100%}
+    .codeLineNumbers{position:sticky;left:0;align-self:stretch;background:linear-gradient(180deg,#443629,#36291f);color:#bda88d;text-align:right;user-select:none;overflow:hidden;z-index:1;line-height:var(--code-line-height);font-family:Consolas,monospace;font-size:var(--code-font-size);border-right:1px solid rgba(255,255,255,.08)}
+    .codeLineNumbersInner{position:relative;min-height:100%}
+    .codeLineNumber{position:absolute;left:0;right:0;top:calc(var(--code-pad-y) + (var(--line-index) * var(--code-line-height)));height:var(--code-line-height);padding:0 8px 0 12px;white-space:nowrap}
+    .codeLineNumber.commentLine{opacity:.45}
+    textarea.code{display:block;min-height:100%;height:auto;resize:none;border:none;border-radius:0;background:transparent;color:#f8eccf;padding:var(--code-pad-y) var(--code-pad-right) var(--code-pad-y) var(--code-pad-left);line-height:var(--code-line-height);box-shadow:none;font-family:Consolas,monospace;font-size:var(--code-font-size);overflow:hidden;white-space:pre;overflow-wrap:normal;word-break:normal;tab-size:2;min-width:0;width:100%}
     .splitView{position:absolute;inset:10px;display:grid;grid-template-columns:320px 1fr;gap:10px;min-height:0}
     .splitView.sidebar-hidden{grid-template-columns:0 1fr}
     .sidebar{min-height:0;overflow:auto;padding:10px}
@@ -532,7 +533,36 @@ function getCurrentCodeFile(){ ensureProjectData(); state.currentCodeFile=clamp(
 function saveEditorToCurrentCodeFile(){ if(state.projectMode!=="code") return; const f=getCurrentCodeFile(); if(f) f.content=$("codeEditor").value||""; }
 function renderCodeTabs(){ const bar=$("codeTabsBar"); if(!bar) return; bar.innerHTML=""; ensureProjectData(); state.appProject.codeFiles.forEach((f,i)=>{ const b=document.createElement("button"); const theme=FILE_TAB_THEMES[(Number.isInteger(f.tabTheme)?f.tabTheme:0)%FILE_TAB_THEMES.length]; b.className="codeFileTab"+(i===state.currentCodeFile?" active":""); b.textContent=f.name; b.style.setProperty("--tab-base", theme.base); b.style.setProperty("--tab-deep", theme.deep); b.style.setProperty("--tab-border", theme.border); b.style.setProperty("--tab-text", theme.text); b.onclick=()=>{ saveEditorToCurrentCodeFile(); state.currentCodeFile=i; loadCurrentCodeFileToEditor(); renderCodeTabs(); }; bar.appendChild(b); }); }
 function loadCurrentCodeFileToEditor(){ const f=getCurrentCodeFile(); if(f) $("codeEditor").value=f.content||""; updateCodeLineNumbers(); }
-function updateCodeLineNumbers(){ const ed=$("codeEditor"), gutter=$("codeLineNumbers"), shell=$("codeScrollShell"); if(!ed||!gutter) return; const prevTop=shell?shell.scrollTop:ed.scrollTop; const prevLeft=shell?shell.scrollLeft:ed.scrollLeft; const lines=String(ed.value||"").split(/\n/); const count=Math.max(1, lines.length); let html="", longest=0; for(let i=0;i<count;i++){ const line=lines[i]??""; longest=Math.max(longest, line.length); html += `<div class="${/^\s*--/.test(line)?"commentLine":""}">${i+1}</div>`; } gutter.innerHTML=html; gutter.style.width=`${Math.max(36, String(count).length*10+20)}px`; const contentWidth=Math.max(80,longest+4); ed.style.minWidth=`${contentWidth}ch`; ed.style.height="auto"; const targetHeight=Math.max(shell?shell.clientHeight:0, ed.scrollHeight); ed.style.height=`${targetHeight}px`; gutter.style.minHeight=`${targetHeight}px`; if(shell){ shell.scrollTop=prevTop; shell.scrollLeft=prevLeft; } }
+function updateCodeLineNumbers(){
+  const ed=$("codeEditor"), gutter=$("codeLineNumbers"), shell=$("codeScrollShell");
+  if(!ed||!gutter) return;
+  const prevTop=shell?shell.scrollTop:ed.scrollTop;
+  const prevLeft=shell?shell.scrollLeft:ed.scrollLeft;
+  const lines=String(ed.value||"").split(/\n/);
+  const count=Math.max(1, lines.length);
+  const metrics=getComputedStyle(ed);
+  const lineHeight=parseFloat(metrics.lineHeight)||18;
+  const paddingTop=parseFloat(metrics.paddingTop)||0;
+  const paddingBottom=parseFloat(metrics.paddingBottom)||0;
+  let html="", longest=0;
+  for(let i=0;i<count;i++){
+    const line=lines[i]??"";
+    longest=Math.max(longest, line.length);
+    html += `<div class="codeLineNumber${/^\s*--/.test(line)?" commentLine":""}" style="--line-index:${i}">${i+1}</div>`;
+  }
+  gutter.style.width=`${Math.max(36, String(count).length*10+20)}px`;
+  const contentWidth=Math.max(80,longest+4);
+  ed.style.minWidth=`${contentWidth}ch`;
+  ed.style.height="auto";
+  const contentHeight=Math.max(shell?shell.clientHeight:0, Math.ceil((count*lineHeight)+paddingTop+paddingBottom));
+  ed.style.height=`${contentHeight}px`;
+  gutter.innerHTML=`<div class="codeLineNumbersInner" style="height:${contentHeight}px">${html}</div>`;
+  gutter.style.minHeight=`${contentHeight}px`;
+  if(shell){
+    shell.scrollTop=prevTop;
+    shell.scrollLeft=prevLeft;
+  }
+}
 function splitLuaLineComment(line){ let quote=null; for(let i=0;i<line.length;i++){ const ch=line[i], next=line[i+1]; if(quote){ if(ch==="\\"){ i++; continue; } if(ch===quote) quote=null; continue; } if(ch==='"'||ch==="'"){ quote=ch; continue; } if(ch==="-"&&next==="-") return {code:line.slice(0,i), comment:line.slice(i)}; } return {code:line, comment:""}; }
 function expandLuaShorthand(source){
   return String(source||"").split(/\r?\n/).map(line=>{
