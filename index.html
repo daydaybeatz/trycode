@@ -61,8 +61,11 @@
     #view-blockly .blocklyZoom,#view-blockly .blocklyTrash{transform:scale(.85);transform-origin:bottom right}
     .codeView,.docsView{position:absolute;inset:10px;padding:12px}
     .codeView{display:flex;flex-direction:column;min-height:0}
-    .codeTabsBar,.codeTabActions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;flex:0 0 auto}
-    .codeFileTab{border:3px solid var(--line);border-radius:13px;background:linear-gradient(180deg,var(--cream),#eed4a2);color:var(--ink);box-shadow:0 4px 0 var(--shadow);cursor:pointer;padding:7px 10px;font-weight:700}
+    .codeHeaderBar{display:flex;align-items:center;gap:8px;margin-bottom:10px;min-width:0;flex:0 0 auto}
+    .codeTabsBar{display:flex;gap:8px;min-width:0;flex:1 1 auto;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+    .codeTabsBar::-webkit-scrollbar{display:none}
+    .codeTabActions{display:flex;gap:6px;flex:0 0 auto;flex-wrap:nowrap;white-space:nowrap}
+    .codeFileTab{border:3px solid var(--line);border-radius:13px;background:linear-gradient(180deg,var(--cream),#eed4a2);color:var(--ink);box-shadow:0 4px 0 var(--shadow);cursor:pointer;padding:7px 10px;font-weight:700;flex:0 0 auto}
     .codeFileTab.active{background:linear-gradient(180deg,#fffdfa,#fff0ca);border-color:var(--accent);box-shadow:0 4px 0 #7a2a18,0 0 0 2px #fff2d6 inset;color:var(--accent)}
     .codeScrollShell{flex:1 1 auto;min-height:0;overflow:auto;padding:0 2px 2px 0;overscroll-behavior:contain}
     .codeEditorWrap{display:grid;grid-template-columns:minmax(58px,max-content) minmax(0,1fr);gap:8px;min-height:100%;align-items:start;min-width:100%}
@@ -124,14 +127,17 @@
     .joy .knob{position:absolute;left:50%;top:50%;width:42px;height:42px;margin-left:-21px;margin-top:-21px;border-radius:50%;border:3px solid #fff4db;background:rgba(255,255,255,.2)}
     .joy.left{left:28%;bottom:18px;transform:translateX(-100%)}
     .joy.right{left:36%;bottom:18px}
+    .dpadCluster{position:absolute;left:28%;bottom:18px;width:132px;height:132px;pointer-events:none;transform:translateX(-100%)}
     .btnCluster{position:absolute;right:18px;bottom:18px;width:132px;height:132px;pointer-events:none}
-    .symbtn{position:absolute;width:48px;height:48px;border-radius:50%;border:3px solid #f7ebcf;background:rgba(255,245,223,.14);pointer-events:auto;touch-action:none;display:grid;place-items:center;font-weight:900;color:#fff7e9;text-shadow:1px 1px 0 #472f24}
-    .symbtn.top{left:42px;top:0}.symbtn.left{left:0;top:42px}.symbtn.right{right:0;top:42px}.symbtn.bottom{left:42px;bottom:0}
+    .symbtn,.dpadBtn{position:absolute;width:48px;height:48px;border-radius:50%;border:3px solid #f7ebcf;background:rgba(255,245,223,.14);pointer-events:auto;touch-action:none;display:grid;place-items:center;font-weight:900;color:#fff7e9;text-shadow:1px 1px 0 #472f24}
+    .symbtn.top,.dpadBtn.up{left:42px;top:0}.symbtn.left,.dpadBtn.left{left:0;top:42px}.symbtn.right,.dpadBtn.right{right:0;top:42px}.symbtn.bottom,.dpadBtn.down{left:42px;bottom:0}
     .menu{position:absolute;top:58px;right:10px;width:340px;padding:10px;display:none;z-index:80}
     .menu.open{display:block}
     .menuCard{padding:10px;border:4px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff7e3,#efd4a0);box-shadow:0 6px 0 #9a6a38}
     .menu h3{margin:4px 8px 10px;font-size:12px;letter-spacing:.08em;color:var(--danger)}
     .row{display:flex;gap:8px;flex-wrap:wrap;padding:0 6px 10px}
+    .menuSettingRow{padding:0 6px 10px}
+    .menuSettingRow select{width:100%;border:3px solid var(--line);border-radius:12px;padding:8px;background:#fffaf1;color:var(--ink)}
     .projName{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
     .docsView{overflow:auto}
     .docsSection{border:4px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff7e3,#efd4a0);box-shadow:0 6px 0 #9a6a38;margin-bottom:14px;overflow:hidden}
@@ -208,13 +214,15 @@
 
     <div class="view" id="view-code">
       <div class="codeView">
-        <div class="codeTabsBar" id="codeTabsBar"></div>
-        <div class="codeTabActions">
-          <button class="uiBtn" id="addCodeTabBtn">Add File</button>
-          <button class="uiBtn" id="renameCodeTabBtn">Rename File</button>
-          <button class="uiBtn" id="importCodeTabBtn">Import File</button>
-          <button class="uiBtn" id="copyLastErrorBtn">Copy Error</button>
-          <input type="file" id="importCodeFileInput" accept=".lua,.txt" style="display:none">
+        <div class="codeHeaderBar">
+          <div class="codeTabsBar" id="codeTabsBar"></div>
+          <div class="codeTabActions">
+            <button class="uiBtn" id="addCodeTabBtn">Add</button>
+            <button class="uiBtn" id="renameCodeTabBtn">Rename</button>
+            <button class="uiBtn" id="importCodeTabBtn">Import</button>
+            <button class="uiBtn" id="copyLastErrorBtn">Copy</button>
+            <input type="file" id="importCodeFileInput" accept=".lua,.txt" style="display:none">
+          </div>
         </div>
         <div class="codeScrollShell" id="codeScrollShell"><div class="codeEditorWrap"><div class="codeLineNumbers" id="codeLineNumbers"></div><textarea class="code" id="codeEditor" spellcheck="false" wrap="off"></textarea></div></div>
       </div>
@@ -279,6 +287,12 @@
         <div class="toast" id="toast"></div>
         <div class="hud">
           <div class="joy left" id="joyL"><div class="knob" id="knobL"></div></div>
+          <div class="dpadCluster hidden" id="dpadL">
+            <div class="dpadBtn up" data-dpad-btn="2">▲</div>
+            <div class="dpadBtn left" data-dpad-btn="0">◀</div>
+            <div class="dpadBtn right" data-dpad-btn="1">▶</div>
+            <div class="dpadBtn down" data-dpad-btn="3">▼</div>
+          </div>
           <div class="joy right" id="joyR"><div class="knob" id="knobR"></div></div>
           <div class="btnCluster">
             <div class="symbtn top" data-btn="0">Y</div>
@@ -292,7 +306,7 @@
 
     <div class="view" id="view-docs"><div class="docsView" id="docsView"></div></div>
 
-    <div class="menu" id="menu"><div class="menuCard"><h3>FILE</h3><div class="row"><button class="mbtn" id="btnSaveProject">Save</button><button class="mbtn" id="btnNewProject">New Project</button><button class="mbtn" id="btnExportHTML">Export .html</button><button class="mbtn" id="btnOpenDocs">Docs</button></div><h3>LOAD PROJECT</h3><div class="list" id="projectList"></div></div></div>
+    <div class="menu" id="menu"><div class="menuCard"><h3>FILE</h3><div class="row"><button class="mbtn" id="btnSaveProject">Save</button><button class="mbtn" id="btnNewProject">New Project</button><button class="mbtn" id="btnExportHTML">Export .html</button><button class="mbtn" id="btnOpenDocs">Docs</button></div><h3>SETTINGS</h3><div class="menuSettingRow"><div class="field"><label for="inputModeSelect">Movement Input</label><select id="inputModeSelect"><option value="left_joystick">Left joystick</option><option value="dpad">D-pad</option></select></div></div><h3>LOAD PROJECT</h3><div class="list" id="projectList"></div></div></div>
   </div>
 </div>
 
@@ -391,7 +405,7 @@ function makeSound(){ return {wave:"square",length:0.3,volume:0.6,pitch:440,atta
 function makeMusic(){ return {file:"",loop:true}; }
 function makeBlankTileDef(){ return {source:"",flags:{0:false},bg:"#000000",bgEnabled:false}; }
 function seedSpriteDemo(sp){ for(let y=0;y<sp.h;y++){ for(let x=0;x<sp.w;x++){ sp.pixels[y][x]=1; } } for(let y=2;y<14;y++){ for(let x=2;x<14;x++){ sp.pixels[y][x]=5; } } for(let y=4;y<12;y++){ for(let x=4;x<12;x++){ sp.pixels[y][x]=7; } } for(let y=5;y<8;y++){ for(let x=4;x<7;x++) sp.pixels[y][x]=15; for(let x=9;x<12;x++) sp.pixels[y][x]=15; } for(let y=9;y<12;y++){ for(let x=5;x<11;x++) sp.pixels[y][x]=10; } for(let x=5;x<11;x++){ sp.pixels[8][x]=15; } return sp; }
-function defaultProject(){ return {project:{tile_w:16,tile_h:16,map_w:32,map_h:32},palette:["#1f3061","#8f2d6b","#0b8f55","#6f665e","#b7b9c3","#eaded6","#c33c54","#ff8a00","#f3c24f","#75d0ff","#4aa84a","#a68cc6","#ff77a8","#5b3a29","#7a7a7a","#ffffff"],spriteFolders:[{frames:[seedSpriteDemo(makeSprite(16,16))]}],sounds:[makeSound()],music:[makeMusic()],codeFiles:[{name:"main.lua",content:EXAMPLES.blank}],tileDefs:{0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a"},2:{source:"",flags:{0:true},bg:"#4a5568"},3:{source:"",flags:{0:false},bg:"#8b5cf6"}},maps:[makeEmptyMap("Map 1",32,32)]}; }
+function defaultProject(){ return {project:{tile_w:16,tile_h:16,map_w:32,map_h:32},settings:{movementInput:'left_joystick'},palette:["#1f3061","#8f2d6b","#0b8f55","#6f665e","#b7b9c3","#eaded6","#c33c54","#ff8a00","#f3c24f","#75d0ff","#4aa84a","#a68cc6","#ff77a8","#5b3a29","#7a7a7a","#ffffff"],spriteFolders:[{frames:[seedSpriteDemo(makeSprite(16,16))]}],sounds:[makeSound()],music:[makeMusic()],codeFiles:[{name:"main.lua",content:EXAMPLES.blank}],tileDefs:{0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a"},2:{source:"",flags:{0:true},bg:"#4a5568"},3:{source:"",flags:{0:false},bg:"#8b5cf6"}},maps:[makeEmptyMap("Map 1",32,32)]}; }
 function currentMap(){ return state.appProject.maps[state.currentMapIndex]; }
 function currentLayers(){ return currentMap().layers; }
 function currentSpriteFolder(){ return state.appProject.spriteFolders[state.currentSpriteIndex]; }
@@ -415,6 +429,8 @@ function ensureProjectData(){
   if(!state.appProject) state.appProject = defaultProject();
   const p=state.appProject;
   p.project.tile_w=Math.max(1,p.project.tile_w|0); p.project.tile_h=Math.max(1,p.project.tile_h|0); p.project.map_w=Math.max(1,p.project.map_w|0); p.project.map_h=Math.max(1,p.project.map_h|0);
+  p.settings=p.settings||{};
+  if(p.settings.movementInput!=='dpad' && p.settings.movementInput!=='left_joystick') p.settings.movementInput='left_joystick';
   if(!p.palette?.length) p.palette=["#000000","#ffffff"];
   if(!p.spriteFolders?.length){ if(p.sprites?.length) p.spriteFolders=p.sprites.map(sp=>({frames:[sp]})); else p.spriteFolders=[{frames:[makeSprite(16,16)]}]; }
   delete p.sprites;
@@ -542,6 +558,7 @@ function finishNewProject(mode){
   invalidateEditorRenderCache();
   ensureProjectData();
   state.appProject.codeFiles = [{name:"main.lua", content: EXAMPLES.blank}];
+  refreshMenuSettingsUI();
   renderCodeTabs();
   loadCurrentCodeFileToEditor();
   updateLogicButton();
@@ -565,7 +582,8 @@ function newProject(){ if(!confirm("Are you sure you want to start a new project
 
 function loadAllProjects(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||"{}"); }catch(_){ return {}; } }
 function saveAllProjects(obj){ localStorage.setItem(LS_KEY, JSON.stringify(obj)); }
-function refreshProjectList(){ const list=$("projectList"); if(!list) return; list.innerHTML=""; const all=loadAllProjects(); const names=Object.keys(all).sort((a,b)=>(all[b].t||0)-(all[a].t||0)); if(!names.length){ const d=document.createElement('div'); d.className='docDesc'; d.style.padding='8px'; d.textContent='No saved projects yet.'; list.appendChild(d); return; } names.forEach(name=>{ const row=document.createElement('div'); row.className='itemRow'; const label=document.createElement('div'); label.textContent=name; label.style.flex='1'; const btn=document.createElement('button'); btn.className='smallbtn'; btn.textContent='Load'; btn.onclick=(e)=>{ e.stopPropagation(); if(!confirm(`Load ${name}? Unsaved changes will be lost.`)) return; const p=all[name]; state.currentProjectName=name; state.hasSaved=true; state.appProject=JSON.parse(JSON.stringify(p.project)); invalidateEditorRenderCache(); ensureProjectData(); state.currentMapIndex=0; state.currentLayerIndex=0; state.currentSpriteIndex=0; state.currentSpriteFrame=0; state.currentSoundIndex=0; state.currentMusicIndex=0; state.currentCodeFile=0; state.selectedTileId=1; state.selectedPaletteIndex=0; state.palettePage=0; state.spriteFramePage=0; renderCodeTabs(); loadCurrentCodeFileToEditor(); syncSpriteUI(); drawSpriteEditor(); syncMapUIFromProject(); refreshSoundUI(); drawSoundWaveCanvas(); refreshMusicUI(); runtime.syncProject(state.appProject); runtime.reset(getProjectLua()); setView('code'); $("menu").classList.remove('open'); }; row.appendChild(label); row.appendChild(btn); list.appendChild(row); }); }
+function refreshProjectList(){ const list=$("projectList"); if(!list) return; list.innerHTML=""; const all=loadAllProjects(); const names=Object.keys(all).sort((a,b)=>(all[b].t||0)-(all[a].t||0)); if(!names.length){ const d=document.createElement('div'); d.className='docDesc'; d.style.padding='8px'; d.textContent='No saved projects yet.'; list.appendChild(d); return; } names.forEach(name=>{ const row=document.createElement('div'); row.className='itemRow'; const label=document.createElement('div'); label.textContent=name; label.style.flex='1'; const btn=document.createElement('button'); btn.className='smallbtn'; btn.textContent='Load'; btn.onclick=(e)=>{ e.stopPropagation(); if(!confirm(`Load ${name}? Unsaved changes will be lost.`)) return; const p=all[name]; state.currentProjectName=name; state.hasSaved=true; state.appProject=JSON.parse(JSON.stringify(p.project)); invalidateEditorRenderCache(); ensureProjectData(); state.currentMapIndex=0; state.currentLayerIndex=0; state.currentSpriteIndex=0; state.currentSpriteFrame=0; state.currentSoundIndex=0; state.currentMusicIndex=0; state.currentCodeFile=0; state.selectedTileId=1; state.selectedPaletteIndex=0; state.palettePage=0; state.spriteFramePage=0; renderCodeTabs(); loadCurrentCodeFileToEditor(); syncSpriteUI(); drawSpriteEditor(); syncMapUIFromProject(); refreshSoundUI(); drawSoundWaveCanvas(); refreshMusicUI(); refreshMenuSettingsUI(); runtime.syncProject(state.appProject); runtime.reset(getProjectLua()); setView('code'); $("menu").classList.remove('open'); }; row.appendChild(label); row.appendChild(btn); list.appendChild(row); }); }
+function refreshMenuSettingsUI(){ ensureProjectData(); if($("inputModeSelect")) $("inputModeSelect").value=state.appProject.settings.movementInput||'left_joystick'; }
 function saveProject(){ saveEditorToCurrentCodeFile(); const all=loadAllProjects(); let name=state.currentProjectName; if(!name){ name=prompt('Project name:', 'project_1'); if(!name) return; name=name.trim(); if(!name) return; } state.currentProjectName=name; state.hasSaved=true; all[name]={ t:Date.now(), project: JSON.parse(JSON.stringify(state.appProject)) }; saveAllProjects(all); refreshProjectList();
 updateCodeLineNumbers(); toast(`<b>Saved:</b> ${escapeHtml(name)}`); }
 function exportHTML(){
@@ -576,7 +594,10 @@ function exportHTML(){
     "const code="+codeJson+";"+
     "const c=document.getElementById('c'),ctx=c.getContext('2d',{alpha:false}),errEl=document.getElementById('err');ctx.imageSmoothingEnabled=false;function showErr(m){if(errEl){errEl.textContent=String(m);errEl.style.display='block';}}"+
     "let camx=0,camy=0,col={r:255,g:255,b:255},viewZoom=1,zoomOffX=0,zoomOffY=0,clipRect=null;"+
-    "const input={btn:[0,0,0,0],btnp:[0,0,0,0],btnPrev:[0,0,0,0],joy:[{x:0,y:0,down:false},{x:0,y:0,down:false}]};"+
+    "const input={btn:[0,0,0,0],btnp:[0,0,0,0],btnPrev:[0,0,0,0],btnFace:[0,0,0,0],btnDpad:[0,0,0,0],joy:[{x:0,y:0,down:false},{x:0,y:0,down:false}]};"+
+    "const setBtnSource=(source,i,pressed)=>{input[source][i]=pressed?1:0;input.btn[i]=(input.btnFace[i]||input.btnDpad[i])?1:0};"+
+    "function setKnobCenter(knob){knob.style.left='calc(50% + 0px)';knob.style.top='calc(50% + 0px)';knob.style.marginLeft='-21px';knob.style.marginTop='-21px'}"+
+    "function applyInputModeUI(){const mode=(projectRef.settings&&projectRef.settings.movementInput)==='dpad'?'dpad':'left_joystick';document.getElementById('joyL').style.display=mode==='dpad'?'none':'';document.getElementById('dpadL').style.display=mode==='dpad'?'block':'none';if(mode==='dpad'){input.joy[0].down=false;input.joy[0].x=0;input.joy[0].y=0;setKnobCenter(document.getElementById('knobL'));}}"+
     "function clamp(v,a,b){return Math.max(a,Math.min(b,v))}"+
     "function parseSpriteRef(ref){const s=String(ref||'').trim();let m=s.match(/^(\\d+)([a-z])$/i);if(m)return{folder:parseInt(m[1],10),frame:Math.max(0,m[2].toLowerCase().charCodeAt(0)-97)};if(/^\\d+$/.test(s))return{folder:parseInt(s,10),frame:0};return null;}"+
     "function isEmojiLike(s){return false}"+
@@ -592,7 +613,7 @@ function exportHTML(){
     "function fget(tile,flag){const d=projectRef.tileDefs[tile|0];return !!(d&&d.flags&&d.flags[flag|0])}function tileAt(x,y,l,m){return mget(Math.floor((Number(x)||0)/projectRef.project.tile_w),Math.floor((Number(y)||0)/projectRef.project.tile_h),l,m)}function solid(x,y,l,m){return fget(tileAt(x,y,l==null?1:l,m),0)}const wall=solid"+
     "function map(mx,my,sx0,sy0,mw,mh,sl,el,mi){mi=mi==null?0:mi|0;const mapObj=projectRef.maps[mi];if(!mapObj)return;const totalLayers=mapObj.layers.length;if(arguments.length===0){mx=0;my=0;sx0=0;sy0=0;mw=projectRef.project.map_w;mh=projectRef.project.map_h;sl=0;el=Math.max(0,totalLayers-1)}else{mx|=0;my|=0;sx0|=0;sy0|=0;mw=mw==null?projectRef.project.map_w:mw|0;mh=mh==null?projectRef.project.map_h:mh|0;sl=sl==null?0:sl|0;el=el==null?sl:el|0}for(let li=sl;li<=el;li++){const layer=mapObj.layers[li];if(!layer||layer.visible===false)continue;for(let yy=0;yy<mh;yy++)for(let xx=0;xx<mw;xx++){const gx=mx+xx,gy=my+yy;if(gx<0||gy<0||gx>=projectRef.project.map_w||gy>=projectRef.project.map_h)continue;const tid=layer.data[gy][gx]||0,def=projectRef.tileDefs[tid];if(!tid||!def)continue;const px=sx0+xx*projectRef.project.tile_w-camx,py=sy0+yy*projectRef.project.tile_h-camy,x0=sx(px+camx),y0=sy(py+camy),x1=sx(px+camx+projectRef.project.tile_w),y1=sy(py+camy+projectRef.project.tile_h),constW=Math.max(1,x1-x0),constH=Math.max(1,y1-y0);if(def.bgEnabled!==false){ctx.fillStyle=def.bg||'#444';ctx.fillRect(x0,y0,constW,constH)}const sr=parseSpriteRef(def.source||'');if(sr){const folder=projectRef.spriteFolders[sr.folder],sp=folder&&folder.frames[sr.frame];if(sp){drawInternalSpriteRuntime(sr,px,py,projectRef.project.tile_w/sp.w,projectRef.project.tile_h/sp.h);continue;}}}}}"+
     "function attachJoy(root,knob,idx){const R=52,KR=21;function setKnob(nx,ny){knob.style.left='calc(50% + '+(nx*R)+'px)';knob.style.top='calc(50% + '+(ny*R)+'px)';knob.style.marginLeft='-'+KR+'px';knob.style.marginTop='-'+KR+'px';}function up(){input.joy[idx].down=false;input.joy[idx].x=0;input.joy[idx].y=0;setKnob(0,0)}root.addEventListener('pointerdown',e=>{root.setPointerCapture(e.pointerId);const rect=root.getBoundingClientRect();const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,dx=e.clientX-cx,dy=e.clientY-cy;const len=Math.hypot(dx,dy)||1,m=Math.min(R,len);input.joy[idx].x=clamp((dx/len)*(m/R),-1,1);input.joy[idx].y=clamp((dy/len)*(m/R),-1,1);setKnob(input.joy[idx].x,input.joy[idx].y);input.joy[idx].down=true;e.preventDefault()});root.addEventListener('pointermove',e=>{if(!input.joy[idx].down)return;const rect=root.getBoundingClientRect();const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,dx=e.clientX-cx,dy=e.clientY-cy;const len=Math.hypot(dx,dy)||1,m=Math.min(R,len);input.joy[idx].x=clamp((dx/len)*(m/R),-1,1);input.joy[idx].y=clamp((dy/len)*(m/R),-1,1);setKnob(input.joy[idx].x,input.joy[idx].y);e.preventDefault()});root.addEventListener('pointerup',up);root.addEventListener('pointercancel',up);setKnob(0,0)}"+
-    "attachJoy(document.getElementById('joyL'),document.getElementById('knobL'),0);attachJoy(document.getElementById('joyR'),document.getElementById('knobR'),1);document.querySelectorAll('.symbtn').forEach(btn=>{const id=+btn.dataset.btn;btn.addEventListener('pointerdown',()=>input.btn[id]=1);btn.addEventListener('pointerup',()=>input.btn[id]=0);btn.addEventListener('pointercancel',()=>input.btn[id]=0)});"+
+    "attachJoy(document.getElementById('joyL'),document.getElementById('knobL'),0);attachJoy(document.getElementById('joyR'),document.getElementById('knobR'),1);document.querySelectorAll('.symbtn').forEach(btn=>{const id=+btn.dataset.btn;btn.addEventListener('pointerdown',()=>setBtnSource('btnFace',id,true));btn.addEventListener('pointerup',()=>setBtnSource('btnFace',id,false));btn.addEventListener('pointercancel',()=>setBtnSource('btnFace',id,false))});document.querySelectorAll('.dpadBtn').forEach(btn=>{const id=+btn.dataset.dpadBtn;btn.addEventListener('pointerdown',()=>setBtnSource('btnDpad',id,true));btn.addEventListener('pointerup',()=>setBtnSource('btnDpad',id,false));btn.addEventListener('pointercancel',()=>setBtnSource('btnDpad',id,false))});applyInputModeUI();"+
     "const { lua,lauxlib,lualib,to_luastring,to_jsstring }=fengari;const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);function push(n,fn){lua.lua_pushjsfunction(L,fn);lua.lua_setglobal(L,to_luastring(n))}"+
     "push('cls',()=>{cls();return 0});push('camera',L=>{const argc=lua.lua_gettop(L); if(argc===0) camera(); else camera(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2)); return 0});push('zoom',L=>{const argc=lua.lua_gettop(L); if(argc>=1){ zoom(lua.lua_tonumber(L,1), argc>=2?lua.lua_tonumber(L,2):undefined, argc>=3?lua.lua_tonumber(L,3):undefined); return 0;} lua.lua_pushnumber(L, zoom()); return 1});push('clip',L=>{const argc=lua.lua_gettop(L); if(argc===0){ clip(); return 0;} clip(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3),lua.lua_tonumber(L,4)); return 0;});push('color',L=>{color(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3));return 0});push('rectfill',L=>{const argc=lua.lua_gettop(L);rectfill(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3),lua.lua_tonumber(L,4),argc>=5?lua.lua_tointeger(L,5):undefined);return 0});push('print',L=>{const argc=lua.lua_gettop(L);if(argc>=6)print(to_jsstring(lua.lua_tolstring(L,1)),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3),lua.lua_tonumber(L,4),lua.lua_tonumber(L,5),lua.lua_tonumber(L,6));else print(to_jsstring(lua.lua_tolstring(L,1)),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3));return 0});push('print_',L=>{const argc=lua.lua_gettop(L);if(argc>=6)print(to_jsstring(lua.lua_tolstring(L,1)),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3),lua.lua_tonumber(L,4),lua.lua_tonumber(L,5),lua.lua_tonumber(L,6));else print(to_jsstring(lua.lua_tolstring(L,1)),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3));return 0});push('spr',L=>{if(lua.lua_isnumber(L,1))spr(String(lua.lua_tointeger(L,1)),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3));else spr(to_jsstring(lua.lua_tolstring(L,1)),lua.lua_tonumber(L,2),lua.lua_tonumber(L,3));return 0});push('animate',L=>{const ref=lua.lua_isnumber(L,1)?String(lua.lua_tointeger(L,1)):to_jsstring(lua.lua_tolstring(L,1));animate(ref,lua.lua_tonumber(L,2),lua.lua_tonumber(L,3),lua.lua_tonumber(L,4));return 0});push('mget',L=>{lua.lua_pushinteger(L,mget(lua.lua_tointeger(L,1),lua.lua_tointeger(L,2),lua.lua_gettop(L)>=3?lua.lua_tointeger(L,3):0,lua.lua_gettop(L)>=4?lua.lua_tointeger(L,4):0));return 1});push('fget',L=>{lua.lua_pushboolean(L,fget(lua.lua_tointeger(L,1),lua.lua_tointeger(L,2))?1:0);return 1});push('solid',L=>{lua.lua_pushboolean(L,solid(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2),lua.lua_gettop(L)>=3?lua.lua_tointeger(L,3):undefined,lua.lua_gettop(L)>=4?lua.lua_tointeger(L,4):0)?1:0);return 1});push('wall',L=>{lua.lua_pushboolean(L,solid(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2),lua.lua_gettop(L)>=3?lua.lua_tointeger(L,3):undefined,lua.lua_gettop(L)>=4?lua.lua_tointeger(L,4):0)?1:0);return 1});push('map',L=>{const argc=lua.lua_gettop(L);if(argc===0){map();return 0}map(lua.lua_tointeger(L,1),lua.lua_tointeger(L,2),lua.lua_tointeger(L,3),lua.lua_tointeger(L,4),lua.lua_tointeger(L,5),lua.lua_tointeger(L,6),lua.lua_tointeger(L,7),lua.lua_tointeger(L,8),argc>=9?lua.lua_tointeger(L,9):0);return 0});push('btn',L=>{const i=lua.lua_tointeger(L,1);lua.lua_pushboolean(L,input.btn[i]?1:0);return 1});push('btnp',L=>{const i=lua.lua_tointeger(L,1);lua.lua_pushboolean(L,input.btnp[i]?1:0);return 1});push('joyx',L=>{const j=lua.lua_tointeger(L,1);lua.lua_pushnumber(L,input.joy[j]?input.joy[j].x:0);return 1});push('joyy',L=>{const j=lua.lua_tointeger(L,1);lua.lua_pushnumber(L,input.joy[j]?input.joy[j].y:0);return 1});push('abs',L=>{lua.lua_pushnumber(L,Math.abs(lua.lua_tonumber(L,1)));return 1});push('flr',L=>{lua.lua_pushnumber(L,Math.floor(lua.lua_tonumber(L,1)));return 1});"+
     "lua.lua_newtable(L);lua.lua_pushinteger(L,projectRef.project.tile_w);lua.lua_setfield(L,-2,to_luastring('tile_w'));lua.lua_pushinteger(L,projectRef.project.tile_h);lua.lua_setfield(L,-2,to_luastring('tile_h'));lua.lua_pushinteger(L,projectRef.project.map_w);lua.lua_setfield(L,-2,to_luastring('map_w'));lua.lua_pushinteger(L,projectRef.project.map_h);lua.lua_setfield(L,-2,to_luastring('map_h'));lua.lua_setglobal(L,to_luastring('project'));"+
@@ -600,7 +621,7 @@ function exportHTML(){
     "lua.lua_getglobal(L,to_luastring('_init'));if(lua.lua_isfunction(L,-1)){if(lua.lua_pcall(L,0,0,0)!==lua.LUA_OK){const e=to_jsstring(lua.lua_tostring(L,-1));console.error(e);showErr(e)}}else lua.lua_pop(L,1);"+
     "function tick(){for(let i=0;i<4;i++){input.btnp[i]=input.btn[i]&&!input.btnPrev[i]?1:0;input.btnPrev[i]=input.btn[i]}lua.lua_getglobal(L,to_luastring('_update'));if(lua.lua_isfunction(L,-1)){if(lua.lua_pcall(L,0,0,0)!==lua.LUA_OK){const e=to_jsstring(lua.lua_tostring(L,-1));console.error(e);showErr(e);return;}}else lua.lua_pop(L,1);lua.lua_getglobal(L,to_luastring('_draw'));if(lua.lua_isfunction(L,-1)){if(lua.lua_pcall(L,0,0,0)!==lua.LUA_OK){const e=to_jsstring(lua.lua_tostring(L,-1));console.error(e);showErr(e);return;}}else lua.lua_pop(L,1);requestAnimationFrame(tick)}tick();"+
     "})();";
-  const html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TRY_CODE_FC_V43 Export</title><script src="https://unpkg.com/fengari-web/dist/fengari-web.js"><\/script><style>html,body{margin:0;height:100%;background:#111}body{overflow:hidden}canvas{display:block;position:fixed;left:0;right:0;top:0;bottom:0;margin:auto;max-width:100vw;max-height:100vh;width:100vw;height:auto;aspect-ratio:16/9;image-rendering:pixelated;background:#000}#err{position:fixed;left:8px;top:8px;z-index:30;color:#fff;background:rgba(120,0,0,.7);padding:6px 8px;font:12px monospace;display:none;max-width:calc(100vw - 16px);white-space:pre-wrap}.hud{position:fixed;inset:0;pointer-events:none}.joy,.symbtn{pointer-events:auto;touch-action:none;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff}.joy{position:absolute;width:104px;height:104px;border-radius:50%;bottom:18px}.joy.left{left:28%;transform:translateX(-100%)}.joy.right{left:36%}.knob{position:absolute;left:50%;top:50%;width:42px;height:42px;margin-left:-21px;margin-top:-21px;border-radius:50%;background:rgba(255,255,255,.15)}.btns{position:absolute;right:18px;bottom:18px;width:132px;height:132px}.symbtn{position:absolute;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:600 14px sans-serif}.symbtn.top{left:42px;top:0}.symbtn.left{left:0;top:42px}.symbtn.right{right:0;top:42px}.symbtn.bottom{left:42px;bottom:0}<\/style></head><body><div id="err"></div><canvas id="c" width="480" height="270"></canvas><div class="hud"><div class="joy left" id="joyL"><div class="knob" id="knobL"></div></div><div class="joy right" id="joyR"><div class="knob" id="knobR"></div></div><div class="btns"><div class="symbtn top" data-btn="0">Y</div><div class="symbtn left" data-btn="2">X</div><div class="symbtn right" data-btn="1">B</div><div class="symbtn bottom" data-btn="3">A</div></div></div><script>'+runtimeJs+'<\/script></body></html>';
+  const html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TRY_CODE_FC_V43 Export</title><script src="https://unpkg.com/fengari-web/dist/fengari-web.js"><\/script><style>html,body{margin:0;height:100%;background:#111}body{overflow:hidden}canvas{display:block;position:fixed;left:0;right:0;top:0;bottom:0;margin:auto;max-width:100vw;max-height:100vh;width:100vw;height:auto;aspect-ratio:16/9;image-rendering:pixelated;background:#000}#err{position:fixed;left:8px;top:8px;z-index:30;color:#fff;background:rgba(120,0,0,.7);padding:6px 8px;font:12px monospace;display:none;max-width:calc(100vw - 16px);white-space:pre-wrap}.hud{position:fixed;inset:0;pointer-events:none}.joy,.symbtn,.dpadBtn{pointer-events:auto;touch-action:none;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff}.joy{position:absolute;width:104px;height:104px;border-radius:50%;bottom:18px}.joy.left{left:28%;transform:translateX(-100%)}.joy.right{left:36%}.knob{position:absolute;left:50%;top:50%;width:42px;height:42px;margin-left:-21px;margin-top:-21px;border-radius:50%;background:rgba(255,255,255,.15)}.dpad{position:absolute;left:28%;bottom:18px;width:132px;height:132px;transform:translateX(-100%)}.btns{position:absolute;right:18px;bottom:18px;width:132px;height:132px}.symbtn,.dpadBtn{position:absolute;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:600 14px sans-serif}.symbtn.top,.dpadBtn.up{left:42px;top:0}.symbtn.left,.dpadBtn.left{left:0;top:42px}.symbtn.right,.dpadBtn.right{right:0;top:42px}.symbtn.bottom,.dpadBtn.down{left:42px;bottom:0}<\/style></head><body><div id="err"></div><canvas id="c" width="480" height="270"></canvas><div class="hud"><div class="joy left" id="joyL"><div class="knob" id="knobL"></div></div><div class="dpad" id="dpadL" style="display:none"><div class="dpadBtn up" data-dpad-btn="2">▲</div><div class="dpadBtn left" data-dpad-btn="0">◀</div><div class="dpadBtn right" data-dpad-btn="1">▶</div><div class="dpadBtn down" data-dpad-btn="3">▼</div></div><div class="joy right" id="joyR"><div class="knob" id="knobR"></div></div><div class="btns"><div class="symbtn top" data-btn="0">Y</div><div class="symbtn left" data-btn="2">X</div><div class="symbtn right" data-btn="1">B</div><div class="symbtn bottom" data-btn="3">A</div></div></div><script>'+runtimeJs+'<\/script></body></html>';
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download=(state.currentProjectName||'TRY_CODE_FC_V43')+'.html'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 4000);
@@ -638,14 +659,19 @@ function loadExampleProject(){
   p.project.tile_h=8;
   p.tileDefs={0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a"},2:{source:"",flags:{0:true},bg:"#4a5568"},3:{source:"",flags:{0:false},bg:"#8b5cf6"}};
   p.music=[{file:"song.ogg",loop:true}];
+  p.settings.movementInput='left_joystick';
   p.codeFiles=[{name:"main.lua",content:`x=64
 y=64
+speed=1.4
 
 function _update()
-  if btn(0) and not wall(x-1,y) then x = x - 1 end
-  if btn(1) and not wall(x+1,y) then x = x + 1 end
-  if btn(2) and not wall(x,y-1) then y = y - 1 end
-  if btn(3) and not wall(x,y+1) then y = y + 1 end
+  local dx = joyx(0) * speed
+  local dy = joyy(0) * speed
+
+  if dx < 0 and not wall(x+dx,y) then x = x + dx end
+  if dx > 0 and not wall(x+7+dx,y) then x = x + dx end
+  if dy < 0 and not wall(x,y+dy) then y = y + dy end
+  if dy > 0 and not wall(x,y+7+dy) then y = y + dy end
 
   if btnp(0) then sfx(0,false) end
 end
@@ -658,7 +684,7 @@ function _draw()
   cls()
   map()
   rectfill(x,y,x+7,y+7,8)
-  print("Simple Wall Collision",8,8,255,255,255)
+  print("Joystick Wall Collision",8,8,255,255,255)
 end`}];
   const mapObj=p.maps[0]||makeEmptyMap("Map 1",p.project.map_w,p.project.map_h);
   p.maps=[mapObj];
@@ -681,6 +707,7 @@ end`}];
   renderCodeTabs();
   loadCurrentCodeFileToEditor();
   refreshMusicUI();
+  refreshMenuSettingsUI();
   runtime.syncProject(state.appProject);
   runtime.setLua(getProjectLua());
   setView('code');
@@ -984,12 +1011,15 @@ function drawMusicPreview(){}
 
 function makeRuntime(){
   const GAME_W=480, GAME_H=270, canvas=$("screen"), stage=canvas.parentElement, ctx=canvas.getContext('2d',{alpha:false}); ctx.imageSmoothingEnabled=false; const assets={}, spriteCache=new Map(), tileCache=new Map(); let projectRef=defaultProject(), L=null, lastCode="", pendingCode="", rebuildTimer=0, builtOk=false;
-  const input={btn:[0,0,0,0],btnp:[0,0,0,0],btnPrev:[0,0,0,0],joy:[{x:0,y:0,down:false},{x:0,y:0,down:false}]}; canvas.width=GAME_W; canvas.height=GAME_H;
+  const input={btn:[0,0,0,0],btnp:[0,0,0,0],btnPrev:[0,0,0,0],btnFace:[0,0,0,0],btnDpad:[0,0,0,0],joy:[{x:0,y:0,down:false},{x:0,y:0,down:false}]}; canvas.width=GAME_W; canvas.height=GAME_H;
+  const setBtnSource=(source,i,pressed)=>{ input[source][i]=pressed?1:0; input.btn[i]=(input.btnFace[i]||input.btnDpad[i])?1:0; };
+  const setKnobCenter=knob=>{ knob.style.left='calc(50% + 0px)'; knob.style.top='calc(50% + 0px)'; knob.style.marginLeft='-21px'; knob.style.marginTop='-21px'; };
+  const applyInputModeUI=()=>{ const mode=(projectRef.settings&&projectRef.settings.movementInput)==='dpad'?'dpad':'left_joystick'; $('joyL').classList.toggle('hidden', mode==='dpad'); $('dpadL').classList.toggle('hidden', mode!=='dpad'); if(mode==='dpad'){ input.joy[0].down=false; input.joy[0].x=0; input.joy[0].y=0; setKnobCenter($('knobL')); } };
   function resizeDisplay(){ const rect=stage.getBoundingClientRect(); const aspect=GAME_W/GAME_H; let w=rect.width, h=Math.floor(w/aspect); if(h>rect.height){ h=rect.height; w=Math.floor(h*aspect);} canvas.style.width=`${Math.floor(w)}px`; canvas.style.height=`${Math.floor(h)}px`; }
   window.addEventListener('resize',resizeDisplay);
   function getImg(file){ if(!file||isEmojiLike(file)||isSpriteIndexLike(file)) return null; if(!assets[file]){ const img=new Image(); img.src=file; assets[file]={img,loaded:false}; img.onload=()=>assets[file].loaded=true; img.onerror=()=>assets[file].loaded=false; } return assets[file]; }
-  function attachJoy(rootId,knobId,idx){ const root=$(rootId), knob=$(knobId), R=52, KR=21; function setKnob(nx,ny){ knob.style.left=`calc(50% + ${nx*R}px)`; knob.style.top=`calc(50% + ${ny*R}px)`; knob.style.marginLeft=`-${KR}px`; knob.style.marginTop=`-${KR}px`; } function updateFromClient(clientX,clientY){ const rect=root.getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2, dx=clientX-cx, dy=clientY-cy; const len=Math.hypot(dx,dy)||1, m=Math.min(R,len), nx=(dx/len)*(m/R), ny=(dy/len)*(m/R); input.joy[idx].x=clamp(nx,-1,1); input.joy[idx].y=clamp(ny,-1,1); setKnob(nx,ny);} function up(){input.joy[idx].down=false; input.joy[idx].x=0; input.joy[idx].y=0; setKnob(0,0);} root.addEventListener('pointerdown',e=>{root.setPointerCapture(e.pointerId); input.joy[idx].down=true; updateFromClient(e.clientX,e.clientY); e.preventDefault();}); root.addEventListener('pointermove',e=>{ if(!input.joy[idx].down) return; updateFromClient(e.clientX,e.clientY); e.preventDefault(); }); root.addEventListener('pointerup',e=>{up(); e.preventDefault();}); root.addEventListener('pointercancel',e=>{up(); e.preventDefault();}); setKnob(0,0); }
-  attachJoy('joyL','knobL',0); attachJoy('joyR','knobR',1); document.querySelectorAll('.symbtn').forEach(btn=>{ const id=parseInt(btn.dataset.btn,10)||0; btn.addEventListener('pointerdown',e=>{btn.setPointerCapture(e.pointerId); input.btn[id]=1; e.preventDefault();}); btn.addEventListener('pointerup',e=>{input.btn[id]=0; e.preventDefault();}); btn.addEventListener('pointercancel',e=>{input.btn[id]=0; e.preventDefault();}); });
+  function attachJoy(rootId,knobId,idx){ const root=$(rootId), knob=$(knobId), R=52, KR=21; function setKnob(nx,ny){ knob.style.left=`calc(50% + ${nx*R}px)`; knob.style.top=`calc(50% + ${ny*R}px)`; knob.style.marginLeft=`-${KR}px`; knob.style.marginTop=`-${KR}px`; } function updateFromClient(clientX,clientY){ const rect=root.getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2, dx=clientX-cx, dy=clientY-cy; const len=Math.hypot(dx,dy)||1, m=Math.min(R,len), nx=(dx/len)*(m/R), ny=(dy/len)*(m/R); input.joy[idx].x=clamp(nx,-1,1); input.joy[idx].y=clamp(ny,-1,1); setKnob(nx,ny);} function up(){input.joy[idx].down=false; input.joy[idx].x=0; input.joy[idx].y=0; setKnob(0,0);} root.addEventListener('pointerdown',e=>{root.setPointerCapture(e.pointerId); input.joy[idx].down=true; updateFromClient(e.clientX,e.clientY); e.preventDefault();}); root.addEventListener('pointermove',e=>{ if(!input.joy[idx].down) return; updateFromClient(e.clientX,e.clientY); e.preventDefault(); }); root.addEventListener('pointerup',e=>{up(); e.preventDefault();}); root.addEventListener('pointercancel',e=>{up(); e.preventDefault();}); setKnob(0,0); return { reset:up }; }
+  const leftJoy=attachJoy('joyL','knobL',0), rightJoy=attachJoy('joyR','knobR',1); document.querySelectorAll('.symbtn').forEach(btn=>{ const id=parseInt(btn.dataset.btn,10)||0; btn.addEventListener('pointerdown',e=>{btn.setPointerCapture(e.pointerId); setBtnSource('btnFace',id,true); e.preventDefault();}); btn.addEventListener('pointerup',e=>{setBtnSource('btnFace',id,false); e.preventDefault();}); btn.addEventListener('pointercancel',e=>{setBtnSource('btnFace',id,false); e.preventDefault();}); }); document.querySelectorAll('.dpadBtn').forEach(btn=>{ const id=parseInt(btn.dataset.dpadBtn,10)||0; btn.addEventListener('pointerdown',e=>{btn.setPointerCapture(e.pointerId); setBtnSource('btnDpad',id,true); e.preventDefault();}); btn.addEventListener('pointerup',e=>{setBtnSource('btnDpad',id,false); e.preventDefault();}); btn.addEventListener('pointercancel',e=>{setBtnSource('btnDpad',id,false); e.preventDefault();}); }); applyInputModeUI();
   let col={r:255,g:255,b:255}, camx=0, camy=0, viewZoom=1, zoomOffX=0, zoomOffY=0, clipRect=null; const sx=x=>Math.round((((Number(x)||0)-camx-(GAME_W/2))*viewZoom)+(GAME_W/2)+zoomOffX), sy=y=>Math.round((((Number(y)||0)-camy-(GAME_H/2))*viewZoom)+(GAME_H/2)+zoomOffY); function resetViewTransform(){ viewZoom=1; zoomOffX=0; zoomOffY=0; camx=0; camy=0; } function zoom(z,ox,oy){ if(z!=null) viewZoom=Math.max(0.1, Number(z)||1); if(ox!=null) zoomOffX=Number(ox)||0; if(oy!=null) zoomOffY=Number(oy)||0; return viewZoom; }
   function clip(x,y,w,h){ if(arguments.length===0||x==null){ clipRect=null; return 0; } clipRect={x:Number(x)||0,y:Number(y)||0,w:Math.max(0,Number(w)||0),h:Math.max(0,Number(h)||0)}; return 0; }
   function clipPush(){ if(!clipRect) return false; ctx.save(); ctx.beginPath(); ctx.rect(Math.round(clipRect.x),Math.round(clipRect.y),Math.round(clipRect.w),Math.round(clipRect.h)); ctx.clip(); return true; }
@@ -1073,7 +1103,7 @@ function makeRuntime(){
   function reset(codeOverride){ build((codeOverride!=null?codeOverride:lastCode)||($('codeEditor')?$('codeEditor').value:'')); }
   function callMaybe(name){ if(!L||!builtOk) return; lua.lua_getglobal(L,to_luastring(name)); if(lua.lua_isfunction(L,-1)){ const ok=lua.lua_pcall(L,0,0,0); if(ok!==lua.LUA_OK){ const err=to_jsstring(lua.lua_tostring(L,-1)); setLastRunError(`${name} error: ${err}`); toast(`<b>${escapeHtml(name)} error:</b> ${escapeHtml(err)}`); builtOk=false; L=null; } } else lua.lua_pop(L,1); }
   function tick(){ for(let i=0;i<4;i++){ input.btnp[i]=input.btn[i]&&!input.btnPrev[i]?1:0; input.btnPrev[i]=input.btn[i]; } callMaybe('_update'); callMaybe('_draw'); requestAnimationFrame(tick); }
-  requestAnimationFrame(tick); resizeDisplay(); return {setLua,rerun,reset,resizeDisplay,syncProject(p){ projectRef=JSON.parse(JSON.stringify(p)); spriteCache.clear(); tileCache.clear(); ensureProjectData(); }}; }
+  requestAnimationFrame(tick); resizeDisplay(); return {setLua,rerun,reset,resizeDisplay,syncProject(p){ projectRef=JSON.parse(JSON.stringify(p)); spriteCache.clear(); tileCache.clear(); ensureProjectData(); leftJoy.reset(); rightJoy.reset(); input.btnFace.fill(0); input.btnDpad.fill(0); input.btn.fill(0); input.btnPrev.fill(0); input.btnp.fill(0); applyInputModeUI(); }}; }
 function wireUI(){
   const toolbarBase=$("toolbarBase"), toolbarSub=$("toolbarSub");
   const toolbarGroups={graphics:[["sprites","Sprites"],["map","Map"]],sound:[["sounds","SFX"],["music","Music"]]};
@@ -1104,13 +1134,14 @@ function wireUI(){
   $("graphicsBtn").onclick=(e)=>{ e.stopPropagation(); openToolbarGroup('graphics'); };
   $("soundBtn").onclick=(e)=>{ e.stopPropagation(); openToolbarGroup('sound'); };
   $("runTitleBtn").onclick=(e)=>{ e.stopPropagation(); const code=getProjectLua(); runtime.setLua(code); runtime.rerun(code); setView('runtime'); resetToolbar(); };
-  $("fileBtn").onclick=e=>{ e.stopPropagation(); $("menu").classList.toggle('open'); refreshProjectList(); resetToolbar(); };
+  $("fileBtn").onclick=e=>{ e.stopPropagation(); $("menu").classList.toggle('open'); refreshProjectList(); refreshMenuSettingsUI(); resetToolbar(); };
   
   document.addEventListener('click',e=>{ $("menu").classList.remove('open'); if(!e.target.closest('.topbar')) resetToolbar(); });
   $("btnSaveProject").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); saveProject(); };
   $("btnNewProject").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); newProject(); };
   $("btnExportHTML").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); exportHTML(); };
   $("btnOpenDocs").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); setView('docs'); };
+  $("inputModeSelect").onchange=()=>{ ensureProjectData(); state.appProject.settings.movementInput=$("inputModeSelect").value==='dpad'?'dpad':'left_joystick'; runtime.syncProject(state.appProject); runtime.reset(getProjectLua()); };
   $("runBtn").onclick=()=>{ const code=getProjectLua(); runtime.setLua(code); runtime.rerun(code); }; $("resetBtn").onclick=()=>{ const code=getProjectLua(); runtime.setLua(code); runtime.reset(code); };
   function syncSidebarToggleButton(buttonId, viewId){ const btn=$(buttonId), view=$(viewId); if(!btn||!view) return; const hidden=view.classList.contains('sidebar-hidden'); btn.textContent=hidden?'>':'<'; btn.setAttribute('aria-expanded', hidden?'false':'true'); btn.title=hidden?'Open panel':'Close panel'; }
   $("toggleMapSidebarBtn").onclick=()=>{ $("mapView").classList.toggle('sidebar-hidden'); const hidden=$("mapView").classList.contains('sidebar-hidden'); syncSidebarToggleButton("toggleMapSidebarBtn","mapView"); $("mapOverlayTools").classList.toggle('hidden', !hidden); };
