@@ -61,18 +61,20 @@
     #view-blockly .blocklyZoom,#view-blockly .blocklyTrash{transform:scale(.85);transform-origin:bottom right}
     .codeView,.docsView{position:absolute;inset:10px;padding:12px}
     .codeView{display:flex;flex-direction:column;min-height:0}
-    .codeHeaderBar{display:flex;align-items:center;gap:8px;margin-bottom:10px;min-width:0;flex:0 0 auto}
-    .codeTabsBar{display:flex;gap:8px;min-width:0;flex:1 1 auto;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+    .codeHeaderBar{display:flex;flex-direction:column;align-items:stretch;gap:8px;margin-bottom:10px;min-width:0;flex:0 0 auto}
+    .codeTabsBar{display:flex;gap:8px;min-width:0;overflow-x:auto;padding:2px 2px 4px;scrollbar-width:none}
     .codeTabsBar::-webkit-scrollbar{display:none}
-    .codeTabActions{display:flex;gap:6px;flex:0 0 auto;flex-wrap:nowrap;white-space:nowrap}
-    .codeFileTab{border:3px solid var(--line);border-radius:13px;background:linear-gradient(180deg,var(--cream),#eed4a2);color:var(--ink);box-shadow:0 4px 0 var(--shadow);cursor:pointer;padding:7px 10px;font-weight:700;flex:0 0 auto}
-    .codeFileTab.active{background:linear-gradient(180deg,#fffdfa,#fff0ca);border-color:var(--accent);box-shadow:0 4px 0 #7a2a18,0 0 0 2px #fff2d6 inset;color:var(--accent)}
+    .codeTabActions{display:flex;gap:6px;flex:0 0 auto;flex-wrap:wrap;white-space:nowrap}
+    .codeFileTab{--tab-base:#d0c3b0;--tab-deep:#a89278;--tab-border:#6b4f36;--tab-text:#2b1a10;border:2px solid var(--tab-border);border-radius:999px;background:linear-gradient(135deg,var(--tab-base),var(--tab-deep));color:var(--tab-text);box-shadow:0 3px 0 rgba(92,57,31,.55);cursor:pointer;padding:4px 12px;font-weight:800;font-size:11px;line-height:1.1;flex:0 0 auto;transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+    .codeFileTab:hover{transform:translateY(1px);box-shadow:0 2px 0 rgba(92,57,31,.55);filter:saturate(1.06)}
+    .codeFileTab.active{border-color:#fff7ef;box-shadow:0 0 0 2px rgba(255,255,255,.55),0 4px 0 rgba(80,35,75,.55);filter:brightness(1.08)}
     .codeScrollShell{flex:1 1 auto;min-height:0;overflow:auto;padding:0 2px 2px 0;overscroll-behavior:contain}
-    .codeEditorWrap{display:grid;grid-template-columns:minmax(58px,max-content) minmax(0,1fr);gap:8px;min-height:100%;align-items:start;min-width:100%}
-    .codeLineNumbers{position:sticky;left:0;align-self:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#e8d5ab;color:#4f2d18;padding:14px 8px;box-shadow:inset 0 0 0 3px #fff0cb;text-align:right;user-select:none;white-space:pre;overflow:hidden;z-index:1;line-height:1.35;font-family:Consolas,monospace;font-size:14px}
+    .codeEditorWrap{display:block;min-height:100%;min-width:100%}
+    .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) minmax(0,1fr);align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%}
+    .codeLineNumbers{position:sticky;left:0;align-self:stretch;background:linear-gradient(180deg,#443629,#36291f);color:#bda88d;padding:14px 8px 14px 12px;text-align:right;user-select:none;white-space:pre;overflow:hidden;z-index:1;line-height:1.35;font-family:Consolas,monospace;font-size:14px;border-right:1px solid rgba(255,255,255,.08)}
     .codeLineNumbers div{height:1.35em;display:block}
     .codeLineNumbers .commentLine{opacity:.45}
-    textarea.code{display:block;min-height:100%;height:auto;resize:none;border:4px solid var(--line);border-radius:18px;background:#2d2319;color:#f8eccf;padding:14px;line-height:1.35;box-shadow:inset 0 0 0 3px #5b4a3b;font-family:Consolas,monospace;font-size:14px;overflow:hidden;white-space:pre;overflow-wrap:normal;word-break:normal;tab-size:2;min-width:0;width:100%}
+    textarea.code{display:block;min-height:100%;height:auto;resize:none;border:none;border-radius:0;background:transparent;color:#f8eccf;padding:14px 14px 14px 12px;line-height:1.35;box-shadow:none;font-family:Consolas,monospace;font-size:14px;overflow:hidden;white-space:pre;overflow-wrap:normal;word-break:normal;tab-size:2;min-width:0;width:100%}
     .splitView{position:absolute;inset:10px;display:grid;grid-template-columns:320px 1fr;gap:10px;min-height:0}
     .splitView.sidebar-hidden{grid-template-columns:0 1fr}
     .sidebar{min-height:0;overflow:auto;padding:10px}
@@ -224,7 +226,7 @@
             <input type="file" id="importCodeFileInput" accept=".lua,.txt" style="display:none">
           </div>
         </div>
-        <div class="codeScrollShell" id="codeScrollShell"><div class="codeEditorWrap"><div class="codeLineNumbers" id="codeLineNumbers"></div><textarea class="code" id="codeEditor" spellcheck="false" wrap="off"></textarea></div></div>
+        <div class="codeScrollShell" id="codeScrollShell"><div class="codeEditorWrap"><div class="codeEditorSurface"><div class="codeLineNumbers" id="codeLineNumbers"></div><textarea class="code" id="codeEditor" spellcheck="false" wrap="off"></textarea></div></div></div>
       </div>
     </div>
 
@@ -388,6 +390,14 @@ const SCALE_MAP = {
   pentatonic:[0,2,4,7,9],
   dorian:[0,2,3,5,7,9,10]
 };
+const FILE_TAB_THEMES = [
+  { base: "#89b8ff", deep: "#4c84d7", border: "#234979", text: "#10243d" },
+  { base: "#f39be8", deep: "#cc62bf", border: "#7f2f73", text: "#34152f" },
+  { base: "#bea4ff", deep: "#8364d8", border: "#4a3485", text: "#1f163d" },
+  { base: "#7ec5ff", deep: "#4c93d5", border: "#24547f", text: "#10273d" },
+  { base: "#ff9dcd", deep: "#d7679d", border: "#8a3961", text: "#351422" },
+  { base: "#c7a2ff", deep: "#8e69dc", border: "#593a90", text: "#24163c" }
+];
 const EXAMPLES = {
   blank:`function _init()\nend\n\nfunction _update()\nend\n\nfunction _draw()\n  cls()\nend`
 };
@@ -405,7 +415,7 @@ function makeSound(){ return {wave:"square",length:0.3,volume:0.6,pitch:440,atta
 function makeMusic(){ return {file:"",loop:true}; }
 function makeBlankTileDef(){ return {source:"",flags:{0:false},bg:"#000000",bgEnabled:false}; }
 function seedSpriteDemo(sp){ for(let y=0;y<sp.h;y++){ for(let x=0;x<sp.w;x++){ sp.pixels[y][x]=1; } } for(let y=2;y<14;y++){ for(let x=2;x<14;x++){ sp.pixels[y][x]=5; } } for(let y=4;y<12;y++){ for(let x=4;x<12;x++){ sp.pixels[y][x]=7; } } for(let y=5;y<8;y++){ for(let x=4;x<7;x++) sp.pixels[y][x]=15; for(let x=9;x<12;x++) sp.pixels[y][x]=15; } for(let y=9;y<12;y++){ for(let x=5;x<11;x++) sp.pixels[y][x]=10; } for(let x=5;x<11;x++){ sp.pixels[8][x]=15; } return sp; }
-function defaultProject(){ return {project:{tile_w:16,tile_h:16,map_w:32,map_h:32},settings:{movementInput:'left_joystick'},palette:["#1f3061","#8f2d6b","#0b8f55","#6f665e","#b7b9c3","#eaded6","#c33c54","#ff8a00","#f3c24f","#75d0ff","#4aa84a","#a68cc6","#ff77a8","#5b3a29","#7a7a7a","#ffffff"],spriteFolders:[{frames:[seedSpriteDemo(makeSprite(16,16))]}],sounds:[makeSound()],music:[makeMusic()],codeFiles:[{name:"main.lua",content:EXAMPLES.blank}],tileDefs:{0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a"},2:{source:"",flags:{0:true},bg:"#4a5568"},3:{source:"",flags:{0:false},bg:"#8b5cf6"}},maps:[makeEmptyMap("Map 1",32,32)]}; }
+function defaultProject(){ return {project:{tile_w:16,tile_h:16,map_w:32,map_h:32},settings:{movementInput:'left_joystick'},palette:["#1f3061","#8f2d6b","#0b8f55","#6f665e","#b7b9c3","#eaded6","#c33c54","#ff8a00","#f3c24f","#75d0ff","#4aa84a","#a68cc6","#ff77a8","#5b3a29","#7a7a7a","#ffffff"],spriteFolders:[{frames:[seedSpriteDemo(makeSprite(16,16))]}],sounds:[makeSound()],music:[makeMusic()],codeFiles:[{name:"main.lua",content:EXAMPLES.blank,tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length)}],tileDefs:{0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a"},2:{source:"",flags:{0:true},bg:"#4a5568"},3:{source:"",flags:{0:false},bg:"#8b5cf6"}},maps:[makeEmptyMap("Map 1",32,32)]}; }
 function currentMap(){ return state.appProject.maps[state.currentMapIndex]; }
 function currentLayers(){ return currentMap().layers; }
 function currentSpriteFolder(){ return state.appProject.spriteFolders[state.currentSpriteIndex]; }
@@ -437,8 +447,8 @@ function ensureProjectData(){
   if(!p.sounds?.length) p.sounds=[makeSound()];
   if(!p.music?.length) p.music=[makeMusic()];
   if(!p.maps?.length) p.maps=[makeEmptyMap("Map 1",p.project.map_w,p.project.map_h)];
-  if(!p.codeFiles?.length) p.codeFiles=[{name:"main.lua",content:EXAMPLES.blank}];
-  p.codeFiles=p.codeFiles.map((f,i)=>({name:(f&&f.name)||`file${i+1}.lua`,content:(f&&f.content)||""}));
+  if(!p.codeFiles?.length) p.codeFiles=[{name:"main.lua",content:EXAMPLES.blank,tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length)}];
+  p.codeFiles=p.codeFiles.map((f,i)=>({name:(f&&f.name)||`file${i+1}.lua`,content:(f&&f.content)||"",tabTheme:Number.isInteger(f&&f.tabTheme)?f.tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length)}));
   p.spriteFolders.forEach(folder=>{ if(!folder.frames?.length) folder.frames=[makeSprite(16,16)]; folder.frames=folder.frames.slice(0,26); folder.frames.forEach(s=>{ s.w=Math.max(1,s.w|0); s.h=Math.max(1,s.h|0); if(!Array.isArray(s.pixels)) s.pixels=[]; s.pixels.length=s.h; for(let y=0;y<s.h;y++){ if(!Array.isArray(s.pixels[y])) s.pixels[y]=[]; s.pixels[y].length=s.w; for(let x=0;x<s.w;x++) if(s.pixels[y][x]==null) s.pixels[y][x]=-1; } }); });
   p.sounds.forEach(s=>{ if(!Array.isArray(s.wavetable)) s.wavetable=Array.from({length:64},()=>0); while(s.wavetable.length<64) s.wavetable.push(0); s.wavetable=s.wavetable.slice(0,64); });
   p.music.forEach(m=>{ if(m.loop==null) m.loop=true; if(!m.file) m.file=""; });
@@ -520,9 +530,9 @@ const CODE_API_DOCS = [
 let docsPage = 0;
 function getCurrentCodeFile(){ ensureProjectData(); state.currentCodeFile=clamp(state.currentCodeFile,0,state.appProject.codeFiles.length-1); return state.appProject.codeFiles[state.currentCodeFile]; }
 function saveEditorToCurrentCodeFile(){ if(state.projectMode!=="code") return; const f=getCurrentCodeFile(); if(f) f.content=$("codeEditor").value||""; }
-function renderCodeTabs(){ const bar=$("codeTabsBar"); if(!bar) return; bar.innerHTML=""; ensureProjectData(); state.appProject.codeFiles.forEach((f,i)=>{ const b=document.createElement("button"); b.className="codeFileTab"+(i===state.currentCodeFile?" active":""); b.textContent=f.name; b.onclick=()=>{ saveEditorToCurrentCodeFile(); state.currentCodeFile=i; loadCurrentCodeFileToEditor(); renderCodeTabs(); }; bar.appendChild(b); }); }
+function renderCodeTabs(){ const bar=$("codeTabsBar"); if(!bar) return; bar.innerHTML=""; ensureProjectData(); state.appProject.codeFiles.forEach((f,i)=>{ const b=document.createElement("button"); const theme=FILE_TAB_THEMES[(Number.isInteger(f.tabTheme)?f.tabTheme:0)%FILE_TAB_THEMES.length]; b.className="codeFileTab"+(i===state.currentCodeFile?" active":""); b.textContent=f.name; b.style.setProperty("--tab-base", theme.base); b.style.setProperty("--tab-deep", theme.deep); b.style.setProperty("--tab-border", theme.border); b.style.setProperty("--tab-text", theme.text); b.onclick=()=>{ saveEditorToCurrentCodeFile(); state.currentCodeFile=i; loadCurrentCodeFileToEditor(); renderCodeTabs(); }; bar.appendChild(b); }); }
 function loadCurrentCodeFileToEditor(){ const f=getCurrentCodeFile(); if(f) $("codeEditor").value=f.content||""; updateCodeLineNumbers(); }
-function updateCodeLineNumbers(){ const ed=$("codeEditor"), gutter=$("codeLineNumbers"), shell=$("codeScrollShell"); if(!ed||!gutter) return; const prevTop=shell?shell.scrollTop:ed.scrollTop; const prevLeft=shell?shell.scrollLeft:ed.scrollLeft; const lines=String(ed.value||"").split(/\n/); const count=Math.max(1, lines.length); let html="", longest=0; for(let i=0;i<count;i++){ const line=lines[i]??""; longest=Math.max(longest, line.length); html += `<div class="${/^\s*--/.test(line)?"commentLine":""}">${i+1}</div>`; } gutter.innerHTML=html; const contentWidth=Math.max(80,longest+4); ed.style.minWidth=`${contentWidth}ch`; ed.style.height='auto'; const targetHeight=Math.max(shell?shell.clientHeight:0, ed.scrollHeight); ed.style.height=`${targetHeight}px`; gutter.style.minHeight=`${targetHeight}px`; if(shell){ shell.scrollTop=prevTop; shell.scrollLeft=prevLeft; } }
+function updateCodeLineNumbers(){ const ed=$("codeEditor"), gutter=$("codeLineNumbers"), shell=$("codeScrollShell"); if(!ed||!gutter) return; const prevTop=shell?shell.scrollTop:ed.scrollTop; const prevLeft=shell?shell.scrollLeft:ed.scrollLeft; const lines=String(ed.value||"").split(/\n/); const count=Math.max(1, lines.length); let html="", longest=0; for(let i=0;i<count;i++){ const line=lines[i]??""; longest=Math.max(longest, line.length); html += `<div class="${/^\s*--/.test(line)?"commentLine":""}">${i+1}</div>`; } gutter.innerHTML=html; gutter.style.width=`${Math.max(36, String(count).length*10+20)}px`; const contentWidth=Math.max(80,longest+4); ed.style.minWidth=`${contentWidth}ch`; ed.style.height="auto"; const targetHeight=Math.max(shell?shell.clientHeight:0, ed.scrollHeight); ed.style.height=`${targetHeight}px`; gutter.style.minHeight=`${targetHeight}px`; if(shell){ shell.scrollTop=prevTop; shell.scrollLeft=prevLeft; } }
 function splitLuaLineComment(line){ let quote=null; for(let i=0;i<line.length;i++){ const ch=line[i], next=line[i+1]; if(quote){ if(ch==="\\"){ i++; continue; } if(ch===quote) quote=null; continue; } if(ch==='"'||ch==="'"){ quote=ch; continue; } if(ch==="-"&&next==="-") return {code:line.slice(0,i), comment:line.slice(i)}; } return {code:line, comment:""}; }
 function expandLuaShorthand(source){
   return String(source||"").split(/\r?\n/).map(line=>{
@@ -557,7 +567,7 @@ function finishNewProject(mode){
   state.appProject = defaultProject();
   invalidateEditorRenderCache();
   ensureProjectData();
-  state.appProject.codeFiles = [{name:"main.lua", content: EXAMPLES.blank}];
+  state.appProject.codeFiles = [{name:"main.lua", content: EXAMPLES.blank, tabTheme: Math.floor(Math.random()*FILE_TAB_THEMES.length)}];
   refreshMenuSettingsUI();
   renderCodeTabs();
   loadCurrentCodeFileToEditor();
@@ -660,13 +670,25 @@ function loadExampleProject(){
   p.tileDefs={0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a"},2:{source:"",flags:{0:true},bg:"#4a5568"},3:{source:"",flags:{0:false},bg:"#8b5cf6"}};
   p.music=[{file:"song.ogg",loop:true}];
   p.settings.movementInput='left_joystick';
-  p.codeFiles=[{name:"main.lua",content:`x=64
+  p.codeFiles=[{name:"main.lua",tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length),content:`x=64
 y=64
 speed=1.4
 
 function _update()
-  local dx = joyx(0) * speed
-  local dy = joyy(0) * speed
+  local dx = joyx(0)
+  local dy = joyy(0)
+
+  if abs(dx) < 0.01 then
+    if btn(1) then dx = 1 end
+    if btn(0) then dx = -1 end
+  end
+  if abs(dy) < 0.01 then
+    if btn(3) then dy = 1 end
+    if btn(2) then dy = -1 end
+  end
+
+  dx = dx * speed
+  dy = dy * speed
 
   if dx < 0 and not wall(x+dx,y) then x = x + dx end
   if dx > 0 and not wall(x+7+dx,y) then x = x + dx end
@@ -1012,14 +1034,15 @@ function drawMusicPreview(){}
 function makeRuntime(){
   const GAME_W=480, GAME_H=270, canvas=$("screen"), stage=canvas.parentElement, ctx=canvas.getContext('2d',{alpha:false}); ctx.imageSmoothingEnabled=false; const assets={}, spriteCache=new Map(), tileCache=new Map(); let projectRef=defaultProject(), L=null, lastCode="", pendingCode="", rebuildTimer=0, builtOk=false;
   const input={btn:[0,0,0,0],btnp:[0,0,0,0],btnPrev:[0,0,0,0],btnFace:[0,0,0,0],btnDpad:[0,0,0,0],joy:[{x:0,y:0,down:false},{x:0,y:0,down:false}]}; canvas.width=GAME_W; canvas.height=GAME_H;
-  const setBtnSource=(source,i,pressed)=>{ input[source][i]=pressed?1:0; input.btn[i]=(input.btnFace[i]||input.btnDpad[i])?1:0; };
+  const syncLeftMovementInput=()=>{ const mode=(projectRef.settings&&projectRef.settings.movementInput)==="dpad"?"dpad":"left_joystick"; if(mode!=="dpad") return; input.joy[0].x=(input.btnDpad[1]?1:0)-(input.btnDpad[0]?1:0); input.joy[0].y=(input.btnDpad[3]?1:0)-(input.btnDpad[2]?1:0); };
+  const setBtnSource=(source,i,pressed)=>{ input[source][i]=pressed?1:0; input.btn[i]=(input.btnFace[i]||input.btnDpad[i])?1:0; if(source==="btnDpad") syncLeftMovementInput(); };
   const setKnobCenter=knob=>{ knob.style.left='calc(50% + 0px)'; knob.style.top='calc(50% + 0px)'; knob.style.marginLeft='-21px'; knob.style.marginTop='-21px'; };
-  const applyInputModeUI=()=>{ const mode=(projectRef.settings&&projectRef.settings.movementInput)==='dpad'?'dpad':'left_joystick'; $('joyL').classList.toggle('hidden', mode==='dpad'); $('dpadL').classList.toggle('hidden', mode!=='dpad'); if(mode==='dpad'){ input.joy[0].down=false; input.joy[0].x=0; input.joy[0].y=0; setKnobCenter($('knobL')); } };
+  const applyInputModeUI=()=>{ const mode=(projectRef.settings&&projectRef.settings.movementInput)==='dpad'?'dpad':'left_joystick'; $('joyL').classList.toggle('hidden', mode==='dpad'); $('dpadL').classList.toggle('hidden', mode!=='dpad'); if(mode==='dpad'){ input.joy[0].down=false; setKnobCenter($('knobL')); syncLeftMovementInput(); } };
   function resizeDisplay(){ const rect=stage.getBoundingClientRect(); const aspect=GAME_W/GAME_H; let w=rect.width, h=Math.floor(w/aspect); if(h>rect.height){ h=rect.height; w=Math.floor(h*aspect);} canvas.style.width=`${Math.floor(w)}px`; canvas.style.height=`${Math.floor(h)}px`; }
   window.addEventListener('resize',resizeDisplay);
   function getImg(file){ if(!file||isEmojiLike(file)||isSpriteIndexLike(file)) return null; if(!assets[file]){ const img=new Image(); img.src=file; assets[file]={img,loaded:false}; img.onload=()=>assets[file].loaded=true; img.onerror=()=>assets[file].loaded=false; } return assets[file]; }
-  function attachJoy(rootId,knobId,idx){ const root=$(rootId), knob=$(knobId), R=52, KR=21; function setKnob(nx,ny){ knob.style.left=`calc(50% + ${nx*R}px)`; knob.style.top=`calc(50% + ${ny*R}px)`; knob.style.marginLeft=`-${KR}px`; knob.style.marginTop=`-${KR}px`; } function updateFromClient(clientX,clientY){ const rect=root.getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2, dx=clientX-cx, dy=clientY-cy; const len=Math.hypot(dx,dy)||1, m=Math.min(R,len), nx=(dx/len)*(m/R), ny=(dy/len)*(m/R); input.joy[idx].x=clamp(nx,-1,1); input.joy[idx].y=clamp(ny,-1,1); setKnob(nx,ny);} function up(){input.joy[idx].down=false; input.joy[idx].x=0; input.joy[idx].y=0; setKnob(0,0);} root.addEventListener('pointerdown',e=>{root.setPointerCapture(e.pointerId); input.joy[idx].down=true; updateFromClient(e.clientX,e.clientY); e.preventDefault();}); root.addEventListener('pointermove',e=>{ if(!input.joy[idx].down) return; updateFromClient(e.clientX,e.clientY); e.preventDefault(); }); root.addEventListener('pointerup',e=>{up(); e.preventDefault();}); root.addEventListener('pointercancel',e=>{up(); e.preventDefault();}); setKnob(0,0); return { reset:up }; }
-  const leftJoy=attachJoy('joyL','knobL',0), rightJoy=attachJoy('joyR','knobR',1); document.querySelectorAll('.symbtn').forEach(btn=>{ const id=parseInt(btn.dataset.btn,10)||0; btn.addEventListener('pointerdown',e=>{btn.setPointerCapture(e.pointerId); setBtnSource('btnFace',id,true); e.preventDefault();}); btn.addEventListener('pointerup',e=>{setBtnSource('btnFace',id,false); e.preventDefault();}); btn.addEventListener('pointercancel',e=>{setBtnSource('btnFace',id,false); e.preventDefault();}); }); document.querySelectorAll('.dpadBtn').forEach(btn=>{ const id=parseInt(btn.dataset.dpadBtn,10)||0; btn.addEventListener('pointerdown',e=>{btn.setPointerCapture(e.pointerId); setBtnSource('btnDpad',id,true); e.preventDefault();}); btn.addEventListener('pointerup',e=>{setBtnSource('btnDpad',id,false); e.preventDefault();}); btn.addEventListener('pointercancel',e=>{setBtnSource('btnDpad',id,false); e.preventDefault();}); }); applyInputModeUI();
+  function attachJoy(rootId,knobId,idx){ const root=$(rootId), knob=$(knobId), R=52, KR=21; function setKnob(nx,ny){ knob.style.left=`calc(50% + ${nx*R}px)`; knob.style.top=`calc(50% + ${ny*R}px)`; knob.style.marginLeft=`-${KR}px`; knob.style.marginTop=`-${KR}px`; } function updateFromClient(clientX,clientY){ const rect=root.getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2, dx=clientX-cx, dy=clientY-cy; const len=Math.hypot(dx,dy)||1, m=Math.min(R,len), nx=(dx/len)*(m/R), ny=(dy/len)*(m/R); input.joy[idx].x=clamp(nx,-1,1); input.joy[idx].y=clamp(ny,-1,1); setKnob(nx,ny);} function up(){input.joy[idx].down=false; input.joy[idx].x=0; input.joy[idx].y=0; setKnob(0,0);} root.addEventListener('pointerdown',e=>{root.setPointerCapture(e.pointerId); input.joy[idx].down=true; updateFromClient(e.clientX,e.clientY); e.preventDefault();}); root.addEventListener('pointermove',e=>{ if(!input.joy[idx].down) return; updateFromClient(e.clientX,e.clientY); e.preventDefault(); }); ['pointerup','pointercancel','pointerleave','lostpointercapture'].forEach(type=>root.addEventListener(type,e=>{up(); e.preventDefault();})); setKnob(0,0); return { reset:up }; }
+  const leftJoy=attachJoy('joyL','knobL',0), rightJoy=attachJoy('joyR','knobR',1); document.querySelectorAll('.symbtn').forEach(btn=>{ const id=parseInt(btn.dataset.btn,10)||0; btn.addEventListener('pointerdown',e=>{btn.setPointerCapture(e.pointerId); setBtnSource('btnFace',id,true); e.preventDefault();}); ['pointerup','pointercancel','lostpointercapture'].forEach(type=>btn.addEventListener(type,e=>{setBtnSource('btnFace',id,false); e.preventDefault();})); }); document.querySelectorAll('.dpadBtn').forEach(btn=>{ const id=parseInt(btn.dataset.dpadBtn,10)||0; btn.addEventListener('pointerdown',e=>{btn.setPointerCapture(e.pointerId); setBtnSource('btnDpad',id,true); e.preventDefault();}); ['pointerup','pointercancel','lostpointercapture'].forEach(type=>btn.addEventListener(type,e=>{setBtnSource('btnDpad',id,false); e.preventDefault();})); }); const movementKeyMap={ArrowLeft:0,KeyA:0,ArrowRight:1,KeyD:1,ArrowUp:2,KeyW:2,ArrowDown:3,KeyS:3}; window.addEventListener('keydown',e=>{ const key=movementKeyMap[e.code]; if(key==null) return; setBtnSource('btnDpad',key,true); e.preventDefault(); },{passive:false}); window.addEventListener('keyup',e=>{ const key=movementKeyMap[e.code]; if(key==null) return; setBtnSource('btnDpad',key,false); e.preventDefault(); },{passive:false}); window.addEventListener('blur',()=>{ input.btnDpad.fill(0); input.btnFace.fill(0); input.btn.fill(0); input.btnPrev.fill(0); input.btnp.fill(0); syncLeftMovementInput(); leftJoy.reset(); rightJoy.reset(); }); applyInputModeUI();
   let col={r:255,g:255,b:255}, camx=0, camy=0, viewZoom=1, zoomOffX=0, zoomOffY=0, clipRect=null; const sx=x=>Math.round((((Number(x)||0)-camx-(GAME_W/2))*viewZoom)+(GAME_W/2)+zoomOffX), sy=y=>Math.round((((Number(y)||0)-camy-(GAME_H/2))*viewZoom)+(GAME_H/2)+zoomOffY); function resetViewTransform(){ viewZoom=1; zoomOffX=0; zoomOffY=0; camx=0; camy=0; } function zoom(z,ox,oy){ if(z!=null) viewZoom=Math.max(0.1, Number(z)||1); if(ox!=null) zoomOffX=Number(ox)||0; if(oy!=null) zoomOffY=Number(oy)||0; return viewZoom; }
   function clip(x,y,w,h){ if(arguments.length===0||x==null){ clipRect=null; return 0; } clipRect={x:Number(x)||0,y:Number(y)||0,w:Math.max(0,Number(w)||0),h:Math.max(0,Number(h)||0)}; return 0; }
   function clipPush(){ if(!clipRect) return false; ctx.save(); ctx.beginPath(); ctx.rect(Math.round(clipRect.x),Math.round(clipRect.y),Math.round(clipRect.w),Math.round(clipRect.h)); ctx.clip(); return true; }
@@ -1136,7 +1159,9 @@ function wireUI(){
   $("runTitleBtn").onclick=(e)=>{ e.stopPropagation(); const code=getProjectLua(); runtime.setLua(code); runtime.rerun(code); setView('runtime'); resetToolbar(); };
   $("fileBtn").onclick=e=>{ e.stopPropagation(); $("menu").classList.toggle('open'); refreshProjectList(); refreshMenuSettingsUI(); resetToolbar(); };
   
-  document.addEventListener('click',e=>{ $("menu").classList.remove('open'); if(!e.target.closest('.topbar')) resetToolbar(); });
+  $("menu").addEventListener("click",e=>e.stopPropagation());
+  ["pointerdown","mousedown","click"].forEach(type=>$("inputModeSelect").addEventListener(type,e=>e.stopPropagation()));
+  document.addEventListener('click',e=>{ if(e.target.closest('#menu')||e.target.closest('#fileBtn')) return; $("menu").classList.remove('open'); if(!e.target.closest('.topbar')) resetToolbar(); });
   $("btnSaveProject").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); saveProject(); };
   $("btnNewProject").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); newProject(); };
   $("btnExportHTML").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); exportHTML(); };
@@ -1165,7 +1190,7 @@ function wireUI(){
   $("spriteUndoBtn").onclick=()=>{ if(!spriteHistory.undo.length) return; spriteHistory.redo.push(cloneSprite(currentSprite())); currentSpriteFolder().frames[state.currentSpriteFrame]=spriteHistory.undo.pop(); invalidateEditorRenderCache(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); };
   $("spriteRedoBtn").onclick=()=>{ if(!spriteHistory.redo.length) return; spriteHistory.undo.push(cloneSprite(currentSprite())); currentSpriteFolder().frames[state.currentSpriteFrame]=spriteHistory.redo.pop(); invalidateEditorRenderCache(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); };
   $("spriteZoomInBtn").onclick=()=>{ state.spriteZoom=Math.min(64,state.spriteZoom+2); drawSpriteEditor(); }; $("spriteZoomOutBtn").onclick=()=>{ state.spriteZoom=Math.max(4,state.spriteZoom-2); drawSpriteEditor(); }; const adjustSpriteFolderFrames=(delta)=>{ const folder=currentSpriteFolder(); const n=Math.max(1,Math.min(26,folder.frames.length+delta)); if(n===folder.frames.length) return; while(folder.frames.length<n) folder.frames.push(makeSprite(currentSprite().w,currentSprite().h)); while(folder.frames.length>n) folder.frames.pop(); invalidateEditorRenderCache(); state.currentSpriteFrame=Math.min(state.currentSpriteFrame, folder.frames.length-1); syncSpriteUI(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); }; $("spriteFolderMinusBtn").onclick=()=>adjustSpriteFolderFrames(-1); $("spriteFolderPlusBtn").onclick=()=>adjustSpriteFolderFrames(1);
-  $("addCodeTabBtn").onclick=()=>{ if(state.projectMode!=="code") return; saveEditorToCurrentCodeFile(); const name=prompt("New file name:",`file${state.appProject.codeFiles.length+1}.lua`); if(!name) return; const trimmed=name.trim(); if(!trimmed) return; if(state.appProject.codeFiles.some(f=>f.name===trimmed)){ alert("A file with that name already exists."); return; } state.appProject.codeFiles.push({name:trimmed,content:""}); state.currentCodeFile=state.appProject.codeFiles.length-1; renderCodeTabs(); loadCurrentCodeFileToEditor(); };
+  $("addCodeTabBtn").onclick=()=>{ if(state.projectMode!=="code") return; saveEditorToCurrentCodeFile(); const name=prompt("New file name:",`file${state.appProject.codeFiles.length+1}.lua`); if(!name) return; const trimmed=name.trim(); if(!trimmed) return; if(state.appProject.codeFiles.some(f=>f.name===trimmed)){ alert("A file with that name already exists."); return; } state.appProject.codeFiles.push({name:trimmed,content:"",tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length)}); state.currentCodeFile=state.appProject.codeFiles.length-1; renderCodeTabs(); loadCurrentCodeFileToEditor(); };
   $("renameCodeTabBtn").onclick=()=>{ if(state.projectMode!=="code") return; const f=getCurrentCodeFile(); const name=prompt("Rename file:",f.name); if(!name) return; const trimmed=name.trim(); if(!trimmed) return; if(state.appProject.codeFiles.some((x,i)=>i!==state.currentCodeFile&&x.name===trimmed)){ alert("A file with that name already exists."); return; } f.name=trimmed; renderCodeTabs(); };
   $("copyLastErrorBtn").onclick=async()=>{ if(!state.lastRunError){ toast('No run error has been captured yet.'); return; } try{ await copyTextToClipboard(state.lastRunError); toast('Copied last run error to clipboard.'); }catch(err){ toast(`<b>Copy failed:</b> ${escapeHtml(err&&err.message?err.message:err)}`); } };
       $("spriteFramePrevBtn").onclick=()=>{ const folder=currentSpriteFolder(); const pages=Math.max(1,Math.ceil(folder.frames.length/6)); state.spriteFramePage=(state.spriteFramePage-1+pages)%pages; refreshSpriteFrames(); };
