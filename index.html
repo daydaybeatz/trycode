@@ -57,10 +57,10 @@
     .codeFileTab.active{border-color:#fff7ef;box-shadow:0 0 0 2px rgba(255,255,255,.55),0 4px 0 rgba(80,35,75,.55);filter:brightness(1.08)}
     .codeScrollShell{--code-font-size:14px;--code-line-height:20px;--code-font-family:Consolas,"SFMono-Regular","Cascadia Mono","Liberation Mono",Menlo,monospace;--code-font-weight:400;--code-pad-y:14px;--code-pad-left:14px;--code-pad-right:18px;flex:1 1 auto;min-height:0;overflow:auto;padding:0;overscroll-behavior:contain;border-radius:20px;background:linear-gradient(180deg,#3a2b20,#241912);box-shadow:inset 0 0 0 3px rgba(255,240,203,.08)}
     .codeEditorWrap{display:block;min-height:100%;min-width:100%;width:100%}
-    .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) minmax(0,1fr);align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%;width:100%}
+    .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) minmax(0,1fr);align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%;width:100%;position:relative}
     .codeEditorPane{position:relative;min-height:100%;min-width:0}
     .codeLineNumbers{position:sticky;left:0;align-self:stretch;background:linear-gradient(180deg,#443629,#36291f);color:#bda88d;text-align:right;user-select:none;overflow:hidden;z-index:1;border-right:1px solid rgba(255,255,255,.08)}
-    .codeLineNumbersInner{display:flex;flex-direction:column;align-items:stretch;min-height:100%;padding:var(--code-pad-y) 0;font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);line-height:var(--code-line-height);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    .codeLineNumbersInner{display:flex;flex-direction:column;align-items:stretch;min-height:100%;padding:var(--code-pad-y) 0;font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);line-height:var(--code-line-height);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;transform:translateY(calc(var(--code-scroll-top, 0px) * -1));will-change:transform}
     .codeLineNumber{display:flex;align-items:flex-start;justify-content:flex-end;min-height:var(--code-line-height);padding:0 8px 0 12px;white-space:nowrap}
     .codeLineNumber.commentLine{opacity:.45}
     .codeHighlight,.code textarea.code{display:block;min-height:100%;height:auto;border:none;border-radius:0;padding:var(--code-pad-y) var(--code-pad-right) var(--code-pad-y) var(--code-pad-left);line-height:var(--code-line-height);font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;white-space:pre;overflow-wrap:normal;word-break:normal;tab-size:2;min-width:0;width:auto;margin:0}
@@ -177,35 +177,75 @@
     #soundView,#musicView{grid-template-columns:1fr !important;}
     #soundView .mainPane,#musicView .mainPane{display:none !important;}
 
-    @media (min-width: 1024px){
-      html,body{background:radial-gradient(circle at top, #f7e8c3 0, #ebd1a2 58%, #d5af76 100%)}
-      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px;padding-top:max(28px,env(safe-area-inset-top))}
-      .app{width:min(1580px,calc(100vw - 56px));height:min(960px,calc(100vh - 56px));border:6px solid #7b4a28;border-radius:34px;overflow:hidden;box-shadow:0 20px 0 #a77039,0 34px 88px rgba(53,32,18,.24);background:linear-gradient(180deg,#fcf4df,#efd7a7)}
-      .topbar{flex-basis:66px;gap:14px;padding:10px 16px;background:linear-gradient(180deg,#332a29,#241d1c);border-bottom:5px solid #6f3d20;box-shadow:inset 0 -2px 0 rgba(255,255,255,.08)}
-      .brand{padding:14px 20px;border-radius:18px;border-color:#8b221f;background:linear-gradient(180deg,#c92d2a,#961f20);box-shadow:0 5px 0 #671517,0 0 0 2px rgba(255,255,255,.08) inset;font-size:18px}
-      .tabs{gap:10px}
-      .tab{padding:9px 16px;font-size:16px;border-radius:16px}
-      .fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{padding:10px 16px;border-radius:15px}
-      .fileBtn{background:linear-gradient(180deg,#53493f,#3c342d);border-color:#65533f;box-shadow:0 4px 0 #2a241f;color:#fff3da}
-      .codeView,.docsView,.splitView,.runtimeView{inset:20px}
-      .codeView{padding:20px 22px 22px}
-      .codeHeaderBar{flex-direction:row;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px;padding:0}
-      .codeTabsBar{flex:1 1 auto;padding:4px 2px 6px}
-      .codeTabActions{justify-content:flex-end}
-      .codeFileTab{padding:8px 16px;font-size:13px;border-width:3px;box-shadow:0 4px 0 rgba(92,57,31,.45)}
-      .codeScrollShell{--code-font-size:16px;--code-line-height:24px;--code-pad-y:18px;--code-pad-left:18px;--code-pad-right:22px;border-radius:24px}
-      .codeEditorSurface{border-radius:22px}
-      .splitView{grid-template-columns:minmax(340px,380px) minmax(0,1fr);gap:14px}
-      .paneToolbar{top:18px;left:18px}
-      .overlayTools,#spriteOverlayTools{top:76px;right:12px}
-      .edgePalette{top:68px;left:12px;bottom:12px}
-      .screenStage{inset:14px}
-      #screen{width:min(100%,1120px);height:auto;aspect-ratio:16 / 9}
-      .runtimeBar{top:18px;right:18px}
-      .runtimeErrorBox{left:22px;top:22px}
-      .menu{top:82px;right:18px}
-      .toast{top:82px;left:18px}
-    }
+	    @media (min-width: 1024px){
+	      html,body{background:
+	        radial-gradient(circle at top, rgba(126,210,255,.16), transparent 34%),
+	        radial-gradient(circle at 20% 20%, rgba(157,113,255,.12), transparent 28%),
+	        linear-gradient(160deg,#0a1220 0%,#101b30 44%,#13223d 100%)}
+	      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px;padding-top:max(28px,env(safe-area-inset-top));color:#dbe7ff}
+	      .app{width:min(1620px,calc(100vw - 56px));height:min(980px,calc(100vh - 56px));border:1px solid rgba(138,186,255,.26);border-radius:34px;overflow:hidden;box-shadow:0 24px 70px rgba(1,8,20,.52),0 0 0 8px rgba(9,18,35,.42);background:
+	        linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),
+	        linear-gradient(180deg,#0f1729,#0b1322)}
+	      .topbar{flex-basis:74px;gap:14px;padding:12px 18px;background:linear-gradient(180deg,rgba(18,31,53,.96),rgba(10,19,34,.98));border-bottom:1px solid rgba(134,183,255,.18);box-shadow:inset 0 -1px 0 rgba(255,255,255,.04)}
+	      .brand{padding:15px 22px;border-radius:18px;border:1px solid rgba(120,198,255,.35);background:linear-gradient(135deg,#6e7bff,#33b5ff);box-shadow:0 10px 24px rgba(33,88,170,.34),inset 0 1px 0 rgba(255,255,255,.24);font-size:18px;color:#f7fbff;text-shadow:none}
+	      .tabs{gap:10px}
+	      .tab,.fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{border:1px solid rgba(147,190,255,.22);border-radius:16px;background:linear-gradient(180deg,rgba(30,46,73,.94),rgba(16,28,46,.96));box-shadow:0 10px 20px rgba(2,8,18,.22);color:#dce7f9}
+	      .tab{padding:10px 16px;font-size:15px;line-height:1.15}
+	      .tab.active,.uiBtn.active{background:linear-gradient(135deg,rgba(112,117,255,.95),rgba(59,201,255,.95));border-color:rgba(188,233,255,.65);box-shadow:0 12px 26px rgba(35,91,182,.38);color:#f8fbff}
+	      .tab.cat-logic,.uiBtn.cat-logic,.mbtn.cat-logic{background:linear-gradient(135deg,rgba(69,104,255,.98),rgba(59,155,255,.96));border-color:rgba(136,198,255,.5);box-shadow:0 10px 20px rgba(24,63,143,.34);color:#eef6ff}
+	      .tab.cat-logic.active,.uiBtn.cat-logic.active{background:linear-gradient(135deg,#8bb6ff,#c8f1ff);color:#0f2240}
+	      .tab.cat-graphics,.uiBtn.cat-graphics,.mbtn.cat-graphics{background:linear-gradient(135deg,rgba(18,163,127,.98),rgba(36,199,156,.94));border-color:rgba(126,245,218,.35);box-shadow:0 10px 20px rgba(7,82,65,.28);color:#edfffa}
+	      .tab.cat-graphics.active,.uiBtn.cat-graphics.active{background:linear-gradient(135deg,#8ff1d6,#d7fff1);color:#0f3b31}
+	      .tab.cat-sound,.uiBtn.cat-sound,.mbtn.cat-sound{background:linear-gradient(135deg,rgba(255,118,87,.98),rgba(255,172,83,.95));border-color:rgba(255,211,149,.45);box-shadow:0 10px 20px rgba(123,61,15,.26);color:#fff8f2}
+	      .tab.cat-sound.active,.uiBtn.cat-sound.active{background:linear-gradient(135deg,#ffd0ad,#fff1d4);color:#4b2607}
+	      .fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{padding:10px 16px}
+	      .fileBtn{background:linear-gradient(135deg,rgba(82,101,133,.95),rgba(47,62,89,.96));color:#eff5ff}
+	      .panelSkin{background:linear-gradient(180deg,rgba(19,31,51,.92),rgba(11,21,36,.96));border:1px solid rgba(141,189,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 20px 32px rgba(2,8,18,.22)}
+	      .codeView,.docsView,.splitView,.runtimeView{inset:20px}
+	      .codeView{padding:22px;gap:0;background:
+	        radial-gradient(circle at top left, rgba(83,123,255,.15), transparent 28%),
+	        linear-gradient(180deg,rgba(20,31,52,.96),rgba(9,18,31,.98));
+	        border:1px solid rgba(140,188,255,.24);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 28px 38px rgba(2,8,18,.24)}
+	      .codeHeaderBar{flex-direction:row;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px;padding:0}
+	      .codeTabsBar{flex:1 1 auto;padding:4px 2px 6px}
+	      .codeTabActions{justify-content:flex-end}
+	      .codeFileTab{padding:9px 17px;font-size:13px;border-width:1px;border-color:rgba(255,255,255,.12);box-shadow:0 10px 18px rgba(2,8,18,.24)}
+	      .codeScrollShell{--code-font-size:16px;--code-line-height:24px;--code-pad-y:18px;--code-pad-left:18px;--code-pad-right:22px;border-radius:24px;background:linear-gradient(180deg,#07101d,#0c1627);box-shadow:inset 0 0 0 1px rgba(137,187,255,.12),0 18px 30px rgba(1,7,18,.26)}
+	      .codeEditorSurface{border:1px solid rgba(137,187,255,.18);border-radius:22px;background:#0a1321;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+	      .codeLineNumbers{background:linear-gradient(180deg,#101b30,#0d1627);color:#7f97ba;border-right:1px solid rgba(137,187,255,.12)}
+	      .codeHighlight{color:#eaf2ff}
+	      .code textarea.code{caret-color:#f5fbff}
+	      .tok-comment{color:#617596}
+	      .tok-keyword{color:#8db9ff}
+	      .tok-builtin{color:#65dcff}
+	      .tok-function{color:#73f0bf}
+	      .tok-number{color:#ffb36f}
+	      .tok-string{color:#ff95c1}
+	      .tok-operator{color:#d9e5fb}
+	      .tok-identifier{color:#e9f1ff}
+	      .splitView{grid-template-columns:minmax(340px,380px) minmax(0,1fr);gap:14px}
+	      .sidebar{background:linear-gradient(180deg,rgba(15,25,43,.85),rgba(10,18,31,.92))}
+	      .pane{border:1px solid rgba(139,187,255,.2);border-radius:18px;background:linear-gradient(180deg,rgba(26,40,65,.94),rgba(15,26,43,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 24px rgba(2,8,18,.18)}
+	      .pane h4,.docName{color:#8fd7ff}
+	      .field label,.docDesc,.projName{color:#c6d7f3}
+	      .sidebar input,.sidebar select,.sidebar textarea,.menuSettingRow select{border:1px solid rgba(146,191,255,.22);background:rgba(7,15,27,.88);color:#edf4ff}
+	      .itemRow,.tileBtn,.miniKey,.menuCard,.docsSection,.toast{border:1px solid rgba(145,190,255,.18);background:linear-gradient(180deg,rgba(24,38,62,.95),rgba(14,24,40,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 12px 22px rgba(2,8,18,.2);color:#e3edff}
+	      .itemRow.active,.tileBtn.active,.miniKey.active{border-color:rgba(115,206,255,.72);box-shadow:inset 0 0 0 1px rgba(180,237,255,.12),0 14px 22px rgba(14,78,128,.26)}
+	      .tileBtn.active::after{border-color:rgba(115,206,255,.6)}
+	      .canvasWrap,.waveCanvas{border:1px solid rgba(145,190,255,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+	      .edgePalette{top:68px;left:12px;bottom:12px;border:1px solid rgba(145,190,255,.2);background:linear-gradient(180deg,rgba(19,31,51,.95),rgba(10,20,33,.98));box-shadow:0 12px 20px rgba(2,8,18,.22)}
+	      .palBtn{border-width:1px;box-shadow:0 10px 18px rgba(2,8,18,.2)}
+	      .paneToolbar{top:18px;left:18px}
+	      .overlayTools,#spriteOverlayTools{top:76px;right:12px}
+	      .screenStage{inset:14px;border:1px solid rgba(145,190,255,.18);background:radial-gradient(circle at top, rgba(41,74,126,.36), transparent 40%),#09111d;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+	      #screen{width:min(100%,1120px);height:auto;aspect-ratio:16 / 9}
+	      .runtimeBar{top:18px;right:18px}
+	      .runtimeErrorBox{left:22px;top:22px;background:rgba(111,24,35,.92)}
+	      .menu{top:82px;right:18px}
+	      .menuCard{background:linear-gradient(180deg,rgba(18,30,49,.98),rgba(10,18,31,.98))}
+	      .menu h3,.docsSection h3{color:#eff7ff;background:linear-gradient(135deg,#4f69ff,#26b3ff);text-shadow:none}
+	      .toast{top:82px;left:18px}
+	    }
 </style>
 </head>
 <body>
@@ -505,6 +545,25 @@ function updateCodeLineNumbers(){
   if(shell){
     shell.scrollTop=prevTop;
     shell.scrollLeft=prevLeft;
+  }
+  syncCodeEditorScroll(shell?shell.scrollTop:ed.scrollTop, shell?shell.scrollLeft:ed.scrollLeft);
+}
+function syncCodeEditorScroll(scrollTop, scrollLeft){
+  const ed=$("codeEditor"), shell=$("codeScrollShell"), highlight=$("codeHighlight"), gutter=$("codeLineNumbers");
+  const top=Math.max(0, Number.isFinite(scrollTop)?scrollTop:0);
+  const left=Math.max(0, Number.isFinite(scrollLeft)?scrollLeft:0);
+  if(shell){
+    shell.style.setProperty("--code-scroll-top", `${top}px`);
+    shell.style.setProperty("--code-scroll-left", `${left}px`);
+  }
+  if(gutter) gutter.style.setProperty("--code-scroll-top", `${top}px`);
+  if(ed){
+    if(ed.scrollTop!==top) ed.scrollTop=top;
+    if(ed.scrollLeft!==left) ed.scrollLeft=left;
+  }
+  if(highlight){
+    if(highlight.scrollTop!==top) highlight.scrollTop=top;
+    if(highlight.scrollLeft!==left) highlight.scrollLeft=left;
   }
 }
 function splitLuaLineComment(line){ let quote=null; for(let i=0;i<line.length;i++){ const ch=line[i], next=line[i+1]; if(quote){ if(ch==="\\"){ i++; continue; } if(ch===quote) quote=null; continue; } if(ch==='"'||ch==="'"){ quote=ch; continue; } if(ch==="-"&&next==="-") return {code:line.slice(0,i), comment:line.slice(i)}; } return {code:line, comment:""}; }
@@ -1250,8 +1309,8 @@ $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteCo
 
   ["musicFileInput","musicLoopInput"].forEach(id=>$(id).addEventListener('input',()=>{ updateCurrentMusicFromUI();  })); $("stopMusicBtn").onclick=()=>stopMusicPlayback();
   $("codeEditor").addEventListener('input',()=>{ state.lastEdited='code'; saveEditorToCurrentCodeFile(); updateCodeLineNumbers(); clearTimeout(state.codeDebounce); state.codeDebounce=setTimeout(()=>{ if(state.syncLock) return; runtime.setLua(getProjectLua()); },180); });
-  $("codeEditor").addEventListener('scroll',()=>{ const shell=$("codeScrollShell"), highlight=$("codeHighlight"); if(shell && shell.scrollTop!==$("codeEditor").scrollTop) shell.scrollTop=$("codeEditor").scrollTop; if(highlight) highlight.scrollTop=$("codeEditor").scrollTop; if(highlight) highlight.scrollLeft=$("codeEditor").scrollLeft; });
-  $("codeScrollShell").addEventListener('scroll',()=>{ const shell=$("codeScrollShell"), ed=$("codeEditor"), highlight=$("codeHighlight"); if(ed.scrollTop!==shell.scrollTop) ed.scrollTop=shell.scrollTop; if(ed.scrollLeft!==shell.scrollLeft) ed.scrollLeft=shell.scrollLeft; if(highlight){ highlight.scrollTop=shell.scrollTop; highlight.scrollLeft=shell.scrollLeft; } });
+  $("codeEditor").addEventListener('scroll',()=>{ const ed=$("codeEditor"), shell=$("codeScrollShell"); if(shell){ if(shell.scrollTop!==ed.scrollTop) shell.scrollTop=ed.scrollTop; if(shell.scrollLeft!==ed.scrollLeft) shell.scrollLeft=ed.scrollLeft; } syncCodeEditorScroll(ed.scrollTop, ed.scrollLeft); });
+  $("codeScrollShell").addEventListener('scroll',()=>{ const shell=$("codeScrollShell"); syncCodeEditorScroll(shell.scrollTop, shell.scrollLeft); });
   window.addEventListener('resize',()=>updateCodeLineNumbers());
   $("playMusicBtn").onclick=async()=>{ try{ await ctxAudio().resume(); }catch{} playMusicEntry(state.currentMusicIndex, "play", currentMusic().loop); };
   $("spriteAnimPlayBtn").onclick=()=>{ state.spriteAnimPlaying=true; drawSpriteAnimPreview(); };
