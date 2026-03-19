@@ -119,6 +119,7 @@
     #spriteOverlayTools{right:8px;top:64px;left:auto;bottom:auto}
     #spriteOverlayTools.hidden,#mapOverlayTools.hidden{display:none}
     .overlayTools .uiBtn{padding:4px 8px;font-size:11px;min-width:54px}
+    .overlayTools .uiBtn.destructive{background:linear-gradient(180deg,#ffe5e1,#f6b0a2);border-color:#8a1c1c;box-shadow:0 4px 0 #6f1818;color:#6f1818}
     .animPreviewBar{position:absolute;left:14px;right:14px;bottom:14px;z-index:25;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;border:3px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,247,227,.96),rgba(239,212,160,.98));box-shadow:0 4px 0 #c08b52}
     .animPreviewBar canvas{width:72px;height:72px;border:3px solid var(--line);border-radius:12px;background:#fffaf1;image-rendering:pixelated;flex:0 0 auto}
     .edgePalette{position:absolute;left:8px;top:56px;bottom:8px;width:44px;z-index:26;display:flex;flex-direction:column;gap:6px;overflow-y:auto;padding:4px;border:3px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#fff2d7,#f0d7a2);box-shadow:0 3px 0 #c08b52}
@@ -181,69 +182,69 @@
     #soundView .mainPane,#musicView .mainPane{display:none !important;}
 
 	    @media (min-width: 1024px){
-	      html,body{background:
-	        linear-gradient(180deg,#1b1230 0%,#120a24 100%)}
-	      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px;padding-top:max(18px,env(safe-area-inset-top));color:#e8f0ff}
-	      .app{width:min(1680px,calc(100vw - 36px));height:min(980px,calc(100vh - 36px));border:2px solid #3e3466;border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(5,2,16,.55),0 0 0 3px #130d20;background:linear-gradient(180deg,#171028,#0f0b1c)}
-	      .topbar{flex-basis:56px;gap:10px;padding:8px 12px;background:linear-gradient(180deg,#2a2150,#191335);border-bottom:2px solid #473a7d;box-shadow:inset 0 -1px 0 rgba(255,255,255,.04)}
-	      .brand{padding:10px 14px;border-radius:8px;border:2px solid #f8e45c;background:linear-gradient(180deg,#6d5cff,#4b3cc7);box-shadow:0 3px 0 #2e2475;font-size:14px;color:#fff7cb;text-shadow:1px 1px 0 #241d63}
+	      :root{--bg:#0d0c0c;--paper:#ffffff;--panel:#a5a2a2;--panel2:#8b8989;--line:#002b49;--shadow:#0d0c0c;--ink:#0d0c0c;--accent:#dd2020;--accent2:#dd2020;--blue:#002b49;--green:#002b49;--cream:#ffffff;--danger:#dd2020}
+	      html,body{background:linear-gradient(180deg,#0d0c0c 0%,#002b49 100%)}
+	      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px;padding-top:max(18px,env(safe-area-inset-top));color:#ffffff}
+	      .app{width:min(1680px,calc(100vw - 36px));height:min(980px,calc(100vh - 36px));border:2px solid #ffffff;border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(13,12,12,.6),0 0 0 4px #002b49;background:linear-gradient(180deg,#a5a2a2,#8e8b8b)}
+	      .topbar{flex-basis:56px;gap:10px;padding:8px 12px;background:linear-gradient(180deg,#dd2020,#9f1212);border-bottom:3px solid #002b49;box-shadow:inset 0 -1px 0 rgba(255,255,255,.28)}
+	      .brand{padding:10px 14px;border-radius:8px;border:2px solid #ffffff;background:linear-gradient(180deg,#002b49,#00192b);box-shadow:0 3px 0 #0d0c0c;font-size:14px;color:#ffffff;text-shadow:1px 1px 0 #0d0c0c}
 	      .tabs{gap:6px}
-	      .tab,.fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{border:2px solid #4d4384;border-radius:8px;background:linear-gradient(180deg,#2d2454,#1d173a);box-shadow:0 3px 0 #120d23;color:#f2f6ff}
+	      .tab,.fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{border:2px solid #002b49;border-radius:8px;background:linear-gradient(180deg,#ffffff,#d9d7d7);box-shadow:0 3px 0 #0d0c0c;color:#0d0c0c}
 	      .tab{padding:7px 12px;font-size:12px;line-height:1.1}
-	      .tab.active,.uiBtn.active{background:linear-gradient(180deg,#7c6cff,#4e90ff);border-color:#d8e8ff;box-shadow:0 3px 0 #24408c;color:#fff}
-	      .tab.cat-logic,.uiBtn.cat-logic,.mbtn.cat-logic{background:linear-gradient(180deg,#5678ff,#3751d3);border-color:#a9c0ff;box-shadow:0 3px 0 #24368f;color:#f8fbff}
-	      .tab.cat-logic.active,.uiBtn.cat-logic.active{background:linear-gradient(180deg,#b4ccff,#7ca6ff);color:#15244f}
-	      .tab.cat-graphics,.uiBtn.cat-graphics,.mbtn.cat-graphics{background:linear-gradient(180deg,#34a86c,#207a4d);border-color:#b2f0ae;box-shadow:0 3px 0 #155133;color:#f4fff8}
-	      .tab.cat-graphics.active,.uiBtn.cat-graphics.active{background:linear-gradient(180deg,#cbff9e,#8fe36d);color:#1d3f18}
-	      .tab.cat-sound,.uiBtn.cat-sound,.mbtn.cat-sound{background:linear-gradient(180deg,#ff8f4c,#d16024);border-color:#ffd0a2;box-shadow:0 3px 0 #8e3610;color:#fff9f1}
-	      .tab.cat-sound.active,.uiBtn.cat-sound.active{background:linear-gradient(180deg,#ffe18f,#ffc657);color:#57350a}
+	      .tab.active,.uiBtn.active{background:linear-gradient(180deg,#dd2020,#b91818);border-color:#ffffff;box-shadow:0 3px 0 #002b49;color:#ffffff}
+	      .tab.cat-logic,.uiBtn.cat-logic,.mbtn.cat-logic{background:linear-gradient(180deg,#002b49,#001c30);border-color:#ffffff;box-shadow:0 3px 0 #0d0c0c;color:#ffffff}
+	      .tab.cat-logic.active,.uiBtn.cat-logic.active{background:linear-gradient(180deg,#ffffff,#d8d8d8);color:#002b49}
+	      .tab.cat-graphics,.uiBtn.cat-graphics,.mbtn.cat-graphics{background:linear-gradient(180deg,#a5a2a2,#7f7c7c);border-color:#002b49;box-shadow:0 3px 0 #0d0c0c;color:#0d0c0c}
+	      .tab.cat-graphics.active,.uiBtn.cat-graphics.active{background:linear-gradient(180deg,#ffffff,#dcdcdc);color:#dd2020}
+	      .tab.cat-sound,.uiBtn.cat-sound,.mbtn.cat-sound{background:linear-gradient(180deg,#dd2020,#9f1212);border-color:#ffffff;box-shadow:0 3px 0 #0d0c0c;color:#ffffff}
+	      .tab.cat-sound.active,.uiBtn.cat-sound.active{background:linear-gradient(180deg,#ffffff,#dadada);color:#002b49}
 	      .fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{padding:7px 11px}
-	      .fileBtn{background:linear-gradient(180deg,#4f5577,#343a58);color:#f4f6ff}
-	      .panelSkin{background:linear-gradient(180deg,#21183c,#140f28);border:2px solid #493f82;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 18px rgba(2,1,10,.3)}
+	      .fileBtn{background:linear-gradient(180deg,#002b49,#00192b);color:#ffffff;border-color:#ffffff}
+	      .panelSkin{background:linear-gradient(180deg,#ffffff,#d9d7d7);border:2px solid #002b49;box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 10px 18px rgba(13,12,12,.22)}
 	      .codeView,.docsView,.splitView,.runtimeView{inset:14px}
-	      .codeView{padding:14px;background:linear-gradient(180deg,#1c1532,#100c22);border:2px solid #4b4285;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 12px 20px rgba(2,1,10,.32)}
+	      .codeView{padding:14px;background:linear-gradient(180deg,#ffffff,#dedcdc);border:2px solid #002b49;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 12px 20px rgba(13,12,12,.22)}
 	      .codeHeaderBar{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;padding:0}
 	      .codeTabsBar{flex:1 1 auto;padding:2px 0 4px}
 	      .codeTabActions{justify-content:flex-end}
-	      .codeFileTab{padding:6px 12px;font-size:12px;border-width:1px;border-color:rgba(255,255,255,.12);box-shadow:0 4px 0 rgba(8,5,20,.6)}
-	      .codeScrollShell{--code-font-size:15px;--code-line-height:22px;--code-pad-y:14px;--code-pad-left:16px;--code-pad-right:18px;border-radius:10px;background:linear-gradient(180deg,#090d1a,#0e1322);box-shadow:inset 0 0 0 1px rgba(137,187,255,.12)}
-	      .codeEditorSurface{border:1px solid rgba(137,187,255,.18);border-radius:10px;background:#0a1321;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
-	      .codeLineNumbers{background:linear-gradient(180deg,#11182e,#0c1324);color:#8596bf;border-right:1px solid rgba(137,187,255,.12)}
-	      .codeHighlight{color:#eaf2ff}
-	      .code textarea.code{caret-color:#f5fbff}
-	      .tok-comment{color:#677796}
-	      .tok-keyword{color:#8db9ff}
-	      .tok-builtin{color:#6de0ff}
-	      .tok-function{color:#8cffb1}
-	      .tok-number{color:#ffc26f}
-	      .tok-string{color:#ff9ec5}
-	      .tok-operator{color:#d9e5fb}
-	      .tok-identifier{color:#e9f1ff}
+	      .codeFileTab{padding:6px 12px;font-size:12px;border-width:1px;border-color:#002b49;box-shadow:0 4px 0 rgba(13,12,12,.4)}
+	      .codeScrollShell{--code-font-size:15px;--code-line-height:22px;--code-pad-y:14px;--code-pad-left:16px;--code-pad-right:18px;border-radius:10px;background:linear-gradient(180deg,#0d0c0c,#1a1a1a);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+	      .codeEditorSurface{border:1px solid #002b49;border-radius:10px;background:#0d0c0c;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+	      .codeLineNumbers{background:linear-gradient(180deg,#2b2b2b,#191919);color:#a5a2a2;border-right:1px solid rgba(255,255,255,.12)}
+	      .codeHighlight{color:#f6f6f6}
+	      .code textarea.code{caret-color:#ffffff}
+	      .tok-comment{color:#a5a2a2}
+	      .tok-keyword{color:#ff8c8c}
+	      .tok-builtin{color:#7cc7ff}
+	      .tok-function{color:#ffffff}
+	      .tok-number{color:#f4c063}
+	      .tok-string{color:#ffe5a6}
+	      .tok-operator{color:#dcdcdc}
+	      .tok-identifier{color:#ffffff}
 	      .splitView{grid-template-columns:minmax(300px,340px) minmax(0,1fr);gap:10px}
-	      .sidebar{background:linear-gradient(180deg,rgba(23,18,42,.92),rgba(15,11,28,.96))}
-	      .pane{padding:8px;margin-bottom:8px;border:1px solid #584b96;border-radius:10px;background:linear-gradient(180deg,#2b2152,#1a1433);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 6px 12px rgba(2,1,10,.26)}
-	      .pane h4,.docName{color:#8fd7ff}
-	      .field label,.docDesc,.projName{color:#d1dcff}
-	      .sidebar input,.sidebar select,.sidebar textarea,.menuSettingRow select{border:1px solid #6a5eb1;background:#0d0a19;color:#f0f4ff;border-radius:8px;padding:7px}
-	      .itemRow,.tileBtn,.miniKey,.menuCard,.docsSection,.toast{border:1px solid #5b5097;background:linear-gradient(180deg,#2a204f,#18122f);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 6px 12px rgba(2,1,10,.24);color:#ecf2ff}
-	      .itemRow.active,.tileBtn.active,.miniKey.active{border-color:#a8d6ff;box-shadow:inset 0 0 0 1px rgba(180,237,255,.12),0 8px 14px rgba(21,80,146,.26)}
-	      .tileBtn.active::after{border-color:rgba(135,210,255,.72)}
-	      .canvasWrap,.waveCanvas,.animPreviewBar{border:1px solid #5d5199;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
-	      .edgePalette{top:60px;left:10px;bottom:10px;border:1px solid #5a4d97;background:linear-gradient(180deg,#22193f,#130f27);box-shadow:0 8px 14px rgba(2,1,10,.28)}
-	      .palBtn{border-width:1px;box-shadow:0 4px 0 rgba(2,1,10,.34)}
+	      .sidebar{background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(230,229,229,.92))}
+	      .pane{padding:8px;margin-bottom:8px;border:1px solid #002b49;border-radius:10px;background:linear-gradient(180deg,#ffffff,#e2e0e0);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 12px rgba(13,12,12,.14)}
+	      .pane h4,.docName{color:#dd2020}
+	      .field label,.docDesc,.projName{color:#002b49}
+	      .sidebar input,.sidebar select,.sidebar textarea,.menuSettingRow select{border:1px solid #002b49;background:#ffffff;color:#0d0c0c;border-radius:8px;padding:7px}
+	      .itemRow,.tileBtn,.miniKey,.menuCard,.docsSection,.toast{border:1px solid #002b49;background:linear-gradient(180deg,#ffffff,#dfdddd);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 12px rgba(13,12,12,.16);color:#0d0c0c}
+	      .itemRow.active,.tileBtn.active,.miniKey.active{border-color:#dd2020;box-shadow:inset 0 0 0 1px rgba(221,32,32,.12),0 8px 14px rgba(0,43,73,.22)}
+	      .tileBtn.active::after{border-color:rgba(221,32,32,.72)}
+	      .canvasWrap,.waveCanvas,.animPreviewBar{border:1px solid #002b49;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+	      .edgePalette{top:60px;left:10px;bottom:10px;border:1px solid #002b49;background:linear-gradient(180deg,#ffffff,#dfdddd);box-shadow:0 8px 14px rgba(13,12,12,.18)}
+	      .palBtn{border-width:1px;box-shadow:0 4px 0 rgba(13,12,12,.28)}
 	      .paneToolbar{top:12px;left:12px}
 	      .overlayTools,#spriteOverlayTools{top:58px;right:10px}
 	      .overlayTools .uiBtn{min-width:46px;padding:4px 7px;font-size:10px}
-	      .screenStage{inset:10px;border:2px solid #51458c;border-radius:12px;background:radial-gradient(circle at top, rgba(83,119,255,.22), transparent 36%),#090d18;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+	      .screenStage{inset:10px;border:2px solid #002b49;border-radius:12px;background:radial-gradient(circle at top, rgba(221,32,32,.15), transparent 36%),#0d0c0c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
 	      #screen{width:min(100%,1120px);height:auto;aspect-ratio:16 / 9;border-radius:6px}
 	      .runtimeBar{top:12px;right:12px}
-	      .runtimeErrorBox{left:16px;top:16px;background:rgba(111,24,35,.92)}
+	      .runtimeErrorBox{left:16px;top:16px;background:rgba(221,32,32,.92)}
 	      .menu{top:66px;right:14px}
-	      .menuCard{background:linear-gradient(180deg,#1d1638,#100c22)}
-	      .menu h3,.docsSection h3{color:#fff8cf;background:linear-gradient(180deg,#6e5bff,#5644d7);text-shadow:1px 1px 0 #241c63}
+	      .menuCard{background:linear-gradient(180deg,#ffffff,#dfdddd)}
+	      .menu h3,.docsSection h3{color:#ffffff;background:linear-gradient(180deg,#dd2020,#9f1212);text-shadow:1px 1px 0 #0d0c0c}
 	      .toast{top:66px;left:14px}
-	      .animPreviewBar{left:12px;right:12px;bottom:12px;padding:6px 8px;border-radius:10px;background:linear-gradient(180deg,#271d49,#16112c)}
-	      .animPreviewBar canvas{border-width:1px;border-color:#6a5db3}
+	      .animPreviewBar{left:12px;right:12px;bottom:12px;padding:6px 8px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#dfdddd)}
+	      .animPreviewBar canvas{border-width:1px;border-color:#002b49}
 	    }
 </style>
 </head>
@@ -285,7 +286,7 @@
           <div class="pane"><h4>SPRITE SIZE</h4><div class="formRow"><div class="field"><label>Width</label><input id="spriteWInput" type="number" min="1" value="16"></div><div class="field"><label>Height</label><input id="spriteHInput" type="number" min="1" value="16"></div></div><div class="formRow"><button class="mbtn" id="applySpriteSizeBtn">Apply Size</button></div></div>
           <div class="pane"><h4>PALETTE</h4><div class="pageRow"><button class="uiBtn" id="palettePrevBtn">◀</button><div class="docDesc" id="palettePageLabel">1 / 1</div><button class="uiBtn" id="paletteNextBtn">▶</button></div><div class="paletteGrid" id="paletteGrid"></div><input id="paletteColorInput" type="color" value="#ffffff" style="position:fixed;left:-9999px;top:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;z-index:-1"><div class="formRow" style="margin-top:8px"><button class="mbtn" id="editPaletteColorBtn">Edit Color</button><button class="mbtn" id="addPaletteColorBtn">Add Color</button><button class="mbtn" id="removePaletteColorBtn">Remove Color</button></div></div>
         </div>
-        <div class="mainPane panelSkin"><div class="paneToolbar"><button class="uiBtn" id="toggleSpriteSidebarBtn" aria-label="Toggle sprite panel">&lt;</button></div><div class="edgePalette hidden" id="spriteEdgePalette"></div><div class="overlayTools" id="spriteOverlayTools"><button class="uiBtn" id="spriteDrawBtn">Draw</button><button class="uiBtn" id="spriteEraseBtn">Erase</button><button class="uiBtn" id="spriteFillBtn">Fill</button><button class="uiBtn" id="spritePanBtn">Pan</button><button class="uiBtn" id="spriteUndoBtn">Undo</button><button class="uiBtn" id="spriteRedoBtn">Redo</button><button class="uiBtn" id="spriteZoomOutBtn">-</button><button class="uiBtn" id="spriteZoomInBtn">+</button></div><div class="canvasWrap" id="spriteCanvasWrap"><canvas id="spriteCanvas"></canvas></div><div class="animPreviewBar" id="animPreviewBar"><canvas id="spriteAnimPreviewCanvas" width="72" height="72"></canvas><button class="uiBtn" id="spriteAnimPrevBtn">◀</button><button class="uiBtn" id="spriteAnimPlayBtn">Play</button><button class="uiBtn" id="spriteAnimPauseBtn">Pause</button><button class="uiBtn" id="spriteAnimNextBtn">▶</button><label class="docDesc">Speed <input id="spriteAnimSpeedInput" type="number" min="1" step="1" value="6" style="width:64px"></label></div></div>
+        <div class="mainPane panelSkin"><div class="paneToolbar"><button class="uiBtn" id="toggleSpriteSidebarBtn" aria-label="Toggle sprite panel">&lt;</button></div><div class="edgePalette hidden" id="spriteEdgePalette"></div><div class="overlayTools" id="spriteOverlayTools"><button class="uiBtn" id="spriteDrawBtn">Draw</button><button class="uiBtn" id="spriteEraseBtn">Erase</button><button class="uiBtn" id="spriteFillBtn">Fill</button><button class="uiBtn" id="spritePanBtn">Pan</button><button class="uiBtn" id="spriteUndoBtn">Undo</button><button class="uiBtn" id="spriteRedoBtn">Redo</button><button class="uiBtn" id="spriteZoomOutBtn">-</button><button class="uiBtn" id="spriteZoomInBtn">+</button><button class="uiBtn destructive" id="spriteClearBtn">Clear</button></div><div class="canvasWrap" id="spriteCanvasWrap"><canvas id="spriteCanvas"></canvas></div><div class="animPreviewBar" id="animPreviewBar"><canvas id="spriteAnimPreviewCanvas" width="72" height="72"></canvas><button class="uiBtn" id="spriteAnimPrevBtn">◀</button><button class="uiBtn" id="spriteAnimPlayBtn">Play</button><button class="uiBtn" id="spriteAnimPauseBtn">Pause</button><button class="uiBtn" id="spriteAnimNextBtn">▶</button><label class="docDesc">Speed <input id="spriteAnimSpeedInput" type="number" min="1" step="1" value="6" style="width:64px"></label></div></div>
       </div>
     </div>
 
@@ -326,7 +327,7 @@
           <div class="pane"><h4>TILES</h4><div class="tilePalette" id="tilePalette"></div></div>
           <div class="pane"><h4>LAYERS</h4><div class="formRow"><button class="mbtn" id="addLayerBtn">Add Layer</button></div><div class="layerList" id="layerList"></div></div>
         </div>
-        <div class="mainPane panelSkin"><div class="paneToolbar"><button class="uiBtn" id="toggleMapSidebarBtn" aria-label="Toggle map panel">&lt;</button></div><div class="overlayTools" id="mapOverlayTools"><button class="uiBtn" id="mapZoomOutBtn">-</button><button class="uiBtn" id="mapZoomInBtn">+</button><button class="uiBtn" id="mapPanBtn">Pan</button><button class="uiBtn" id="mapFillBtn">Fill</button><button class="uiBtn" id="mapAnimToggleBtn">Pause</button></div><div class="canvasWrap" id="mapCanvasWrap"><canvas id="mapCanvas"></canvas></div></div>
+        <div class="mainPane panelSkin"><div class="paneToolbar"><button class="uiBtn" id="toggleMapSidebarBtn" aria-label="Toggle map panel">&lt;</button></div><div class="overlayTools" id="mapOverlayTools"><button class="uiBtn" id="mapZoomOutBtn">-</button><button class="uiBtn" id="mapZoomInBtn">+</button><button class="uiBtn" id="mapPanBtn">Pan</button><button class="uiBtn" id="mapFillBtn">Fill</button><button class="uiBtn" id="mapAnimToggleBtn">Pause</button><button class="uiBtn destructive" id="mapClearBtn">Clear</button></div><div class="canvasWrap" id="mapCanvasWrap"><canvas id="mapCanvas"></canvas></div></div>
       </div>
     </div>
 
@@ -387,7 +388,8 @@ const FILE_TAB_THEMES = [
 const EXAMPLES = {
   blank:`function _init()\nend\n\nfunction _update()\nend\n\nfunction _draw()\n  cls()\nend`
 };
-const state = {activeView:"code",lastEdited:"code",currentProjectName:"",hasSaved:false,currentMapIndex:0,currentLayerIndex:0,currentSpriteIndex:0,currentSpriteFrame:0,currentSoundIndex:0,currentMusicIndex:0,selectedTileId:1,selectedPaletteIndex:0,palettePage:0,spriteFramePage:0,spriteTool:"draw",spriteZoom:20,spriteOffsetX:40,spriteOffsetY:40,mapZoom:1,mapOffsetX:0,mapOffsetY:0,mapTool:"paint",mapAnimPlaying:true,mapAnimPausedAt:0,currentCodeFile:0,spriteAnimPlaying:true,spriteAnimSpeed:6,syncLock:false,codeDebounce:0,toastTimer:0,lastRunError:"",appProject:null};
+const SPRITE_FRAMES_PER_PAGE = 9;
+const state = {activeView:"code",lastEdited:"code",currentProjectName:"",hasSaved:false,currentMapIndex:0,currentLayerIndex:0,currentSpriteIndex:0,currentSpriteFrame:0,currentSoundIndex:0,currentMusicIndex:0,selectedTileId:1,selectedPaletteIndex:0,palettePage:0,spriteFramePage:0,spriteTool:"draw",spriteZoom:20,spriteOffsetX:0,spriteOffsetY:0,mapZoom:1,mapOffsetX:0,mapOffsetY:0,mapTool:"paint",mapAnimPlaying:true,mapAnimPausedAt:0,currentCodeFile:0,spriteAnimPlaying:true,spriteAnimSpeed:6,syncLock:false,codeDebounce:0,toastTimer:0,lastRunError:"",appProject:null};
 const PRESET_PALETTE_PAGES = [
   ["#000000","#1d2b53","#7e2553","#008751","#ab5236","#5f574f","#c2c3c7","#fff1e8","#ff004d","#ffa300","#ffec27","#00e436","#29adff","#83769c","#ff77a8","#ffccaa"],
   ["#291814","#111d35","#422136","#125359","#742f29","#49333b","#a28879","#f3ef7d","#be1250","#ff6c24","#a8e72e","#00b543","#065ab5","#754665","#ff6e59","#ff9d81"],
@@ -927,10 +929,33 @@ function refreshSpriteList(){
   const folder=currentSpriteFolder();
   if($("spriteFolderCountLabel")) $("spriteFolderCountLabel").textContent=String(folder.frames.length);
 }
+function isSpriteFrameEmpty(sprite){ return !sprite || !sprite.pixels || sprite.pixels.every(row=>Array.isArray(row) && row.every(pixel=>pixel<0)); }
+function clearCurrentSpriteFrame(){
+  const sprite=currentSprite();
+  if(!confirm(`Clear all pixels in frame ${spriteFrameName(state.currentSpriteFrame)}?`)) return;
+  pushSpriteHistory();
+  for(let y=0;y<sprite.h;y++) for(let x=0;x<sprite.w;x++) sprite.pixels[y][x]=-1;
+  invalidateEditorRenderCache();
+  drawSpriteEditor();
+  refreshTilePalette();
+  drawMapEditor();
+  runtime.syncProject(state.appProject);
+}
+function getSpriteCanvasMetrics(){
+  const sprite=currentSprite();
+  const z=getSpriteDisplayZoom();
+  const wrap=$("spriteCanvasWrap");
+  const minWidth=wrap?wrap.clientWidth:0;
+  const minHeight=wrap?wrap.clientHeight:0;
+  const padding=Math.max(120, z*4);
+  const width=Math.max(256, minWidth, Math.ceil(sprite.w*z + padding*2));
+  const height=Math.max(256, minHeight, Math.ceil(sprite.h*z + padding*2));
+  return {sprite, z, width, height, baseX:Math.floor((width-sprite.w*z)/2), baseY:Math.floor((height-sprite.h*z)/2)};
+}
 function refreshSpriteFrames(){
   const wrap=$("spriteFrameList"); if(!wrap) return; wrap.innerHTML="";
   const folder=currentSpriteFolder();
-  const perPage=6;
+  const perPage=SPRITE_FRAMES_PER_PAGE;
   const pages=Math.max(1, Math.ceil(folder.frames.length/perPage));
   state.spriteFramePage=Math.max(0, Math.min(state.spriteFramePage, pages-1));
   const start=state.spriteFramePage*perPage;
@@ -948,8 +973,8 @@ function refreshSpriteFrames(){
 function syncSpriteUI(){ const s=currentSprite(); $("spriteWInput").value=s.w; $("spriteHInput").value=s.h; refreshSpriteList(); refreshSpriteFrames(); refreshPaletteUI(); refreshEdgePalette(); setSpriteTool(state.spriteTool); }
 function getSpriteDisplayZoom(){ return Math.max(1,state.spriteZoom||1); }
 function getSpriteGridStep(){ const z=getSpriteDisplayZoom(); if(z>10) return 1; if(z>=6) return 2; if(z>=3) return 4; return 8; }
-function getSpriteCellRect(x,y){ const z=getSpriteDisplayZoom(); return {rx:state.spriteOffsetX+x*z, ry:state.spriteOffsetY+y*z, size:z}; }
-function drawSpriteEditor(){ ensureProjectData(); const canvas=$("spriteCanvas"), ctx=canvas.getContext('2d'), s=currentSprite(); const z=getSpriteDisplayZoom(); const cw=Math.max(256,Math.floor(s.w*z+200)), ch=Math.max(256,Math.floor(s.h*z+200)); canvas.width=cw; canvas.height=ch; ctx.clearRect(0,0,cw,ch); ctx.fillStyle="#fdf3dd"; ctx.fillRect(0,0,cw,ch); const gridStep=getSpriteGridStep(); for(let y=0;y<s.h;y++) for(let x=0;x<s.w;x++){ const p=s.pixels[y][x]; const {rx,ry,size}=getSpriteCellRect(x,y); if(p>=0&&state.appProject.palette[p]){ ctx.fillStyle=state.appProject.palette[p]; const inset=size>4?1:0; ctx.fillRect(rx+inset,ry+inset,Math.max(1,size-inset*2),Math.max(1,size-inset*2)); } if(x%gridStep===0 && y%gridStep===0){ ctx.strokeStyle="rgba(80,50,20,.2)"; ctx.lineWidth=Math.max(1,Math.min(2,size*0.08)); ctx.strokeRect(rx,ry,size*gridStep,size*gridStep); } } drawSpriteAnimPreview(); }
+function getSpriteCellRect(x,y,metrics=getSpriteCanvasMetrics()){ const {baseX,baseY,z}=metrics; return {rx:baseX+state.spriteOffsetX+x*z, ry:baseY+state.spriteOffsetY+y*z, size:z}; }
+function drawSpriteEditor(){ ensureProjectData(); const canvas=$("spriteCanvas"), ctx=canvas.getContext('2d'); const metrics=getSpriteCanvasMetrics(); const {sprite:s, width:cw, height:ch}=metrics; canvas.width=cw; canvas.height=ch; ctx.clearRect(0,0,cw,ch); ctx.fillStyle="#fdf3dd"; ctx.fillRect(0,0,cw,ch); const gridStep=getSpriteGridStep(); for(let y=0;y<s.h;y++) for(let x=0;x<s.w;x++){ const p=s.pixels[y][x]; const {rx,ry,size}=getSpriteCellRect(x,y,metrics); if(p>=0&&state.appProject.palette[p]){ ctx.fillStyle=state.appProject.palette[p]; const inset=size>4?1:0; ctx.fillRect(rx+inset,ry+inset,Math.max(1,size-inset*2),Math.max(1,size-inset*2)); } if(x%gridStep===0 && y%gridStep===0){ ctx.strokeStyle="rgba(80,50,20,.2)"; ctx.lineWidth=Math.max(1,Math.min(2,size*0.08)); ctx.strokeRect(rx,ry,size*gridStep,size*gridStep); } } drawSpriteAnimPreview(); }
 function drawSpriteAnimPreview(){
   const c=$("spriteAnimPreviewCanvas"); if(!c) return;
   const ctx=c.getContext('2d'); const folder=currentSpriteFolder(); if(!folder) return;
@@ -963,7 +988,7 @@ function drawSpriteAnimPreview(){
   for(let y=0;y<s.h;y++) for(let x=0;x<s.w;x++){ const p=s.pixels[y][x]; if(p>=0&&state.appProject.palette[p]){ ctx.fillStyle=state.appProject.palette[p]; ctx.fillRect(ox+x*scale,oy+y*scale,scale,scale); } }
 }
 function spriteFloodFill(x,y,from,to){ const s=currentSprite(); if(x<0||y<0||x>=s.w||y>=s.h||from===to) return; const stack=[[x,y]]; while(stack.length){ const [cx,cy]=stack.pop(); if(cx<0||cy<0||cx>=s.w||cy>=s.h) continue; if(s.pixels[cy][cx]!==from) continue; s.pixels[cy][cx]=to; stack.push([cx+1,cy],[cx-1,cy],[cx,cy+1],[cx,cy-1]); } }
-function spriteCoordsFromEvent(e){ const canvas=$("spriteCanvas"), rect=canvas.getBoundingClientRect(); const scaleX=canvas.width/rect.width, scaleY=canvas.height/rect.height; const px=(e.clientX-rect.left)*scaleX, py=(e.clientY-rect.top)*scaleY; const z=getSpriteDisplayZoom(); return {x:Math.floor((px-state.spriteOffsetX)/z), y:Math.floor((py-state.spriteOffsetY)/z)}; }
+function spriteCoordsFromEvent(e){ const canvas=$("spriteCanvas"), rect=canvas.getBoundingClientRect(); const scaleX=canvas.width/rect.width, scaleY=canvas.height/rect.height; const px=(e.clientX-rect.left)*scaleX, py=(e.clientY-rect.top)*scaleY; const {baseX,baseY,z}=getSpriteCanvasMetrics(); return {x:Math.floor((px-(baseX+state.spriteOffsetX))/z), y:Math.floor((py-(baseY+state.spriteOffsetY))/z)}; }
 function forEachLinePoint(x0,y0,x1,y1,fn){ let dx=Math.abs(x1-x0), sx=x0<x1?1:-1, dy=-Math.abs(y1-y0), sy=y0<y1?1:-1, err=dx+dy; while(true){ fn(x0,y0); if(x0===x1 && y0===y1) break; const e2=2*err; if(e2>=dy){ err+=dy; x0+=sx; } if(e2<=dx){ err+=dx; y0+=sy; } } }
 function paintSpritePoint(x,y,mode){ const s=currentSprite(); if(x<0||y<0||x>=s.w||y>=s.h) return false; if(mode==="erase"){ if(s.pixels[y][x]===-1) return false; s.pixels[y][x]=-1; return true; } if(mode==="draw"){ if(s.pixels[y][x]===state.selectedPaletteIndex) return false; s.pixels[y][x]=state.selectedPaletteIndex; return true; } return false; }
 function applySpriteToolAtEvent(e,lastPoint){ const s=currentSprite(); const point=spriteCoordsFromEvent(e); if(point.x<0||point.y<0||point.x>=s.w||point.y>=s.h) return point; let changed=false; if(state.spriteTool==="fill"){ pushSpriteHistory(); spriteFloodFill(point.x,point.y,s.pixels[point.y][point.x],state.selectedPaletteIndex); changed=true; } else { const mode=state.spriteTool==="erase"?"erase":"draw"; const start=lastPoint||point; forEachLinePoint(start.x,start.y,point.x,point.y,(x,y)=>{ if(paintSpritePoint(x,y,mode)) changed=true; }); } if(changed){ invalidateEditorRenderCache(); drawSpriteEditor(); refreshTilePalette(); drawMapEditor(); runtime.syncProject(state.appProject); } return point; }
@@ -1078,6 +1103,13 @@ function refreshTilePalette(){ const wrap=$("tilePalette"); wrap.innerHTML=""; c
 function makeEyeIconMarkup(hidden){ return hidden?`<svg class="eyeIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12c2.8-4 6-6 9-6s6.2 2 9 6c-2.8 4-6 6-9 6s-6.2-2-9-6z"></path><circle cx="12" cy="12" r="2.8"></circle><line x1="5" y1="19" x2="19" y2="5"></line></svg>`:`<svg class="eyeIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12c2.8-4 6-6 9-6s6.2 2 9 6c-2.8 4-6 6-9 6s-6.2-2-9-6z"></path><circle cx="12" cy="12" r="2.8"></circle></svg>`; }
 function refreshLayerList(){ const wrap=$("layerList"); wrap.innerHTML=""; currentLayers().forEach((layer,i)=>{ const row=document.createElement('div'); row.className='itemRow'+(i===state.currentLayerIndex?' active':''); const label=document.createElement('div'); label.className='layerLabel'; label.textContent=`${layer.name||'new layer'} (${i})`; const eyeBtn=document.createElement('button'); eyeBtn.className='uiBtn iconBtn eyeToggleBtn'+(layer.visible===false?' is-hidden':''); eyeBtn.type='button'; eyeBtn.title=layer.visible===false?'Show layer':'Hide layer'; eyeBtn.setAttribute('aria-pressed', layer.visible===false?'false':'true'); eyeBtn.innerHTML=makeEyeIconMarkup(layer.visible===false); eyeBtn.onclick=(e)=>{ e.stopPropagation(); layer.visible=layer.visible===false?true:false; refreshLayerList(); drawMapEditor(); runtime.syncProject(state.appProject); }; row.appendChild(label); row.appendChild(eyeBtn); row.onclick=()=>{ if(state.currentLayerIndex===i){ const name=prompt('Rename layer:', layer.name||'new layer'); if(name!=null){ const trimmed=name.trim(); if(trimmed) layer.name=trimmed; refreshLayerList(); runtime.syncProject(state.appProject); } return; } state.currentLayerIndex=i; refreshLayerList(); drawMapEditor(); }; wrap.appendChild(row); }); }
 function getAnimatedTileFrame(def,timeMs=performance.now()){ if(!def||!def.animated) return null; const folderIndex=Math.max(0,def.animFolder|0); const folder=state.appProject.spriteFolders[folderIndex]; if(!folder||!folder.frames||!folder.frames.length) return null; const speed=Math.max(0.1,Number(def.animSpeed)||6); return {folder:folderIndex,frame:Math.floor((timeMs/1000)*speed)%folder.frames.length}; }
+function clearCurrentMapLayer(){
+  if(!confirm(`Clear all tiles in layer ${currentLayers()[state.currentLayerIndex].name||state.currentLayerIndex}?`)) return;
+  const layer=currentLayers()[state.currentLayerIndex];
+  for(let y=0;y<layer.data.length;y++) for(let x=0;x<layer.data[y].length;x++) layer.data[y][x]=0;
+  drawMapEditor();
+  runtime.syncProject(state.appProject);
+}
 function drawMapEditor(){ ensureProjectData(); const mapObj=currentMap(), canvas=$("mapCanvas"), ctx=canvas.getContext('2d'); const tw=state.appProject.project.tile_w, th=state.appProject.project.tile_h, mw=state.appProject.project.map_w, mh=state.appProject.project.map_h; const animTime=getMapAnimationTimeMs(); canvas.width=mw*tw; canvas.height=mh*th; const z=state.mapZoom||1, ox=state.mapOffsetX||0, oy=state.mapOffsetY||0; canvas.style.transformOrigin="0 0"; canvas.style.transform=`translate(${ox}px,${oy}px) scale(${z})`; ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#fdf3dd'; ctx.fillRect(0,0,canvas.width,canvas.height); for(const layer of mapObj.layers){ if(layer.visible===false) continue; for(let y=0;y<mh;y++) for(let x=0;x<mw;x++){ const tid=layer.data[y][x]||0, def=state.appProject.tileDefs[tid]; if(!tid||!def) continue; const animatedRef=getAnimatedTileFrame(def, animTime); if(animatedRef){ const temp={...def,source:`${animatedRef.folder}${String.fromCharCode(97+animatedRef.frame)}`}; drawTileThumb(ctx,temp,x*tw,y*th,tw,th,tid,false); } else drawTileThumb(ctx,def,x*tw,y*th,tw,th,tid,false); } } }
 function syncMapUIFromProject(){ $("tileWInput").value=state.appProject.project.tile_w; $("tileHInput").value=state.appProject.project.tile_h; $("mapWInput").value=state.appProject.project.map_w; $("mapHInput").value=state.appProject.project.map_h; refreshMapList(); refreshTilePalette(); refreshLayerList(); refreshTileEditorFromSelected(); drawMapEditor(); }
 let mapSyncTimer=0;
@@ -1291,6 +1323,7 @@ function wireUI(){
   $("mapPanBtn").onclick=()=>{ state.mapTool = state.mapTool==='pan'?'paint':'pan'; $("mapPanBtn").classList.toggle('active', state.mapTool==='pan'); $("mapFillBtn").classList.remove('active'); };
   $("mapFillBtn").onclick=()=>{ state.mapTool = state.mapTool==='fill'?'paint':'fill'; $("mapFillBtn").classList.toggle('active', state.mapTool==='fill'); $("mapPanBtn").classList.remove('active'); };
   $("mapAnimToggleBtn").onclick=()=>{ state.mapAnimPlaying=!state.mapAnimPlaying; if(!state.mapAnimPlaying) state.mapAnimPausedAt=performance.now(); updateMapAnimToggleButton(); drawMapEditor(); };
+  $("mapClearBtn").onclick=clearCurrentMapLayer;
   $("applyProjectBtn").onclick=()=>{ const p=state.appProject.project; p.tile_w=Math.max(1,parseInt($("tileWInput").value||16,10)); p.tile_h=Math.max(1,parseInt($("tileHInput").value||16,10)); p.map_w=Math.max(1,parseInt($("mapWInput").value||32,10)); p.map_h=Math.max(1,parseInt($("mapHInput").value||32,10)); invalidateEditorRenderCache(); ensureProjectData(); syncMapUIFromProject(); runtime.syncProject(state.appProject); };
   $("addMapBtn").onclick=()=>{ state.appProject.maps.push(makeEmptyMap(String(state.appProject.maps.length),state.appProject.project.map_w,state.appProject.project.map_h)); invalidateEditorRenderCache(); state.currentMapIndex=state.appProject.maps.length-1; state.currentLayerIndex=0; refreshMapList(); refreshLayerList(); drawMapEditor(); runtime.syncProject(state.appProject); };
   $("addTileBtn").onclick=createTile;
@@ -1304,19 +1337,19 @@ function wireUI(){
   $("spriteDrawBtn").onclick=()=>setSpriteTool('draw'); $("spriteEraseBtn").onclick=()=>setSpriteTool('erase'); $("spriteFillBtn").onclick=()=>setSpriteTool('fill'); $("spritePanBtn").onclick=()=>setSpriteTool('pan');
   $("spriteUndoBtn").onclick=()=>{ if(!spriteHistory.undo.length) return; spriteHistory.redo.push(cloneSprite(currentSprite())); currentSpriteFolder().frames[state.currentSpriteFrame]=spriteHistory.undo.pop(); invalidateEditorRenderCache(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); };
   $("spriteRedoBtn").onclick=()=>{ if(!spriteHistory.redo.length) return; spriteHistory.undo.push(cloneSprite(currentSprite())); currentSpriteFolder().frames[state.currentSpriteFrame]=spriteHistory.redo.pop(); invalidateEditorRenderCache(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); };
-  $("spriteZoomInBtn").onclick=()=>{ state.spriteZoom=Math.min(64,state.spriteZoom+2); drawSpriteEditor(); }; $("spriteZoomOutBtn").onclick=()=>{ state.spriteZoom=Math.max(1,state.spriteZoom-2); drawSpriteEditor(); }; const adjustSpriteFolderFrames=(delta)=>{ const folder=currentSpriteFolder(); const n=Math.max(1,Math.min(26,folder.frames.length+delta)); if(n===folder.frames.length) return; while(folder.frames.length<n) folder.frames.push(makeSprite(currentSprite().w,currentSprite().h)); while(folder.frames.length>n) folder.frames.pop(); invalidateEditorRenderCache(); state.currentSpriteFrame=Math.min(state.currentSpriteFrame, folder.frames.length-1); syncSpriteUI(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); }; $("spriteFolderMinusBtn").onclick=()=>adjustSpriteFolderFrames(-1); $("spriteFolderPlusBtn").onclick=()=>adjustSpriteFolderFrames(1);
+  $("spriteZoomInBtn").onclick=()=>{ state.spriteZoom=Math.min(64,state.spriteZoom+2); drawSpriteEditor(); }; $("spriteZoomOutBtn").onclick=()=>{ state.spriteZoom=Math.max(1,state.spriteZoom-2); drawSpriteEditor(); }; $("spriteClearBtn").onclick=clearCurrentSpriteFrame; const adjustSpriteFolderFrames=(delta)=>{ const folder=currentSpriteFolder(); const n=Math.max(1,Math.min(26,folder.frames.length+delta)); if(n===folder.frames.length) return; while(folder.frames.length<n) folder.frames.push(makeSprite(currentSprite().w,currentSprite().h)); while(folder.frames.length>n){ const removedFrame=folder.frames[folder.frames.length-1]; if(!isSpriteFrameEmpty(removedFrame) && !confirm(`Remove frame ${spriteFrameName(folder.frames.length-1)}? This frame is not empty.`)) return; folder.frames.pop(); } invalidateEditorRenderCache(); state.currentSpriteFrame=Math.min(state.currentSpriteFrame, folder.frames.length-1); syncSpriteUI(); drawSpriteEditor(); refreshTilePalette(); runtime.syncProject(state.appProject); }; $("spriteFolderMinusBtn").onclick=()=>adjustSpriteFolderFrames(-1); $("spriteFolderPlusBtn").onclick=()=>adjustSpriteFolderFrames(1);
   $("addCodeTabBtn").onclick=()=>{ saveEditorToCurrentCodeFile(); const name=prompt("New file name:",`file${state.appProject.codeFiles.length+1}.lua`); if(!name) return; const trimmed=name.trim(); if(!trimmed) return; if(state.appProject.codeFiles.some(f=>f.name===trimmed)){ alert("A file with that name already exists."); return; } state.appProject.codeFiles.push({name:trimmed,content:"",tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length)}); state.currentCodeFile=state.appProject.codeFiles.length-1; renderCodeTabs(); loadCurrentCodeFileToEditor(); };
   $("renameCodeTabBtn").onclick=()=>{ const f=getCurrentCodeFile(); const name=prompt("Rename file:",f.name); if(!name) return; const trimmed=name.trim(); if(!trimmed) return; if(state.appProject.codeFiles.some((x,i)=>i!==state.currentCodeFile&&x.name===trimmed)){ alert("A file with that name already exists."); return; } f.name=trimmed; renderCodeTabs(); };
   $("copyRuntimeErrorBtn").onclick=copyLastRunError;
-      $("spriteFramePrevBtn").onclick=()=>{ const folder=currentSpriteFolder(); const pages=Math.max(1,Math.ceil(folder.frames.length/6)); state.spriteFramePage=(state.spriteFramePage-1+pages)%pages; refreshSpriteFrames(); };
-  $("spriteFrameNextBtn").onclick=()=>{ const folder=currentSpriteFolder(); const pages=Math.max(1,Math.ceil(folder.frames.length/6)); state.spriteFramePage=(state.spriteFramePage+1)%pages; refreshSpriteFrames(); };
+      $("spriteFramePrevBtn").onclick=()=>{ const folder=currentSpriteFolder(); const pages=Math.max(1,Math.ceil(folder.frames.length/SPRITE_FRAMES_PER_PAGE)); state.spriteFramePage=(state.spriteFramePage-1+pages)%pages; refreshSpriteFrames(); };
+  $("spriteFrameNextBtn").onclick=()=>{ const folder=currentSpriteFolder(); const pages=Math.max(1,Math.ceil(folder.frames.length/SPRITE_FRAMES_PER_PAGE)); state.spriteFramePage=(state.spriteFramePage+1)%pages; refreshSpriteFrames(); };
   $("palettePrevBtn").onclick=()=>{ const pages=Math.max(1, Math.ceil(state.appProject.palette.length/16)); state.palettePage=(state.palettePage-1+pages)%pages; refreshPaletteUI(); refreshEdgePalette(); };
   $("paletteNextBtn").onclick=()=>{ const pages=Math.max(1, Math.ceil(state.appProject.palette.length/16)); state.palettePage=(state.palettePage+1)%pages; refreshPaletteUI(); refreshEdgePalette(); };
   $("editPaletteColorBtn").onclick=()=>openPalettePicker();
 $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteColorInput").value||'#ffffff'); invalidateEditorRenderCache(); state.selectedPaletteIndex=state.appProject.palette.length-1; state.palettePage=Math.floor(state.selectedPaletteIndex/16); refreshPaletteUI(); refreshEdgePalette(); drawSpriteEditor(); drawMapEditor(); runtime.syncProject(state.appProject); };
     $("paletteColorInput").addEventListener('input',()=>{ state.appProject.palette[state.selectedPaletteIndex]=$("paletteColorInput").value||'#ffffff'; invalidateEditorRenderCache(); refreshPaletteUI(); refreshEdgePalette(); drawSpriteEditor(); refreshTilePalette(); drawMapEditor(); runtime.syncProject(state.appProject); });
     $("removePaletteColorBtn").onclick=()=>{ if(state.appProject.palette.length<=1) return; const removed=state.selectedPaletteIndex; state.appProject.palette.splice(removed,1); invalidateEditorRenderCache(); state.selectedPaletteIndex=Math.max(0,Math.min(state.selectedPaletteIndex,state.appProject.palette.length-1)); state.appProject.spriteFolders.forEach(folder=>folder.frames.forEach(sp=>{ for(let y=0;y<sp.h;y++) for(let x=0;x<sp.w;x++){ const p=sp.pixels[y][x]; if(p===removed) sp.pixels[y][x]=-1; else if(p>removed) sp.pixels[y][x]=p-1; } })); refreshPaletteUI(); drawSpriteEditor(); refreshTilePalette(); drawMapEditor(); runtime.syncProject(state.appProject); };
-  const zoomSpriteAtPoint=(nextZoom,clientX,clientY)=>{ const canvas=$("spriteCanvas"); const rect=canvas.getBoundingClientRect(); const px=(clientX-rect.left)*(canvas.width/rect.width); const py=(clientY-rect.top)*(canvas.height/rect.height); const oldZoom=getSpriteDisplayZoom(); const worldX=(px-state.spriteOffsetX)/oldZoom; const worldY=(py-state.spriteOffsetY)/oldZoom; state.spriteZoom=clamp(Math.round(nextZoom),1,64); state.spriteOffsetX=px-worldX*state.spriteZoom; state.spriteOffsetY=py-worldY*state.spriteZoom; drawSpriteEditor(); };
+  const zoomSpriteAtPoint=(nextZoom,clientX,clientY)=>{ const canvas=$("spriteCanvas"); const rect=canvas.getBoundingClientRect(); const px=(clientX-rect.left)*(canvas.width/rect.width); const py=(clientY-rect.top)*(canvas.height/rect.height); const {baseX,baseY}=getSpriteCanvasMetrics(); const oldZoom=getSpriteDisplayZoom(); const worldX=(px-(baseX+state.spriteOffsetX))/oldZoom; const worldY=(py-(baseY+state.spriteOffsetY))/oldZoom; state.spriteZoom=clamp(Math.round(nextZoom),1,64); const {baseX:nextBaseX,baseY:nextBaseY}=getSpriteCanvasMetrics(); state.spriteOffsetX=px-nextBaseX-worldX*state.spriteZoom; state.spriteOffsetY=py-nextBaseY-worldY*state.spriteZoom; drawSpriteEditor(); };
   let spritePainting=false, spritePanning=false, lastPan={x:0,y:0}, spritePaintLast=null, spritePointerMode='tool'; $("spriteCanvas").addEventListener('contextmenu',e=>e.preventDefault()); $("spriteCanvas").addEventListener('pointerdown',e=>{ e.preventDefault(); spritePointerMode=e.button===1?'pan':(e.button===2?'erase':'tool'); if(spritePointerMode==='pan' || state.spriteTool==='pan'){ spritePanning=true; lastPan.x=e.clientX; lastPan.y=e.clientY; return; } spritePainting=true; if(state.spriteTool!=='fill' || spritePointerMode==='erase') pushSpriteHistory(); if(spritePointerMode==='erase'){ const prev=state.spriteTool; setSpriteTool('erase'); spritePaintLast=applySpriteToolAtEvent(e); setSpriteTool(prev); } else spritePaintLast=applySpriteToolAtEvent(e); }); $("spriteCanvas").addEventListener('pointermove',e=>{ e.preventDefault(); if(spritePanning){ state.spriteOffsetX += e.clientX-lastPan.x; state.spriteOffsetY += e.clientY-lastPan.y; lastPan.x=e.clientX; lastPan.y=e.clientY; drawSpriteEditor(); return; } if(spritePainting && (state.spriteTool!=='fill' || spritePointerMode==='erase')){ if(spritePointerMode==='erase'){ const prev=state.spriteTool; setSpriteTool('erase'); spritePaintLast=applySpriteToolAtEvent(e,spritePaintLast); setSpriteTool(prev); } else spritePaintLast=applySpriteToolAtEvent(e,spritePaintLast); } }); ['pointerup','pointercancel'].forEach(ev=>$("spriteCanvas").addEventListener(ev,e=>{ e.preventDefault(); spritePainting=false; spritePanning=false; spritePaintLast=null; spritePointerMode='tool'; })); $("spriteCanvasWrap").addEventListener('touchmove',e=>e.preventDefault(),{passive:false}); $("spriteCanvasWrap").addEventListener('wheel',e=>{ e.preventDefault(); zoomSpriteAtPoint((state.spriteZoom||1)+(e.deltaY<0?2:-2), e.clientX, e.clientY); },{passive:false});
   $("addSoundBtn").onclick=()=>{ state.appProject.sounds.push(makeSound()); state.currentSoundIndex=state.appProject.sounds.length-1; refreshSoundUI(); drawSoundWaveCanvas(); };
   ["soundWaveInput","soundLengthInput","soundVolumeInput","soundPitchInput","soundAttackInput","soundDecayInput","soundSustainInput","soundReleaseInput"].forEach(id=>$(id).addEventListener('input',()=>{ updateCurrentSoundFromUI(); drawSoundWaveCanvas(); })); $("previewSoundBtn").onclick=async()=>{ try{ await ctxAudio().resume(); }catch{} previewSound(state.currentSoundIndex,false); };
