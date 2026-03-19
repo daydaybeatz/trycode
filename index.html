@@ -176,6 +176,27 @@
     /* single-panel sound/music layout */
     #soundView,#musicView{grid-template-columns:1fr !important;}
     #soundView .mainPane,#musicView .mainPane{display:none !important;}
+
+    @media (min-width: 1024px){
+      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;padding-top:max(24px,env(safe-area-inset-top))}
+      .app{width:min(1500px,calc(100vw - 48px));height:min(980px,calc(100vh - 48px));border:5px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 18px 0 #8f6136,0 28px 72px rgba(53,32,18,.28);background:linear-gradient(180deg,#f8edd0,#f1ddb1)}
+      .topbar{flex-basis:52px;gap:8px;padding:6px 10px}
+      .brand{padding:10px 14px;font-size:13px}
+      .tab{padding:6px 10px;font-size:12px}
+      .fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{padding:9px 13px}
+      .codeView,.docsView,.splitView,.runtimeView{inset:16px}
+      .codeHeaderBar{margin-bottom:14px}
+      .splitView{grid-template-columns:minmax(340px,380px) minmax(0,1fr);gap:14px}
+      .paneToolbar{top:18px;left:18px}
+      .overlayTools,#spriteOverlayTools{top:76px;right:12px}
+      .edgePalette{top:68px;left:12px;bottom:12px}
+      .screenStage{inset:14px}
+      #screen{width:min(100%,1120px);height:auto;aspect-ratio:16 / 9}
+      .runtimeBar{top:18px;right:18px}
+      .runtimeErrorBox{left:22px;top:22px}
+      .menu{top:72px;right:16px}
+      .toast{top:72px;left:16px}
+    }
 </style>
 </head>
 <body>
