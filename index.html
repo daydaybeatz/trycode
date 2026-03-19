@@ -47,17 +47,17 @@
     .view.active{display:block}
     .panelSkin{background:linear-gradient(180deg,var(--paper),#f7e8c6);border:4px solid var(--line);box-shadow:inset 0 0 0 3px #fff0cb,0 6px 0 #8f6136;border-radius:18px}
     .codeView,.docsView{position:absolute;inset:10px;padding:12px}
-    .codeView{display:flex;flex-direction:column;min-height:0}
-    .codeHeaderBar{display:flex;flex-direction:column;align-items:stretch;gap:8px;margin-bottom:10px;min-width:0;flex:0 0 auto}
+    .codeView{display:flex;flex-direction:column;min-height:0;gap:0;background:linear-gradient(180deg,#fff9ec,#f5e4bf);border:4px solid var(--line);box-shadow:inset 0 0 0 3px #fff2d2,0 6px 0 #8f6136;border-radius:22px}
+    .codeHeaderBar{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:12px;min-width:0;flex:0 0 auto;padding:4px 2px 0}
     .codeTabsBar{display:flex;gap:8px;min-width:0;overflow-x:auto;padding:2px 2px 4px;scrollbar-width:none}
     .codeTabsBar::-webkit-scrollbar{display:none}
-    .codeTabActions{display:flex;gap:6px;flex:0 0 auto;flex-wrap:wrap;white-space:nowrap}
+    .codeTabActions{display:flex;gap:8px;flex:0 0 auto;flex-wrap:wrap;white-space:nowrap}
     .codeFileTab{--tab-base:#d0c3b0;--tab-deep:#a89278;--tab-border:#6b4f36;--tab-text:#2b1a10;border:2px solid var(--tab-border);border-radius:999px;background:linear-gradient(135deg,var(--tab-base),var(--tab-deep));color:var(--tab-text);box-shadow:0 3px 0 rgba(92,57,31,.55);cursor:pointer;padding:4px 12px;font-weight:800;font-size:11px;line-height:1.1;flex:0 0 auto;transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
     .codeFileTab:hover{transform:translateY(1px);box-shadow:0 2px 0 rgba(92,57,31,.55);filter:saturate(1.06)}
     .codeFileTab.active{border-color:#fff7ef;box-shadow:0 0 0 2px rgba(255,255,255,.55),0 4px 0 rgba(80,35,75,.55);filter:brightness(1.08)}
-    .codeScrollShell{--code-font-size:14px;--code-line-height:20px;--code-font-family:Consolas,"SFMono-Regular","Cascadia Mono","Liberation Mono",Menlo,monospace;--code-font-weight:400;--code-pad-y:14px;--code-pad-left:12px;--code-pad-right:14px;flex:1 1 auto;min-height:0;overflow:auto;padding:0 2px 2px 0;overscroll-behavior:contain}
-    .codeEditorWrap{display:block;min-height:100%;min-width:max-content;width:max-content}
-    .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) auto;align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%;width:max-content}
+    .codeScrollShell{--code-font-size:14px;--code-line-height:20px;--code-font-family:Consolas,"SFMono-Regular","Cascadia Mono","Liberation Mono",Menlo,monospace;--code-font-weight:400;--code-pad-y:14px;--code-pad-left:14px;--code-pad-right:18px;flex:1 1 auto;min-height:0;overflow:auto;padding:0;overscroll-behavior:contain;border-radius:20px;background:linear-gradient(180deg,#3a2b20,#241912);box-shadow:inset 0 0 0 3px rgba(255,240,203,.08)}
+    .codeEditorWrap{display:block;min-height:100%;min-width:100%;width:100%}
+    .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) minmax(0,1fr);align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%;width:100%}
     .codeEditorPane{position:relative;min-height:100%;min-width:0}
     .codeLineNumbers{position:sticky;left:0;align-self:stretch;background:linear-gradient(180deg,#443629,#36291f);color:#bda88d;text-align:right;user-select:none;overflow:hidden;z-index:1;border-right:1px solid rgba(255,255,255,.08)}
     .codeLineNumbersInner{display:flex;flex-direction:column;align-items:stretch;min-height:100%;padding:var(--code-pad-y) 0;font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);line-height:var(--code-line-height);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -178,14 +178,23 @@
     #soundView .mainPane,#musicView .mainPane{display:none !important;}
 
     @media (min-width: 1024px){
-      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;padding-top:max(24px,env(safe-area-inset-top))}
-      .app{width:min(1500px,calc(100vw - 48px));height:min(980px,calc(100vh - 48px));border:5px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 18px 0 #8f6136,0 28px 72px rgba(53,32,18,.28);background:linear-gradient(180deg,#f8edd0,#f1ddb1)}
-      .topbar{flex-basis:52px;gap:8px;padding:6px 10px}
-      .brand{padding:10px 14px;font-size:13px}
-      .tab{padding:6px 10px;font-size:12px}
-      .fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{padding:9px 13px}
-      .codeView,.docsView,.splitView,.runtimeView{inset:16px}
-      .codeHeaderBar{margin-bottom:14px}
+      html,body{background:radial-gradient(circle at top, #f7e8c3 0, #ebd1a2 58%, #d5af76 100%)}
+      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px;padding-top:max(28px,env(safe-area-inset-top))}
+      .app{width:min(1580px,calc(100vw - 56px));height:min(960px,calc(100vh - 56px));border:6px solid #7b4a28;border-radius:34px;overflow:hidden;box-shadow:0 20px 0 #a77039,0 34px 88px rgba(53,32,18,.24);background:linear-gradient(180deg,#fcf4df,#efd7a7)}
+      .topbar{flex-basis:66px;gap:14px;padding:10px 16px;background:linear-gradient(180deg,#332a29,#241d1c);border-bottom:5px solid #6f3d20;box-shadow:inset 0 -2px 0 rgba(255,255,255,.08)}
+      .brand{padding:14px 20px;border-radius:18px;border-color:#8b221f;background:linear-gradient(180deg,#c92d2a,#961f20);box-shadow:0 5px 0 #671517,0 0 0 2px rgba(255,255,255,.08) inset;font-size:18px}
+      .tabs{gap:10px}
+      .tab{padding:9px 16px;font-size:16px;border-radius:16px}
+      .fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{padding:10px 16px;border-radius:15px}
+      .fileBtn{background:linear-gradient(180deg,#53493f,#3c342d);border-color:#65533f;box-shadow:0 4px 0 #2a241f;color:#fff3da}
+      .codeView,.docsView,.splitView,.runtimeView{inset:20px}
+      .codeView{padding:20px 22px 22px}
+      .codeHeaderBar{flex-direction:row;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px;padding:0}
+      .codeTabsBar{flex:1 1 auto;padding:4px 2px 6px}
+      .codeTabActions{justify-content:flex-end}
+      .codeFileTab{padding:8px 16px;font-size:13px;border-width:3px;box-shadow:0 4px 0 rgba(92,57,31,.45)}
+      .codeScrollShell{--code-font-size:16px;--code-line-height:24px;--code-pad-y:18px;--code-pad-left:18px;--code-pad-right:22px;border-radius:24px}
+      .codeEditorSurface{border-radius:22px}
       .splitView{grid-template-columns:minmax(340px,380px) minmax(0,1fr);gap:14px}
       .paneToolbar{top:18px;left:18px}
       .overlayTools,#spriteOverlayTools{top:76px;right:12px}
@@ -194,8 +203,8 @@
       #screen{width:min(100%,1120px);height:auto;aspect-ratio:16 / 9}
       .runtimeBar{top:18px;right:18px}
       .runtimeErrorBox{left:22px;top:22px}
-      .menu{top:72px;right:16px}
-      .toast{top:72px;left:16px}
+      .menu{top:82px;right:18px}
+      .toast{top:82px;left:18px}
     }
 </style>
 </head>
@@ -477,13 +486,19 @@ function updateCodeLineNumbers(){
   gutter.style.fontSize=`${fontSize}px`;
   gutter.style.fontWeight=fontWeight;
   gutter.style.lineHeight=`${lineHeight}px`;
+  const approxCharWidth=Math.max(fontSize*0.62, 8);
+  const gutterWidth=Math.max(36, Math.ceil(String(count).length*(fontSize*0.68)+20));
   const contentWidth=Math.max(80,longest+4);
+  const contentWidthPx=Math.ceil(contentWidth*approxCharWidth);
+  const availableWidth=Math.max(0,(shell?shell.clientWidth:0)-gutterWidth);
+  const editorWidth=Math.max(contentWidthPx, availableWidth);
   ed.style.minWidth=`${contentWidth}ch`;
+  ed.style.width=`${editorWidth}px`;
   ed.style.height="auto";
   const contentHeight=Math.max(shell?shell.clientHeight:0, Math.ceil((count*lineHeight)+paddingTop+paddingBottom));
   ed.style.height=`${contentHeight}px`;
-  if(highlight){ highlight.style.height=`${contentHeight}px`; highlight.style.minWidth=`${contentWidth}ch`; }
-  if(highlightInner){ highlightInner.style.height=`${contentHeight}px`; }
+  if(highlight){ highlight.style.height=`${contentHeight}px`; highlight.style.minWidth=`${contentWidth}ch`; highlight.style.width=`${editorWidth}px`; }
+  if(highlightInner){ highlightInner.style.height=`${contentHeight}px`; highlightInner.style.width=`${editorWidth}px`; }
   gutter.innerHTML=`<div class="codeLineNumbersInner" style="height:${contentHeight}px;padding-top:${paddingTop}px;padding-bottom:${paddingBottom}px;line-height:${lineHeight}px;font-size:${fontSize}px;font-family:${escapeHtml(fontFamily)};font-weight:${escapeHtml(String(fontWeight))}">${html}</div>`;
   gutter.style.minHeight=`${contentHeight}px`;
   renderCodeHighlight();
