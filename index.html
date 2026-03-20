@@ -399,34 +399,6 @@ const PRESET_PALETTE_PAGES = [
 ];
 const DEFAULT_PALETTE = PRESET_PALETTE_PAGES.flat();
 let runtime;
-function createRuntimeFallback(message){
-  const text=String(message||'Runtime unavailable. The editor shell is still available.');
-  return {
-    setLua(){},
-    rerun(){ setLastRunError(text); },
-    reset(){ setLastRunError(text); },
-    resizeDisplay(){},
-    syncProject(){},
-  };
-}
-function initRuntime(){
-  try{
-    return makeRuntime();
-  }catch(err){
-    const message=`Runtime failed to initialize: ${err?.message||String(err)}`;
-    console.error(message, err);
-    setLastRunError(message);
-    return createRuntimeFallback(message);
-  }
-}
-function runStartupStep(label, fn){
-  try{
-    return fn();
-  }catch(err){
-    console.error(`Startup step failed: ${label}`, err);
-    return null;
-  }
-}
 const previewImages = {};
 const editorRenderCache = { sprites:new Map(), tiles:new Map() };
 const spriteHistory = { undo: [], redo: [] };
@@ -1302,24 +1274,9 @@ function makeRuntime(){
   }
   function sfxPlay(index, loop=false){ previewSound(index, loop); }
   function musicPlay(src, action='play', loop=true){ playMusicEntry(src, action, loop); }
-  const getFengariApi=()=>window.fengari||globalThis.fengari||null;
-  let lua, lauxlib, lualib, to_luastring, to_jsstring;
+  const { lua, lauxlib, lualib, to_luastring, to_jsstring } = fengari;
   function pushProjectTable(){ lua.lua_newtable(L); lua.lua_pushinteger(L,projectRef.project.tile_w); lua.lua_setfield(L,-2,to_luastring('tile_w')); lua.lua_pushinteger(L,projectRef.project.tile_h); lua.lua_setfield(L,-2,to_luastring('tile_h')); lua.lua_pushinteger(L,projectRef.project.map_w); lua.lua_setfield(L,-2,to_luastring('map_w')); lua.lua_pushinteger(L,projectRef.project.map_h); lua.lua_setfield(L,-2,to_luastring('map_h')); lua.lua_pushinteger(L,projectRef.maps.length); lua.lua_setfield(L,-2,to_luastring('map_count')); lua.lua_pushinteger(L,projectRef.spriteFolders.length); lua.lua_setfield(L,-2,to_luastring('sprite_count')); lua.lua_pushinteger(L,projectRef.sounds.length); lua.lua_setfield(L,-2,to_luastring('sound_count')); lua.lua_pushinteger(L,projectRef.music.length); lua.lua_setfield(L,-2,to_luastring('music_count')); lua.lua_setglobal(L,to_luastring('project')); }
-  function build(code){
-    lastCode=code||'';
-    builtOk=false;
-    resetViewTransform();
-    const fengariApi=getFengariApi();
-    if(!fengariApi){
-      L=null;
-      setLastRunError('Lua runtime unavailable: the Fengari script did not finish loading.');
-      cls();
-      return;
-    }
-    ({ lua, lauxlib, lualib, to_luastring, to_jsstring } = fengariApi);
-    L=lauxlib.luaL_newstate();
-    lualib.luaL_openlibs(L);
-    const push=(name,fn)=>{ lua.lua_pushjsfunction(L,fn); lua.lua_setglobal(L,to_luastring(name)); };
+  function build(code){ lastCode=code||''; builtOk=false; resetViewTransform(); L=lauxlib.luaL_newstate(); lualib.luaL_openlibs(L); const push=(name,fn)=>{ lua.lua_pushjsfunction(L,fn); lua.lua_setglobal(L,to_luastring(name)); };
     push('cls',()=>{cls();return 0;});
     push('camera',L=>{ const argc=lua.lua_gettop(L); if(argc===0) camera(); else camera(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2)); return 0; });
     push('zoom',L=>{ const argc=lua.lua_gettop(L); if(argc>=1){ zoom(lua.lua_tonumber(L,1), argc>=2?lua.lua_tonumber(L,2):undefined, argc>=3?lua.lua_tonumber(L,3):undefined); return 0; } lua.lua_pushnumber(L, zoom()); return 1;});
@@ -1456,36 +1413,7 @@ $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteCo
   syncSidebarToggleButton("toggleSpriteSidebarBtn","spriteView");
 }
 function writeWavePoint(e){ const c=$("soundWaveCanvas"), rect=c.getBoundingClientRect(); const x=((e.clientX-rect.left)/rect.width)*c.width; const y=((e.clientY-rect.top)/rect.height)*c.height; const idx=Math.max(0,Math.min(63,Math.floor((x/c.width)*64))); currentSound().wavetable[idx]=clamp(1-(y/c.height)*2,-1,1); drawSoundWaveCanvas(); }
-function bootEditorShell(){
-  buildDocs();
-  ensureProjectData();
-  syncResponsiveUI();
-  wireUI();
-  renderCodeTabs();
-  finishNewProject();
-  applyThemeUI();
-  refreshProjectList();
-  runEditorAnimationFrame();
-}
-function bootRuntimeIntoEditor(){
-  const nextRuntime=initRuntime();
-  if(!nextRuntime) return;
-  runtime=nextRuntime;
-  try{
-    runtime.syncProject(state.appProject);
-    runtime.setLua(getProjectLua());
-    runtime.reset(getProjectLua());
-    setLastRunError('');
-  }catch(err){
-    const message=`Runtime sync failed after editor startup: ${err?.message||String(err)}`;
-    console.error(message, err);
-    setLastRunError(message);
-    runtime=createRuntimeFallback(message);
-  }
-}
-runtime=createRuntimeFallback('Runtime is still starting.');
-bootEditorShell();
-runStartupStep('init runtime after editor boot', ()=>bootRuntimeIntoEditor());
+buildDocs(); ensureProjectData(); syncResponsiveUI(); runtime=makeRuntime(); wireUI(); renderCodeTabs(); finishNewProject(); applyThemeUI(); refreshProjectList(); runEditorAnimationFrame();
 })();
 </script>
 </body>
