@@ -186,72 +186,20 @@
     #soundView,#musicView{grid-template-columns:1fr !important;}
     #soundView .mainPane,#musicView .mainPane{display:none !important;}
 
-	    @media (min-width: 1024px){
-	      :root{--bg:#0d0c0c;--paper:#ffffff;--panel:#a5a2a2;--panel2:#8b8989;--line:#002b49;--shadow:#0d0c0c;--ink:#0d0c0c;--accent:#dd2020;--accent2:#dd2020;--blue:#002b49;--green:#002b49;--cream:#ffffff;--danger:#dd2020}
-	      html,body{background:linear-gradient(180deg,#0d0c0c 0%,#002b49 100%)}
-	      body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px;padding-top:max(18px,env(safe-area-inset-top));color:#ffffff}
-	      .app{width:min(1680px,calc(100vw - 36px));height:min(980px,calc(100vh - 36px));border:2px solid #ffffff;border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(13,12,12,.6),0 0 0 4px #002b49;background:linear-gradient(180deg,#a5a2a2,#8e8b8b)}
-	      .topbar{flex-basis:56px;gap:10px;padding:8px 12px;background:linear-gradient(180deg,#dd2020,#9f1212);border-bottom:3px solid #002b49;box-shadow:inset 0 -1px 0 rgba(255,255,255,.28)}
-	      .brand{padding:10px 14px;border-radius:8px;border:2px solid #ffffff;background:linear-gradient(180deg,#002b49,#00192b);box-shadow:0 3px 0 #0d0c0c;font-size:14px;color:#ffffff;text-shadow:1px 1px 0 #0d0c0c}
-	      .tabs{gap:6px}
-	      .tab,.fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{border:2px solid #002b49;border-radius:8px;background:linear-gradient(180deg,#ffffff,#d9d7d7);box-shadow:0 3px 0 #0d0c0c;color:#0d0c0c}
-	      .tab{padding:7px 12px;font-size:12px;line-height:1.1}
-	      .tab.active,.uiBtn.active{background:linear-gradient(180deg,#dd2020,#b91818);border-color:#ffffff;box-shadow:0 3px 0 #002b49;color:#ffffff}
-	      .tab.cat-logic,.uiBtn.cat-logic,.mbtn.cat-logic{background:linear-gradient(180deg,#002b49,#001c30);border-color:#ffffff;box-shadow:0 3px 0 #0d0c0c;color:#ffffff}
-	      .tab.cat-logic.active,.uiBtn.cat-logic.active{background:linear-gradient(180deg,#ffffff,#d8d8d8);color:#002b49}
-	      .tab.cat-graphics,.uiBtn.cat-graphics,.mbtn.cat-graphics{background:linear-gradient(180deg,#a5a2a2,#7f7c7c);border-color:#002b49;box-shadow:0 3px 0 #0d0c0c;color:#0d0c0c}
-	      .tab.cat-graphics.active,.uiBtn.cat-graphics.active{background:linear-gradient(180deg,#ffffff,#dcdcdc);color:#dd2020}
-	      .tab.cat-sound,.uiBtn.cat-sound,.mbtn.cat-sound{background:linear-gradient(180deg,#dd2020,#9f1212);border-color:#ffffff;box-shadow:0 3px 0 #0d0c0c;color:#ffffff}
-	      .tab.cat-sound.active,.uiBtn.cat-sound.active{background:linear-gradient(180deg,#ffffff,#dadada);color:#002b49}
-	      .fileBtn,.uiBtn,.mbtn,.smallbtn,.loadExampleBtn{padding:7px 11px}
-	      .fileBtn{background:linear-gradient(180deg,#002b49,#00192b);color:#ffffff;border-color:#ffffff}
-	      .panelSkin{background:linear-gradient(180deg,#ffffff,#d9d7d7);border:2px solid #002b49;box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 10px 18px rgba(13,12,12,.22)}
-	      .codeView,.docsView,.splitView,.runtimeView{inset:14px}
-	      .codeView{padding:14px;background:linear-gradient(180deg,#ffffff,#dedcdc);border:2px solid #002b49;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 12px 20px rgba(13,12,12,.22)}
-	      .codeHeaderBar{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;padding:0}
-	      .codeTabsBar{flex:1 1 auto;padding:2px 0 4px}
-	      .codeTabActions{justify-content:flex-end}
-	      .codeFileTab{padding:6px 12px;font-size:12px;border-width:1px;border-color:#002b49;box-shadow:0 4px 0 rgba(13,12,12,.4)}
-	      .codeScrollShell{--code-font-size:15px;--code-line-height:22px;--code-pad-y:14px;--code-pad-left:16px;--code-pad-right:18px;border-radius:10px;background:linear-gradient(180deg,#0d0c0c,#1a1a1a);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
-	      .codeEditorSurface{border:1px solid #002b49;border-radius:10px;background:#0d0c0c;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
-	      .codeLineNumbers{background:linear-gradient(180deg,#2b2b2b,#191919);color:#a5a2a2;border-right:1px solid rgba(255,255,255,.12)}
-	      .codeLineNumbersInner{transform:translateY(calc(var(--code-scroll-top, 0px) * -1));will-change:transform}
-	      .codeHighlight{color:#f6f6f6}
-	      .code textarea.code{caret-color:#ffffff}
-	      .tok-comment{color:#a5a2a2}
-	      .tok-keyword{color:#ff8c8c}
-	      .tok-builtin{color:#7cc7ff}
-	      .tok-function{color:#ffffff}
-	      .tok-number{color:#f4c063}
-	      .tok-string{color:#ffe5a6}
-	      .tok-operator{color:#dcdcdc}
-	      .tok-identifier{color:#ffffff}
-	      .splitView{grid-template-columns:minmax(300px,340px) minmax(0,1fr);gap:10px}
-	      .sidebar{background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(230,229,229,.92))}
-	      .pane{padding:8px;margin-bottom:8px;border:1px solid #002b49;border-radius:10px;background:linear-gradient(180deg,#ffffff,#e2e0e0);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 12px rgba(13,12,12,.14)}
-	      .pane h4,.docName{color:#dd2020}
-	      .field label,.docDesc,.projName{color:#002b49}
-	      .sidebar input,.sidebar select,.sidebar textarea,.menuSettingRow select{border:1px solid #002b49;background:#ffffff;color:#0d0c0c;border-radius:8px;padding:7px}
-	      .itemRow,.tileBtn,.miniKey,.menuCard,.docsSection,.toast{border:1px solid #002b49;background:linear-gradient(180deg,#ffffff,#dfdddd);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 12px rgba(13,12,12,.16);color:#0d0c0c}
-	      .itemRow.active,.tileBtn.active,.miniKey.active{border-color:#dd2020;box-shadow:inset 0 0 0 1px rgba(221,32,32,.12),0 8px 14px rgba(0,43,73,.22)}
-	      .tileBtn.active::after{border-color:rgba(221,32,32,.72)}
-	      .canvasWrap,.waveCanvas,.animPreviewBar{border:1px solid #002b49;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
-	      .edgePalette{top:60px;left:10px;bottom:10px;border:1px solid #002b49;background:linear-gradient(180deg,#ffffff,#dfdddd);box-shadow:0 8px 14px rgba(13,12,12,.18)}
-	      .palBtn{border-width:1px;box-shadow:0 4px 0 rgba(13,12,12,.28)}
-	      .paneToolbar{top:12px;left:12px}
-	      .overlayTools,#spriteOverlayTools{top:58px;right:10px}
-	      .overlayTools .uiBtn{min-width:46px;padding:4px 7px;font-size:10px}
-	      .screenStage{inset:10px;border:2px solid #002b49;border-radius:12px;background:radial-gradient(circle at top, rgba(221,32,32,.15), transparent 36%),#0d0c0c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
-	      #screen{width:min(100%,1120px);height:auto;aspect-ratio:16 / 9;border-radius:6px}
-	      .runtimeBar{top:12px;right:12px}
-	      .runtimeErrorBox{left:16px;top:16px;background:rgba(221,32,32,.92)}
-	      .menu{top:66px;right:14px}
-	      .menuCard{background:linear-gradient(180deg,#ffffff,#dfdddd)}
-	      .menu h3,.docsSection h3{color:#ffffff;background:linear-gradient(180deg,#dd2020,#9f1212);text-shadow:1px 1px 0 #0d0c0c}
-	      .toast{top:66px;left:14px}
-	      .animPreviewBar{left:12px;right:12px;bottom:12px;padding:6px 8px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#dfdddd)}
-	      .animPreviewBar canvas{border-width:1px;border-color:#002b49}
-	    }
+    .menuToggleRow{padding:0 6px 10px}
+    .menuToggleLabel{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px;border:3px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#10162a,#141c31);color:var(--ink);font-size:12px;font-weight:700;box-shadow:0 3px 0 #0f1528;cursor:pointer}
+    .menuToggleInput{appearance:none;-webkit-appearance:none;width:52px;height:30px;border:3px solid var(--line);border-radius:999px;background:linear-gradient(180deg,#39486c,#20263f);box-shadow:inset 0 0 0 2px rgba(11,16,33,.28);position:relative;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+    .menuToggleInput::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:linear-gradient(180deg,#fff8ef,#d8e1f4);box-shadow:0 2px 0 rgba(11,16,33,.35);transition:transform .15s ease}
+    .menuToggleInput:checked{background:linear-gradient(180deg,var(--accent2),var(--accent));border-color:#fff2ce}
+    .menuToggleInput:checked::after{transform:translateX(20px)}
+    body.dark-mode{--bg:#0f1220;--paper:#12182c;--panel:#1b2340;--panel2:#283256;--line:#96a3cf;--shadow:#070b17;--ink:#f6f1df;--accent:#ff6b8f;--accent2:#f7b267;--blue:#86b1ff;--green:#93de86;--cream:#344062;--danger:#ff8a9c;background:linear-gradient(180deg,#05070d 0 20px,#11172a 20px 100%)}
+    body.dark-mode .menuToggleLabel{background:linear-gradient(180deg,#0d1324,#12192c)}
+    body.dark-mode .canvasWrap{background:
+      linear-gradient(45deg, rgba(244,241,227,.04) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(244,241,227,.04) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(244,241,227,.04) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(244,241,227,.04) 75%),
+      #0d1220}
 </style>
 </head>
 <body>
@@ -367,7 +315,7 @@
 
     <div class="view" id="view-docs"><div class="docsView" id="docsView"></div></div>
 
-    <div class="menu" id="menu"><div class="menuCard"><h3>FILE</h3><div class="row"><button class="mbtn" id="btnSaveProject">Save</button><button class="mbtn" id="btnNewProject">New Project</button><button class="mbtn" id="btnExportHTML">Export .html</button><button class="mbtn" id="btnOpenDocs">Docs</button></div><h3>SETTINGS</h3><div class="menuSettingRow"><div class="field"><label for="inputModeSelect">Movement Input</label><select id="inputModeSelect"><option value="left_joystick">Left joystick</option><option value="dpad">D-pad</option></select></div></div><h3>LOAD PROJECT</h3><div class="list" id="projectList"></div></div></div>
+    <div class="menu" id="menu"><div class="menuCard"><h3>FILE</h3><div class="row"><button class="mbtn" id="btnSaveProject">Save</button><button class="mbtn" id="btnNewProject">New Project</button><button class="mbtn" id="btnExportHTML">Export .html</button><button class="mbtn" id="btnOpenDocs">Docs</button></div><h3>SETTINGS</h3><div class="menuSettingRow"><div class="field"><label for="inputModeSelect">Movement Input</label><select id="inputModeSelect"><option value="left_joystick">Left joystick</option><option value="dpad">D-pad</option></select></div></div><div class="menuToggleRow"><label class="menuToggleLabel" for="darkModeToggle"><span>Dark mode</span><input class="menuToggleInput" id="darkModeToggle" type="checkbox" role="switch" aria-label="Toggle dark mode"></label></div><h3>LOAD PROJECT</h3><div class="list" id="projectList"></div></div></div>
   </div>
 </div>
 
@@ -422,7 +370,7 @@ function ensurePalettePages(p){
   }
 }
 function seedSpriteDemo(sp){ for(let y=0;y<sp.h;y++){ for(let x=0;x<sp.w;x++){ sp.pixels[y][x]=1; } } for(let y=2;y<14;y++){ for(let x=2;x<14;x++){ sp.pixels[y][x]=5; } } for(let y=4;y<12;y++){ for(let x=4;x<12;x++){ sp.pixels[y][x]=7; } } for(let y=5;y<8;y++){ for(let x=4;x<7;x++) sp.pixels[y][x]=15; for(let x=9;x<12;x++) sp.pixels[y][x]=15; } for(let y=9;y<12;y++){ for(let x=5;x<11;x++) sp.pixels[y][x]=10; } for(let x=5;x<11;x++){ sp.pixels[8][x]=15; } return sp; }
-function defaultProject(){ return {project:{tile_w:16,tile_h:16,map_w:32,map_h:32},settings:{movementInput:'left_joystick'},palette:[...DEFAULT_PALETTE],spriteFolders:[{frames:[seedSpriteDemo(makeSprite(16,16))]}],sounds:[makeSound()],music:[makeMusic()],codeFiles:[{name:"main.lua",content:EXAMPLES.blank,tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length)}],tileDefs:{0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a",bgEnabled:true,animated:false,animFolder:0,animSpeed:6},2:{source:"",flags:{0:true},bg:"#4a5568",bgEnabled:true,animated:false,animFolder:0,animSpeed:6},3:{source:"",flags:{0:false},bg:"#8b5cf6",bgEnabled:true,animated:false,animFolder:0,animSpeed:6}},maps:[makeEmptyMap("0",32,32)]}; }
+function defaultProject(){ return {project:{tile_w:16,tile_h:16,map_w:32,map_h:32},settings:{movementInput:'left_joystick',darkMode:false},palette:[...DEFAULT_PALETTE],spriteFolders:[{frames:[seedSpriteDemo(makeSprite(16,16))]}],sounds:[makeSound()],music:[makeMusic()],codeFiles:[{name:"main.lua",content:EXAMPLES.blank,tabTheme:Math.floor(Math.random()*FILE_TAB_THEMES.length)}],tileDefs:{0:makeBlankTileDef(),1:{source:"",flags:{0:false},bg:"#2f855a",bgEnabled:true,animated:false,animFolder:0,animSpeed:6},2:{source:"",flags:{0:true},bg:"#4a5568",bgEnabled:true,animated:false,animFolder:0,animSpeed:6},3:{source:"",flags:{0:false},bg:"#8b5cf6",bgEnabled:true,animated:false,animFolder:0,animSpeed:6}},maps:[makeEmptyMap("0",32,32)]}; }
 function currentMap(){ return state.appProject.maps[state.currentMapIndex]; }
 function currentLayers(){ return currentMap().layers; }
 function currentSpriteFolder(){ return state.appProject.spriteFolders[state.currentSpriteIndex]; }
@@ -456,6 +404,7 @@ function ensureProjectData(){
   p.project.tile_w=Math.max(1,p.project.tile_w|0); p.project.tile_h=Math.max(1,p.project.tile_h|0); p.project.map_w=Math.max(1,p.project.map_w|0); p.project.map_h=Math.max(1,p.project.map_h|0);
   p.settings=p.settings||{};
   if(p.settings.movementInput!=='dpad' && p.settings.movementInput!=='left_joystick') p.settings.movementInput='left_joystick';
+  p.settings.darkMode=!!p.settings.darkMode;
   if(!p.palette?.length) p.palette=[...DEFAULT_PALETTE];
   ensurePalettePages(p);
   if(!p.spriteFolders?.length){ if(p.sprites?.length) p.spriteFolders=p.sprites.map(sp=>({frames:[sp]})); else p.spriteFolders=[{frames:[makeSprite(16,16)]}]; }
@@ -668,7 +617,8 @@ function newProject(){ if(!confirm("Are you sure you want to start a new project
 function loadAllProjects(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||"{}"); }catch(_){ return {}; } }
 function saveAllProjects(obj){ localStorage.setItem(LS_KEY, JSON.stringify(obj)); }
 function refreshProjectList(){ const list=$("projectList"); if(!list) return; list.innerHTML=""; const all=loadAllProjects(); const names=Object.keys(all).sort((a,b)=>(all[b].t||0)-(all[a].t||0)); if(!names.length){ const d=document.createElement('div'); d.className='docDesc'; d.style.padding='8px'; d.textContent='No saved projects yet.'; list.appendChild(d); return; } names.forEach(name=>{ const row=document.createElement('div'); row.className='itemRow'; const label=document.createElement('div'); label.textContent=name; label.style.flex='1'; const btn=document.createElement('button'); btn.className='smallbtn'; btn.textContent='Load'; btn.onclick=(e)=>{ e.stopPropagation(); if(!confirm(`Load ${name}? Unsaved changes will be lost.`)) return; const p=all[name]; state.currentProjectName=name; state.hasSaved=true; state.appProject=JSON.parse(JSON.stringify(p.project)); invalidateEditorRenderCache(); ensureProjectData(); state.currentMapIndex=0; state.currentLayerIndex=0; state.currentSpriteIndex=0; state.currentSpriteFrame=0; state.currentSoundIndex=0; state.currentMusicIndex=0; state.currentCodeFile=0; state.selectedTileId=1; state.selectedPaletteIndex=0; state.palettePage=0; state.spriteFramePage=0; renderCodeTabs(); loadCurrentCodeFileToEditor(); syncSpriteUI(); drawSpriteEditor(); syncMapUIFromProject(); refreshSoundUI(); drawSoundWaveCanvas(); refreshMusicUI(); refreshMenuSettingsUI(); runtime.syncProject(state.appProject); runtime.reset(getProjectLua()); setView('code'); $("menu").classList.remove('open'); }; row.appendChild(label); row.appendChild(btn); list.appendChild(row); }); }
-function refreshMenuSettingsUI(){ ensureProjectData(); if($("inputModeSelect")) $("inputModeSelect").value=state.appProject.settings.movementInput||'left_joystick'; }
+function applyThemeUI(){ ensureProjectData(); document.body.classList.toggle('dark-mode', !!state.appProject.settings.darkMode); }
+function refreshMenuSettingsUI(){ ensureProjectData(); if($("inputModeSelect")) $("inputModeSelect").value=state.appProject.settings.movementInput||'left_joystick'; if($("darkModeToggle")) $("darkModeToggle").checked=!!state.appProject.settings.darkMode; applyThemeUI(); }
 function saveProject(){ saveEditorToCurrentCodeFile(); const all=loadAllProjects(); let name=state.currentProjectName; if(!name){ name=prompt('Project name:', 'project_1'); if(!name) return; name=name.trim(); if(!name) return; } state.currentProjectName=name; state.hasSaved=true; all[name]={ t:Date.now(), project: JSON.parse(JSON.stringify(state.appProject)) }; saveAllProjects(all); refreshProjectList();
 updateCodeLineNumbers(); toast(`<b>Saved:</b> ${escapeHtml(name)}`); }
 function exportHTML(){
@@ -1321,6 +1271,7 @@ function wireUI(){
   $("btnExportHTML").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); exportHTML(); };
   $("btnOpenDocs").onclick=e=>{ e.stopPropagation(); $("menu").classList.remove('open'); setView('docs'); };
   $("inputModeSelect").onchange=()=>{ ensureProjectData(); state.appProject.settings.movementInput=$("inputModeSelect").value==='dpad'?'dpad':'left_joystick'; runtime.syncProject(state.appProject); runtime.reset(getProjectLua()); };
+  $("darkModeToggle").onchange=()=>{ ensureProjectData(); state.appProject.settings.darkMode=!!$("darkModeToggle").checked; applyThemeUI(); };
   $("runBtn").onclick=()=>{ const code=getProjectLua(); runtime.setLua(code); runtime.rerun(code); }; $("resetBtn").onclick=()=>{ const code=getProjectLua(); runtime.setLua(code); runtime.reset(code); };
   function syncSidebarToggleButton(buttonId, viewId){ const btn=$(buttonId), view=$(viewId); if(!btn||!view) return; const hidden=view.classList.contains('sidebar-hidden'); btn.textContent=hidden?'>':'<'; btn.setAttribute('aria-expanded', hidden?'false':'true'); btn.title=hidden?'Open panel':'Close panel'; }
   $("toggleMapSidebarBtn").onclick=()=>{ $("mapView").classList.toggle('sidebar-hidden'); const hidden=$("mapView").classList.contains('sidebar-hidden'); syncSidebarToggleButton("toggleMapSidebarBtn","mapView"); $("mapOverlayTools").classList.toggle('hidden', !hidden); };
@@ -1383,7 +1334,7 @@ $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteCo
   syncSidebarToggleButton("toggleSpriteSidebarBtn","spriteView");
 }
 function writeWavePoint(e){ const c=$("soundWaveCanvas"), rect=c.getBoundingClientRect(); const x=((e.clientX-rect.left)/rect.width)*c.width; const y=((e.clientY-rect.top)/rect.height)*c.height; const idx=Math.max(0,Math.min(63,Math.floor((x/c.width)*64))); currentSound().wavetable[idx]=clamp(1-(y/c.height)*2,-1,1); drawSoundWaveCanvas(); }
-buildDocs(); ensureProjectData(); syncResponsiveUI(); runtime=makeRuntime(); wireUI(); renderCodeTabs(); finishNewProject(); refreshProjectList(); runEditorAnimationFrame();
+buildDocs(); ensureProjectData(); syncResponsiveUI(); runtime=makeRuntime(); wireUI(); renderCodeTabs(); finishNewProject(); applyThemeUI(); refreshProjectList(); runEditorAnimationFrame();
 })();
 </script>
 </body>
