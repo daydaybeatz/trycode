@@ -1274,9 +1274,24 @@ function makeRuntime(){
   }
   function sfxPlay(index, loop=false){ previewSound(index, loop); }
   function musicPlay(src, action='play', loop=true){ playMusicEntry(src, action, loop); }
-  const { lua, lauxlib, lualib, to_luastring, to_jsstring } = fengari;
+  const getFengariApi=()=>window.fengari||globalThis.fengari||null;
+  let lua, lauxlib, lualib, to_luastring, to_jsstring;
   function pushProjectTable(){ lua.lua_newtable(L); lua.lua_pushinteger(L,projectRef.project.tile_w); lua.lua_setfield(L,-2,to_luastring('tile_w')); lua.lua_pushinteger(L,projectRef.project.tile_h); lua.lua_setfield(L,-2,to_luastring('tile_h')); lua.lua_pushinteger(L,projectRef.project.map_w); lua.lua_setfield(L,-2,to_luastring('map_w')); lua.lua_pushinteger(L,projectRef.project.map_h); lua.lua_setfield(L,-2,to_luastring('map_h')); lua.lua_pushinteger(L,projectRef.maps.length); lua.lua_setfield(L,-2,to_luastring('map_count')); lua.lua_pushinteger(L,projectRef.spriteFolders.length); lua.lua_setfield(L,-2,to_luastring('sprite_count')); lua.lua_pushinteger(L,projectRef.sounds.length); lua.lua_setfield(L,-2,to_luastring('sound_count')); lua.lua_pushinteger(L,projectRef.music.length); lua.lua_setfield(L,-2,to_luastring('music_count')); lua.lua_setglobal(L,to_luastring('project')); }
-  function build(code){ lastCode=code||''; builtOk=false; resetViewTransform(); L=lauxlib.luaL_newstate(); lualib.luaL_openlibs(L); const push=(name,fn)=>{ lua.lua_pushjsfunction(L,fn); lua.lua_setglobal(L,to_luastring(name)); };
+  function build(code){
+    lastCode=code||'';
+    builtOk=false;
+    resetViewTransform();
+    const fengariApi=getFengariApi();
+    if(!fengariApi){
+      L=null;
+      setLastRunError('Lua runtime unavailable: the Fengari script did not finish loading.');
+      cls();
+      return;
+    }
+    ({ lua, lauxlib, lualib, to_luastring, to_jsstring } = fengariApi);
+    L=lauxlib.luaL_newstate();
+    lualib.luaL_openlibs(L);
+    const push=(name,fn)=>{ lua.lua_pushjsfunction(L,fn); lua.lua_setglobal(L,to_luastring(name)); };
     push('cls',()=>{cls();return 0;});
     push('camera',L=>{ const argc=lua.lua_gettop(L); if(argc===0) camera(); else camera(lua.lua_tonumber(L,1),lua.lua_tonumber(L,2)); return 0; });
     push('zoom',L=>{ const argc=lua.lua_gettop(L); if(argc>=1){ zoom(lua.lua_tonumber(L,1), argc>=2?lua.lua_tonumber(L,2):undefined, argc>=3?lua.lua_tonumber(L,3):undefined); return 0; } lua.lua_pushnumber(L, zoom()); return 1;});
