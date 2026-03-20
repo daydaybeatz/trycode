@@ -1449,16 +1449,36 @@ $("addPaletteColorBtn").onclick=()=>{ state.appProject.palette.push($("paletteCo
   syncSidebarToggleButton("toggleSpriteSidebarBtn","spriteView");
 }
 function writeWavePoint(e){ const c=$("soundWaveCanvas"), rect=c.getBoundingClientRect(); const x=((e.clientX-rect.left)/rect.width)*c.width; const y=((e.clientY-rect.top)/rect.height)*c.height; const idx=Math.max(0,Math.min(63,Math.floor((x/c.width)*64))); currentSound().wavetable[idx]=clamp(1-(y/c.height)*2,-1,1); drawSoundWaveCanvas(); }
-runStartupStep('build docs', ()=>buildDocs());
-runStartupStep('ensure project data', ()=>ensureProjectData());
-runStartupStep('sync responsive ui', ()=>syncResponsiveUI());
-runtime=runStartupStep('init runtime', ()=>initRuntime())||createRuntimeFallback('Runtime unavailable during startup.');
-runStartupStep('wire ui', ()=>wireUI());
-runStartupStep('render code tabs', ()=>renderCodeTabs());
-runStartupStep('finish new project', ()=>finishNewProject());
-runStartupStep('apply theme ui', ()=>applyThemeUI());
-runStartupStep('refresh project list', ()=>refreshProjectList());
-runStartupStep('run editor animation frame', ()=>runEditorAnimationFrame());
+function bootEditorShell(){
+  buildDocs();
+  ensureProjectData();
+  syncResponsiveUI();
+  wireUI();
+  renderCodeTabs();
+  finishNewProject();
+  applyThemeUI();
+  refreshProjectList();
+  runEditorAnimationFrame();
+}
+function bootRuntimeIntoEditor(){
+  const nextRuntime=initRuntime();
+  if(!nextRuntime) return;
+  runtime=nextRuntime;
+  try{
+    runtime.syncProject(state.appProject);
+    runtime.setLua(getProjectLua());
+    runtime.reset(getProjectLua());
+    setLastRunError('');
+  }catch(err){
+    const message=`Runtime sync failed after editor startup: ${err?.message||String(err)}`;
+    console.error(message, err);
+    setLastRunError(message);
+    runtime=createRuntimeFallback(message);
+  }
+}
+runtime=createRuntimeFallback('Runtime is still starting.');
+bootEditorShell();
+runStartupStep('init runtime after editor boot', ()=>bootRuntimeIntoEditor());
 })();
 </script>
 </body>
