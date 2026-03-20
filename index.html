@@ -60,7 +60,7 @@
     .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) minmax(0,1fr);align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%;width:100%;position:relative}
     .codeEditorPane{position:relative;min-height:100%;min-width:0}
     .codeLineNumbers{position:sticky;left:0;align-self:stretch;background:linear-gradient(180deg,#443629,#36291f);color:#bda88d;text-align:right;user-select:none;overflow:hidden;z-index:1;border-right:1px solid rgba(255,255,255,.08)}
-    .codeLineNumbersInner{display:flex;flex-direction:column;align-items:stretch;min-height:100%;padding:var(--code-pad-y) 0;font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);line-height:var(--code-line-height);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;transform:translateY(calc(var(--code-scroll-top, 0px) * -1));will-change:transform}
+    .codeLineNumbersInner{display:flex;flex-direction:column;align-items:stretch;min-height:100%;padding:var(--code-pad-y) 0;font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);line-height:var(--code-line-height);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
     .codeLineNumber{display:flex;align-items:flex-start;justify-content:flex-end;min-height:var(--code-line-height);padding:0 8px 0 12px;white-space:nowrap}
     .codeLineNumber.commentLine{opacity:.45}
     .codeHighlight,.code textarea.code{display:block;min-height:100%;height:auto;border:none;border-radius:0;padding:var(--code-pad-y) var(--code-pad-right) var(--code-pad-y) var(--code-pad-left);line-height:var(--code-line-height);font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;white-space:pre;overflow-wrap:normal;word-break:normal;tab-size:2;min-width:0;width:auto;margin:0}
@@ -562,10 +562,8 @@ function syncCodeEditorScroll(scrollTop, scrollLeft){
   const top=Math.max(0, Number.isFinite(scrollTop)?scrollTop:0);
   const left=Math.max(0, Number.isFinite(scrollLeft)?scrollLeft:0);
   if(shell){
-    shell.style.setProperty("--code-scroll-top", `${top}px`);
     shell.style.setProperty("--code-scroll-left", `${left}px`);
   }
-  if(gutter) gutter.style.setProperty("--code-scroll-top", `${top}px`);
   if(ed){
     if(ed.scrollTop!==top) ed.scrollTop=top;
     if(ed.scrollLeft!==left) ed.scrollLeft=left;
