@@ -60,7 +60,7 @@
     .codeEditorSurface{display:grid;grid-template-columns:minmax(36px,max-content) minmax(0,1fr);align-items:start;min-height:100%;border:4px solid var(--line);border-radius:18px;background:#2d2319;box-shadow:inset 0 0 0 3px #5b4a3b;overflow:hidden;min-width:100%;width:100%;position:relative}
     .codeEditorPane{position:relative;min-height:100%;min-width:0}
     .codeLineNumbers{position:sticky;left:0;align-self:stretch;background:linear-gradient(180deg,#443629,#36291f);color:#bda88d;text-align:right;user-select:none;overflow:hidden;z-index:1;border-right:1px solid rgba(255,255,255,.08)}
-    .codeLineNumbersInner{display:flex;flex-direction:column;align-items:stretch;min-height:100%;padding:var(--code-pad-y) 0;font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);line-height:var(--code-line-height);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;transform:translateY(calc(var(--code-scroll-top, 0px) * -1));will-change:transform}
+    .codeLineNumbersInner{display:flex;flex-direction:column;align-items:stretch;min-height:100%;padding:var(--code-pad-y) 0;font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);line-height:var(--code-line-height);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
     .codeLineNumber{display:flex;align-items:flex-start;justify-content:flex-end;min-height:var(--code-line-height);padding:0 8px 0 12px;white-space:nowrap}
     .codeLineNumber.commentLine{opacity:.45}
     .codeHighlight,.code textarea.code{display:block;min-height:100%;height:auto;border:none;border-radius:0;padding:var(--code-pad-y) var(--code-pad-right) var(--code-pad-y) var(--code-pad-left);line-height:var(--code-line-height);font-family:var(--code-font-family);font-size:var(--code-font-size);font-weight:var(--code-font-weight);font-variant-ligatures:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;white-space:pre;overflow-wrap:normal;word-break:normal;tab-size:2;min-width:0;width:auto;margin:0}
@@ -210,6 +210,7 @@
 	      .codeScrollShell{--code-font-size:15px;--code-line-height:22px;--code-pad-y:14px;--code-pad-left:16px;--code-pad-right:18px;border-radius:10px;background:linear-gradient(180deg,#0d0c0c,#1a1a1a);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
 	      .codeEditorSurface{border:1px solid #002b49;border-radius:10px;background:#0d0c0c;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
 	      .codeLineNumbers{background:linear-gradient(180deg,#2b2b2b,#191919);color:#a5a2a2;border-right:1px solid rgba(255,255,255,.12)}
+	      .codeLineNumbersInner{transform:translateY(calc(var(--code-scroll-top, 0px) * -1));will-change:transform}
 	      .codeHighlight{color:#f6f6f6}
 	      .code textarea.code{caret-color:#ffffff}
 	      .tok-comment{color:#a5a2a2}
