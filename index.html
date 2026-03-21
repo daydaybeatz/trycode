@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>TRY_CODE_FC_V43</title>
+  <script src="https://unpkg.com/fengari-web/dist/fengari-web.js"></script>
   <style>
     :root{
       --bg:#f7eed2;
@@ -176,10 +177,6 @@
     .docCode{margin-top:8px;padding:8px;border:3px solid var(--line);border-radius:12px;background:#231b15;color:#faefd4;white-space:pre;overflow-x:auto;font-family:Consolas,monospace;font-size:12px}
     .toast{position:absolute;left:12px;top:58px;padding:10px 12px;border:4px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#fff7e3,#efd4a0);box-shadow:0 5px 0 #9a6a38;font-weight:700;display:none;z-index:70;max-width:min(560px,calc(100% - 24px))}
     .toast.show{display:block}
-    .startupErrorBox{position:absolute;left:12px;right:12px;top:58px;padding:12px 14px;border:4px solid #5f0f10;border-radius:18px;background:linear-gradient(180deg,rgba(123,23,28,.98),rgba(84,14,18,.98));box-shadow:0 6px 0 rgba(42,6,8,.45);color:#fff7ee;display:none;z-index:85}
-    .startupErrorBox.show{display:block}
-    .startupErrorTitle{font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-    .startupErrorText{margin:0;font:12px/1.45 Consolas,"SFMono-Regular",monospace;white-space:pre-wrap;word-break:break-word}
     .waveCanvas{width:100%;height:120px;border:4px solid var(--line);border-radius:16px;background:#fff9ed;touch-action:none}
     .musicGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
     .miniKeys{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:8px}
@@ -244,7 +241,6 @@
     body.dark-mode .docItem{border-top-color:rgba(199,208,232,.22)}
     body.dark-mode .docCode{background:#0e1324}
     body.dark-mode .toast{background:linear-gradient(180deg,#2f3a5d,#182034);box-shadow:0 5px 0 #0f1528}
-    body.dark-mode .startupErrorBox{background:linear-gradient(180deg,rgba(110,24,44,.98),rgba(59,10,23,.98));box-shadow:0 6px 0 rgba(7,11,23,.7)}
     body.dark-mode .waveCanvas{background:#10162a}
     body.dark-mode .miniKey{background:linear-gradient(180deg,#2d3759,#1a213a);box-shadow:0 3px 0 #0f1528}
     body.dark-mode .miniKey.active{background:linear-gradient(180deg,#f6c07d,#d07a40);box-shadow:0 3px 0 #5a3018;color:#20111a}
@@ -266,11 +262,6 @@
       <div class="tabs" id="toolbarSub" style="display:none"></div>
     </div>
     <button class="fileBtn" id="fileBtn">File</button>
-  </div>
-
-  <div class="startupErrorBox" id="startupErrorBox" aria-live="assertive">
-    <div class="startupErrorTitle">Startup Error</div>
-    <pre class="startupErrorText" id="startupErrorText"></pre>
   </div>
 
   <div class="views">
@@ -418,55 +409,6 @@ function createRuntimeFallback(message){
     syncProject(){},
   };
 }
-const FENGARI_SCRIPT_SOURCES=[
-  "https://unpkg.com/fengari-web/dist/fengari-web.js",
-  "https://cdn.jsdelivr.net/npm/fengari-web/dist/fengari-web.js"
-];
-let fengariLoadPromise=null;
-function loadScript(src){
-  return new Promise((resolve,reject)=>{
-    const existing=document.querySelector(`script[data-src="${src}"]`);
-    if(existing){
-      if(existing.dataset.loaded==='true'){
-        resolve(existing);
-        return;
-      }
-      existing.addEventListener('load',()=>resolve(existing),{once:true});
-      existing.addEventListener('error',()=>reject(new Error(`Failed to load ${src}`)),{once:true});
-      return;
-    }
-    const script=document.createElement('script');
-    script.src=src;
-    script.async=true;
-    script.defer=true;
-    script.dataset.src=src;
-    script.onload=()=>{
-      script.dataset.loaded='true';
-      resolve(script);
-    };
-    script.onerror=()=>reject(new Error(`Failed to load ${src}`));
-    document.head.appendChild(script);
-  });
-}
-async function ensureFengariReady(){
-  if(window.fengari||globalThis.fengari) return true;
-  if(!fengariLoadPromise){
-    fengariLoadPromise=(async()=>{
-      const failures=[];
-      for(const src of FENGARI_SCRIPT_SOURCES){
-        try{
-          await loadScript(src);
-          if(window.fengari||globalThis.fengari) return true;
-          failures.push(`${src} loaded but fengari was unavailable`);
-        }catch(err){
-          failures.push(err?.message||String(err));
-        }
-      }
-      throw new Error(`Lua runtime unavailable. ${failures.join(' | ')}`);
-    })();
-  }
-  return fengariLoadPromise;
-}
 function initRuntime(){
   try{
     return makeRuntime();
@@ -476,31 +418,6 @@ function initRuntime(){
     setLastRunError(message);
     return createRuntimeFallback(message);
   }
-}
-async function runStartupStep(label, fn){
-  try{
-    const result=await fn();
-    clearStartupError();
-    return result===undefined ? true : result;
-  }catch(err){
-    const message=`${label}: ${err?.message||String(err)}`;
-    console.error(`Startup step failed: ${label}`, err);
-    renderStartupError(message);
-    setLastRunError(message);
-    return null;
-  }
-}
-function renderStartupError(message){
-  const box=$("startupErrorBox"), text=$("startupErrorText");
-  if(!box||!text) return;
-  text.textContent=String(message||'Unexpected startup error.');
-  box.classList.add('show');
-}
-function clearStartupError(){
-  const box=$("startupErrorBox"), text=$("startupErrorText");
-  if(!box||!text) return;
-  text.textContent='';
-  box.classList.remove('show');
 }
 const previewImages = {};
 const editorRenderCache = { sprites:new Map(), tiles:new Map() };
@@ -1552,8 +1469,7 @@ function bootEditorShell(){
   refreshProjectList();
   runEditorAnimationFrame();
 }
-async function bootRuntimeIntoEditor(){
-  await ensureFengariReady();
+function bootRuntimeIntoEditor(){
   const nextRuntime=initRuntime();
   if(!nextRuntime) return;
   runtime=nextRuntime;
@@ -1570,9 +1486,8 @@ async function bootRuntimeIntoEditor(){
   }
 }
 runtime=createRuntimeFallback('Runtime is still starting.');
-(async()=>{
-  if(await runStartupStep('boot editor shell', ()=>bootEditorShell())) await runStartupStep('init runtime after editor boot', ()=>bootRuntimeIntoEditor());
-})();
+bootEditorShell();
+bootRuntimeIntoEditor();
 })();
 </script>
 </body>
