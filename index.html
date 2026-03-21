@@ -481,7 +481,7 @@ async function runStartupStep(label, fn){
   try{
     const result=await fn();
     clearStartupError();
-    return result;
+    return result===undefined ? true : result;
   }catch(err){
     const message=`${label}: ${err?.message||String(err)}`;
     console.error(`Startup step failed: ${label}`, err);
