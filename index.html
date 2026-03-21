@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>TRY_CODE_FC_V43</title>
-  <script src="https://unpkg.com/fengari-web/dist/fengari-web.js"></script>
   <style>
     :root{
       --bg:#f7eed2;
@@ -419,6 +418,55 @@ function createRuntimeFallback(message){
     syncProject(){},
   };
 }
+const FENGARI_SCRIPT_SOURCES=[
+  "https://unpkg.com/fengari-web/dist/fengari-web.js",
+  "https://cdn.jsdelivr.net/npm/fengari-web/dist/fengari-web.js"
+];
+let fengariLoadPromise=null;
+function loadScript(src){
+  return new Promise((resolve,reject)=>{
+    const existing=document.querySelector(`script[data-src="${src}"]`);
+    if(existing){
+      if(existing.dataset.loaded==='true'){
+        resolve(existing);
+        return;
+      }
+      existing.addEventListener('load',()=>resolve(existing),{once:true});
+      existing.addEventListener('error',()=>reject(new Error(`Failed to load ${src}`)),{once:true});
+      return;
+    }
+    const script=document.createElement('script');
+    script.src=src;
+    script.async=true;
+    script.defer=true;
+    script.dataset.src=src;
+    script.onload=()=>{
+      script.dataset.loaded='true';
+      resolve(script);
+    };
+    script.onerror=()=>reject(new Error(`Failed to load ${src}`));
+    document.head.appendChild(script);
+  });
+}
+async function ensureFengariReady(){
+  if(window.fengari||globalThis.fengari) return true;
+  if(!fengariLoadPromise){
+    fengariLoadPromise=(async()=>{
+      const failures=[];
+      for(const src of FENGARI_SCRIPT_SOURCES){
+        try{
+          await loadScript(src);
+          if(window.fengari||globalThis.fengari) return true;
+          failures.push(`${src} loaded but fengari was unavailable`);
+        }catch(err){
+          failures.push(err?.message||String(err));
+        }
+      }
+      throw new Error(`Lua runtime unavailable. ${failures.join(' | ')}`);
+    })();
+  }
+  return fengariLoadPromise;
+}
 function initRuntime(){
   try{
     return makeRuntime();
@@ -429,9 +477,9 @@ function initRuntime(){
     return createRuntimeFallback(message);
   }
 }
-function runStartupStep(label, fn){
+async function runStartupStep(label, fn){
   try{
-    const result=fn();
+    const result=await fn();
     clearStartupError();
     return result;
   }catch(err){
@@ -1504,7 +1552,8 @@ function bootEditorShell(){
   refreshProjectList();
   runEditorAnimationFrame();
 }
-function bootRuntimeIntoEditor(){
+async function bootRuntimeIntoEditor(){
+  await ensureFengariReady();
   const nextRuntime=initRuntime();
   if(!nextRuntime) return;
   runtime=nextRuntime;
@@ -1521,7 +1570,9 @@ function bootRuntimeIntoEditor(){
   }
 }
 runtime=createRuntimeFallback('Runtime is still starting.');
-if(runStartupStep('boot editor shell', ()=>bootEditorShell())) runStartupStep('init runtime after editor boot', ()=>bootRuntimeIntoEditor());
+(async()=>{
+  if(await runStartupStep('boot editor shell', ()=>bootEditorShell())) await runStartupStep('init runtime after editor boot', ()=>bootRuntimeIntoEditor());
+})();
 })();
 </script>
 </body>
